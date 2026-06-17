@@ -1,79 +1,79 @@
-# Estudio Cimiento — Design System
+# estudio cimiento — sistema de diseño
 
 **Agencia de sistemas operativos digitales para pequeños negocios y emprendedores.**
-Founded by Suka (Mateo De Falco).
+Fundada por Suka (Mateo De Falco).
 
-> **Tagline:** sistemas que ordenan tu operación.
-> **Promise:** construimos la base digital de tu negocio y te dejamos al mando.
+> sistemas que ordenan tu operación.
+> construimos la base digital de tu negocio y te dejamos al mando.
 
-Estudio Cimiento builds the digital foundation of small businesses and leaves their owners in command of their own operation. The real product is organizational clarity: understanding how a client's business works and translating that into digital structure. Technology (Notion, AI, web) is the vehicle; the differentiator is the **handoff** — the client ends up autonomous, not dependent.
-
----
-
-## What this repo contains
-
-This repository is the **Estudio Cimiento design system** — the complete visual and component foundation for all brand interfaces:
-
-- **Design tokens** (`tokens/`) — color, typography, spacing, effects, and font imports as CSS custom properties
-- **Core components** (`components/`) — React (JSX) components with TypeScript definitions and usage prompts
-- **Landing UI kit** (`ui_kits/landing/`) — hero, nav, process, proof, and wedge sections for the brand site
-- **Operaciones UI kit** (`ui_kits/operaciones/`) — the Notion-style operations and tasks board (the wedge product)
-- **Brand assets** (`assets/`) — SVG logos and symbol in all variants
-- **Guidelines** (`guidelines/`) — HTML specimen cards for each design token category
-- **CSS entry point** (`styles.css`) — single import that pulls in all tokens
+Estudio Cimiento construye la base digital de pequeños negocios y los deja al mando de su propia operación. El producto real es criterio organizativo: captar cómo funciona el negocio del cliente y bajarlo a estructura digital. La tecnología (Notion, IA, web) es el vehículo; el diferencial es el **traspaso**: el cliente termina autónomo, no dependiente.
 
 ---
 
-## Brand color palette
+## Qué contiene este repositorio
 
-The system ships two modes. **Day is the primary**; night activates via `data-theme="night"`.
+Este repositorio es el **sistema de diseño de Estudio Cimiento**: la base visual y de componentes para todas las interfaces de la marca.
 
-| Role | Day | Night |
+- **Tokens de diseño** (`tokens/`) — color, tipografía, espaciado, efectos e imports de fuentes como propiedades CSS personalizadas
+- **Componentes core** (`components/`) — componentes React (JSX) con definiciones TypeScript y prompts de uso
+- **UI kit landing** (`ui_kits/landing/`) — hero, nav, proceso, prueba y wedge para el sitio de marca
+- **UI kit operaciones** (`ui_kits/operaciones/`) — el tablero de operaciones y tareas estilo Notion (el producto de entrada)
+- **Assets de marca** (`assets/`) — logos y símbolo en SVG en todas sus variantes
+- **Guidelines** (`guidelines/`) — tarjetas HTML de especímenes para cada categoría de tokens
+- **Punto de entrada CSS** (`styles.css`) — un solo import que jalona todos los tokens
+
+---
+
+## Paleta de colores
+
+El sistema tiene dos modos. **El día es el principal**; el nocturno se activa con `data-theme="night"`.
+
+| Rol | Día | Noche |
 |---|---|---|
-| Background | `#F4F0E8` (cream) | `#1E2530` (steel) |
-| Surface raised | warm off-white | `#2A323F` |
-| Ink / text | `#1C1E22` | `#F2F0EA` (cream) |
-| Muted text | `#8A8276` (warm gray) | `#8A93A0` (cool gray) |
-| Accent (metallic) | `#B5863C` (bronze) | `#D89149` (copper) |
+| Fondo | `#F4F0E8` (crema) | `#1E2530` (acero) |
+| Superficie elevada | crema cálido | `#2A323F` |
+| Tinta / texto | `#1C1E22` | `#F2F0EA` (crema) |
+| Texto secundario | `#8A8276` (gris cálido) | `#8A93A0` (gris frío) |
+| Acento metálico | `#B5863C` (bronce) | `#D89149` (cobre) |
 
-**Accent rule:** the metallic goes in small doses — symbol, hairline, detail, a single primary CTA. Never large metallic areas.
-
----
-
-## Typography
-
-- **Primary:** [Hanken Grotesk](https://fonts.google.com/specimen/Hanken+Grotesk) — humanist grotesque, weights 300–700
-- **Mono:** JetBrains Mono — for data tables and code
-- Headlines in weight **500 (medium)** with negative tracking (`-0.02em`)
-- **Overline** is the brand's typographic signature: lowercase, wide tracking (`0.32em`), accent color
-
-> If you hold a General Sans license, replace Hanken Grotesk in `tokens/fonts.css`.
+**Regla del acento:** el metálico va en dosis chicas: símbolo, hairline, detalle, un solo CTA primario. Nunca grandes áreas metálicas.
 
 ---
 
-## How to use
+## Tipografía
+
+- **Principal:** [Hanken Grotesk](https://fonts.google.com/specimen/Hanken+Grotesk) — grotesque humanista, pesos 300–700
+- **Mono:** JetBrains Mono — para tablas de datos y código
+- Titulares en peso **500 (medium)** con tracking negativo (`-0.02em`)
+- El **overline** es el gesto tipográfico firma: minúscula, tracking ancho (`0.32em`), color acento
+
+> Si tenés licencia de General Sans, reemplazá Hanken Grotesk en `tokens/fonts.css`.
+
+---
+
+## Cómo usar
 
 ### Tokens
 
-Link `styles.css` as the single entry point — it imports all token files:
+Enlazá `styles.css` como único punto de entrada; importa todos los archivos de tokens:
 
 ```html
 <link rel="stylesheet" href="/styles.css">
 ```
 
-Then use CSS custom properties in your stylesheets:
+Luego usá las propiedades CSS personalizadas en tus estilos:
 
 ```css
-.my-element {
+.mi-elemento {
   background: var(--surface-base);
   color: var(--ink-primary);
   border-color: var(--accent);
 }
 ```
 
-### Components
+### Componentes
 
-Components live in `components/` as React JSX with TypeScript definitions. Each component includes a `.prompt.md` file that documents intent and usage for AI-assisted development.
+Los componentes están en `components/` como JSX con definiciones TypeScript. Cada uno incluye un `.prompt.md` que documenta intención y uso para desarrollo asistido por IA.
 
 ```jsx
 import Button from './components/core/Button'
@@ -83,65 +83,59 @@ import PhaseList from './components/brand/PhaseList'
 
 ---
 
-## Folder structure
+## Estructura de carpetas
 
 ```
 EstudioCimiento/
-├── styles.css                  # CSS entry point (imports all tokens)
-├── SKILL.md                    # Claude Code Agent Skill definition
+├── styles.css                  # Punto de entrada CSS (importa todos los tokens)
+├── SKILL.md                    # Definición de Agent Skill para Claude Code
 ├── tokens/
-│   ├── colors.css              # Color custom properties (day + night)
-│   ├── typography.css          # Type scale
-│   ├── spacing.css             # 8px-base spacing and border radii
-│   ├── effects.css             # Shadows and transitions
-│   └── fonts.css               # @font-face / Google Fonts import
+│   ├── colors.css              # Propiedades de color (día + noche)
+│   ├── typography.css          # Escala tipográfica
+│   ├── spacing.css             # Espaciado base 8px y radios de borde
+│   ├── effects.css             # Sombras y transiciones
+│   └── fonts.css               # @font-face / import de Google Fonts
 ├── assets/
-│   ├── logo-day.svg            # Full lockup, day palette
-│   ├── logo-night.svg          # Full lockup, night palette
-│   ├── symbol.svg              # Symbol only (currentColor)
-│   ├── symbol-bronze.svg       # Symbol, day accent
-│   └── symbol-copper.svg       # Symbol, night accent
+│   ├── logo-day.svg            # Lockup completo, paleta día
+│   ├── logo-night.svg          # Lockup completo, paleta noche
+│   ├── symbol.svg              # Solo el símbolo (currentColor)
+│   ├── symbol-bronze.svg       # Símbolo, acento día
+│   └── symbol-copper.svg       # Símbolo, acento noche
 ├── components/
 │   ├── core/                   # Button, Badge, Tag, Card
 │   ├── forms/                  # Input
 │   └── brand/                  # Logo, Overline, PhaseList
 ├── ui_kits/
-│   ├── landing/                # Brand site sections
-│   └── operaciones/            # Operations & tasks board (wedge product)
-└── guidelines/                 # HTML specimen cards for the design system
+│   ├── landing/                # Secciones del sitio de marca
+│   └── operaciones/            # Tablero de operaciones y tareas (producto de entrada)
+└── guidelines/                 # Tarjetas HTML de especímenes del sistema de diseño
 ```
 
 ---
 
-## The four service phases
+## Las cuatro fases del servicio
 
-Estudio Cimiento's engagement follows four structured phases, visualized as ascending steps (the brand symbol):
+El proceso de Estudio Cimiento sigue cuatro fases estructuradas, representadas como escalones ascendentes (el símbolo de la marca):
 
-1. **Relevamiento** — Understand how the business actually works
-2. **Desarrollo** — Build the digital structure
-3. **Validacion** — Test with the client in real conditions
-4. **Traspaso** — Full handoff; the client takes command
+1. **Relevamiento** — Entender cómo funciona hoy el negocio
+2. **Desarrollo** — Construir el sistema a medida
+3. **Validación** — Probar con el cliente y ajustar
+4. **Traspaso** — El cliente queda al mando de su propia operación
 
-These phases appear as the `PhaseList` brand component.
-
----
-
-## Case study: Gryphon
-
-A financial firm managed its entire client database in a spreadsheet that stopped scaling as the business grew. Suka built a custom online management platform: comitente administration, multi-market operations dashboard, organized databases, and a task system. The result was a significant reduction in operational time; the client runs the system independently.
-
-> Format: context, problem, solution, result. (**Note:** exact time-saving metrics are pending confirmation before publication.)
+Estas fases aparecen como el componente de marca `PhaseList`.
 
 ---
 
-## Claude Code Agent Skill
+## Caso de prueba: Gryphon
 
-`SKILL.md` in the repo root defines an **Agent Skill** for Claude Code. When this repo is loaded as a skill, Claude becomes an expert Estudio Cimiento designer — able to generate on-brand HTML prototypes, production components, and brand assets following all visual and voice guidelines documented here.
+Una financiera manejaba toda su base de datos en un Excel que le quedó corto al querer escalar. Suka desarrolló una plataforma de gestión online con interfaz a medida: administración de comitentes, visualización de operaciones en distintos mercados, bases de datos ordenadas y sistema de tareas. El resultado fue una reducción amplia de tiempos operativos; el cliente usa el sistema y está conforme.
 
-Invoke it via `/estudio-cimiento-design` in a Claude Code session that has this repo configured as a skill source.
+> Formato: contexto, problema, solución, resultado. (**Pendiente:** confirmar métricas exactas del ahorro de tiempo antes de publicarlas.)
 
 ---
 
-## Brand language note
+## Agent Skill para Claude Code
 
-The brand voice is **Argentine Spanish (rioplatense)** — voseo ("quedas al mando"), first-person plural for the agency ("construimos"), lowercase as a typographic treatment for headlines and the logotype, and no decorative emojis. This README is in English for GitHub discoverability; all user-facing copy ships in Spanish.
+`SKILL.md` en la raíz del repositorio define un **Agent Skill** para Claude Code. Cuando este repo se carga como skill, Claude se convierte en un diseñador experto de Estudio Cimiento, capaz de generar prototipos HTML, componentes de producción y assets de marca siguiendo todas las guías visuales y de voz documentadas acá.
+
+Invocalo con `/estudio-cimiento-design` en una sesión de Claude Code que tenga este repo configurado como fuente de skill.
