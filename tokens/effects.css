@@ -1,0 +1,28 @@
+/* ===========================================================================
+   EFFECTS — shadows, transitions, motion — Estudio Cimiento
+   Restraint: soft warm shadows, calm transitions, no bounce. Hairlines do
+   most of the separation work; shadow is reserved for genuinely raised layers.
+   =========================================================================== */
+
+:root {
+  /* Warm-tinted shadows (light mode) */
+  --shadow-xs:  0 1px 2px rgba(28, 30, 34, 0.05);
+  --shadow-sm:  0 2px 8px rgba(28, 30, 34, 0.06);
+  --shadow-md:  0 6px 24px rgba(28, 30, 34, 0.08);
+  --shadow-lg:  0 18px 48px rgba(28, 30, 34, 0.12);
+
+  /* Motion — calm, intentional. No overshoot. */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1); /* @kind other */
+  --ease-out:      cubic-bezier(0.16, 1, 0.3, 1); /* @kind other */
+  --dur-fast:    120ms; /* @kind other */
+  --dur-base:    200ms; /* @kind other */
+  --dur-slow:    360ms; /* @kind other */
+  --transition-base: all var(--dur-base) var(--ease-standard);
+}
+
+[data-theme="night"] {
+  --shadow-xs:  0 1px 2px rgba(0, 0, 0, 0.25);
+  --shadow-sm:  0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md:  0 6px 24px rgba(0, 0, 0, 0.38);
+  --shadow-lg:  0 18px 48px rgba(0, 0, 0, 0.5);
+}

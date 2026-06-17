@@ -1,0 +1,54 @@
+/* ===========================================================================
+   TYPOGRAPHY — Estudio Cimiento
+   Humanist grotesque, generous air, high contrast.
+   Logotype convention: lowercase. UI copy is sentence case.
+   =========================================================================== */
+
+:root {
+  --font-sans: 'Hanken Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Weights */
+  --fw-light:    300; /* @kind font */
+  --fw-regular:  400; /* @kind font */
+  --fw-medium:   500; /* @kind font */
+  --fw-semibold: 600; /* @kind font */
+  --fw-bold:     700; /* @kind font */
+
+  /* Type scale (1.250 major-third-ish, tuned) */
+  --fs-display:  clamp(3rem, 6vw, 4.75rem);  /* @kind font */
+  --fs-h1:       2.75rem;  /* @kind font */
+  --fs-h2:       2rem;     /* @kind font */
+  --fs-h3:       1.5rem;   /* @kind font */
+  --fs-h4:       1.25rem;  /* @kind font */
+  --fs-body-lg:  1.125rem; /* @kind font */
+  --fs-body:     1rem;     /* @kind font */
+  --fs-body-sm:  0.875rem; /* @kind font */
+  --fs-caption:  0.75rem;  /* @kind font */
+  --fs-overline: 0.6875rem;/* @kind font */
+
+  /* Line heights */
+  --lh-tight:   1.05; /* @kind font */
+  --lh-snug:    1.2;  /* @kind font */
+  --lh-normal:  1.5;  /* @kind font */
+  --lh-relaxed: 1.65; /* @kind font */
+
+  /* Letter spacing */
+  --ls-tight:    -0.02em; /* @kind font */
+  --ls-normal:   0;       /* @kind font */
+  --ls-wide:     0.04em;  /* @kind font */
+  --ls-overline: 0.32em;  /* @kind font */ /* the wide-tracked label, as in "estudio" */
+
+  /* Semantic text roles */
+  --text-display-weight: var(--fw-medium); /* @kind font */
+  --text-heading-weight: var(--fw-medium); /* @kind font */
+}
+
+/* Optional utility roles — components reference vars, not these classes */
+.ec-overline {
+  font-size: var(--fs-overline);
+  letter-spacing: var(--ls-overline);
+  text-transform: lowercase;
+  color: var(--text-accent);
+  font-weight: var(--fw-medium);
+}

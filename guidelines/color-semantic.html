@@ -1,0 +1,23 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Tokens semánticos" subtitle="Superficie, texto y acento — se adaptan al tema" -->
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; padding: 22px; background: var(--surface-page); font-family: var(--font-sans); }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .t { border-radius: var(--radius-md); border: 1px solid var(--border-hairline); padding: 12px; }
+  .chip { height: 30px; border-radius: var(--radius-sm); border: 1px solid var(--border-hairline); margin-bottom: 8px; }
+  .nm { font-family: var(--font-mono); font-size: var(--fs-caption); color: var(--text-secondary); }
+</style></head>
+<body>
+  <div class="grid">
+    <div class="t"><div class="chip" style="background:var(--surface-raised)"></div><div class="nm">--surface-raised</div></div>
+    <div class="t"><div class="chip" style="background:var(--surface-sunken)"></div><div class="nm">--surface-sunken</div></div>
+    <div class="t"><div class="chip" style="background:var(--surface-inverse)"></div><div class="nm">--surface-inverse</div></div>
+    <div class="t"><div class="chip" style="background:var(--surface-accent-wash)"></div><div class="nm">--surface-accent-wash</div></div>
+    <div class="t"><div class="chip" style="background:var(--text-primary)"></div><div class="nm">--text-primary</div></div>
+    <div class="t"><div class="chip" style="background:var(--text-secondary)"></div><div class="nm">--text-secondary</div></div>
+    <div class="t"><div class="chip" style="background:var(--accent)"></div><div class="nm">--accent</div></div>
+    <div class="t"><div class="chip" style="background:var(--accent-hover)"></div><div class="nm">--accent-hover</div></div>
+  </div>
+</body></html>

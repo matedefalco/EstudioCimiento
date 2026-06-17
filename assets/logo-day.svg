@@ -1,0 +1,8 @@
+<svg width="232" height="64" viewBox="0 0 232 64" xmlns="http://www.w3.org/2000/svg" font-family="&#39;Hanken Grotesk&#39;, sans-serif">
+  <g transform="translate(0,9)">
+    <path d="M3 42 H59" fill="none" stroke="#B5863C" stroke-width="1.5" stroke-linecap="round"></path>
+    <path d="M7 40 V27 H25 V14 H43 V3 H59" fill="none" stroke="#B5863C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+  </g>
+  <text x="82" y="24" fill="#B5863C" font-size="13" letter-spacing="5" font-weight="500">estudio</text>
+  <text x="82" y="56" fill="#1C1E22" font-size="42" letter-spacing="0.5" font-weight="500">cimiento</text>
+</svg>
