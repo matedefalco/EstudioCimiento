@@ -1,0 +1,47 @@
+<!-- @dsCard group="Components" viewport="700x440" name="Brand — Logo, Overline, PhaseList" subtitle="Brand lockup, eyebrow label and the four-phase steps" -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../../styles.css" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  body { margin: 0; padding: 28px; background: var(--surface-page); font-family: var(--font-sans); }
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+  .panel { padding: 22px; border-radius: var(--radius-lg); border: 1px solid var(--border-hairline); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+  const { Logo, Overline, PhaseList } = window.EstudioCimientoDesignSystem_c4cdd4;
+  function Demo() {
+    return (
+      <div>
+        <div style={{ display: 'flex', gap: 40, alignItems: 'center', marginBottom: 26, flexWrap: 'wrap' }}>
+          <Logo size={40} />
+          <Logo variant="symbol" size={46} />
+        </div>
+        <div className="split">
+          <div className="panel" style={{ background: 'var(--surface-page)' }}>
+            <Overline>el proceso</Overline>
+            <h3 style={{ margin: '6px 0 16px', fontWeight: 500 }}>cuatro fases</h3>
+            <PhaseList active={1} />
+          </div>
+          <div className="panel" data-theme="night" style={{ background: 'var(--surface-page)', color: 'var(--text-primary)' }}>
+            <div style={{ marginBottom: 18 }}><Logo size={34} /></div>
+            <Overline>noche</Overline>
+            <h3 style={{ margin: '6px 0 16px', fontWeight: 500, color: 'var(--text-primary)' }}>el acento sube a cobre</h3>
+            <PhaseList active={3} />
+          </div>
+        </div>
+      </div>
+    );
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!-- @dsCard group="Colors" viewport="700x190" name="Regla del acento" subtitle="Metálico en dosis chicas — bronce en día, cobre en noche" -->
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; padding: 22px; background: var(--surface-page); font-family: var(--font-sans); display: flex; gap: 16px; }
+  .demo { flex: 1; border-radius: var(--radius-lg); padding: 20px 22px; border: 1px solid var(--border-hairline); }
+  .lbl { font-size: var(--fs-caption); letter-spacing: 0.04em; color: var(--text-muted); margin-bottom: 12px; }
+  h4 { margin: 0; font-weight: 500; font-size: var(--fs-h4); }
+  .hair { height: 1.5px; width: 64px; margin: 12px 0; }
+  .pill { display: inline-flex; padding: 6px 14px; border-radius: 999px; font-size: var(--fs-body-sm); font-weight: 500; }
+</style></head>
+<body>
+  <div class="demo" style="background:#F4F0E8;color:#1C1E22">
+    <div class="lbl">día · bronce</div>
+    <h4>la base, en calma</h4>
+    <div class="hair" style="background:#B5863C"></div>
+    <span class="pill" style="background:#B5863C;color:#FBF9F4">acento</span>
+  </div>
+  <div class="demo" data-theme="night" style="background:#1E2530;color:#F2F0EA;border-color:rgba(242,240,234,0.12)">
+    <div class="lbl" style="color:#8A93A0">noche · cobre</div>
+    <h4 style="color:#F2F0EA">la base, en calma</h4>
+    <div class="hair" style="background:#D89149"></div>
+    <span class="pill" style="background:#D89149;color:#1E2530">acento</span>
+  </div>
+</body></html>

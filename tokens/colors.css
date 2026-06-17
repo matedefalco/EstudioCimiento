@@ -1,0 +1,96 @@
+/* ===========================================================================
+   COLORS — Estudio Cimiento
+   Two palettes: día (principal) and noche (variante).
+   Accent rule: metal in small doses only (symbol, hairline, detail).
+   In light it is bronze; in dark it rises to copper.
+   =========================================================================== */
+
+:root {
+  /* --- Base ramp: día (default / principal) --- */
+  --ec-tinta:        #1C1E22; /* ink — primary text, dark surfaces */
+  --ec-bronce:       #B5863C; /* bronze — light-mode accent */
+  --ec-gris-calido:  #8A8276; /* warm gray — muted text */
+  --ec-crema:        #F4F0E8; /* cream — primary background */
+
+  /* Cream tints for layering on light backgrounds */
+  --ec-crema-100:    #FBF9F4;
+  --ec-crema-200:    #F4F0E8;
+  --ec-crema-300:    #EAE4D8;
+  --ec-crema-400:    #DED6C6;
+
+  /* Ink tints (warm, derived from tinta) */
+  --ec-tinta-90:     #2A2D33;
+  --ec-tinta-70:     #45494F;
+  --ec-tinta-50:     #6C6F75;
+
+  /* Bronze tints */
+  --ec-bronce-soft:  #C9A468;
+  --ec-bronce-deep:  #8F6A2C;
+  --ec-bronce-wash:  #EFE6D4; /* faint bronze tint surface */
+
+  /* --- Base ramp: noche (variante) --- */
+  --ec-acero:        #1E2530; /* steel — dark background */
+  --ec-superficie:   #2A323F; /* surface — raised dark panels */
+  --ec-gris-frio:    #8A93A0; /* cool gray — muted text on dark */
+  --ec-cobre:        #D89149; /* copper — dark-mode accent */
+  --ec-crema-noche:  #F2F0EA; /* cream — text on dark */
+  --ec-acero-80:     #2F3744;
+  --ec-cobre-wash:   #33302C;
+
+  /* --- Hairline / line weights --- */
+  --ec-hairline-day:   rgba(28, 30, 34, 0.14);
+  --ec-hairline-night: rgba(242, 240, 234, 0.12);
+
+  /* ===== SEMANTIC ALIASES — día (default) ===== */
+  --surface-page:      var(--ec-crema-200);
+  --surface-raised:    var(--ec-crema-100);
+  --surface-sunken:    var(--ec-crema-300);
+  --surface-inverse:   var(--ec-tinta);
+  --surface-accent-wash: var(--ec-bronce-wash);
+
+  --text-primary:      var(--ec-tinta);
+  --text-secondary:    var(--ec-gris-calido);
+  --text-muted:        #A39B8D;
+  --text-on-inverse:   var(--ec-crema-200);
+  --text-accent:       var(--ec-bronce);
+
+  --accent:            var(--ec-bronce);
+  --accent-hover:      var(--ec-bronce-deep);
+  --accent-contrast:   var(--ec-crema-100);
+
+  --border-hairline:   var(--ec-hairline-day);
+  --border-strong:     rgba(28, 30, 34, 0.28);
+  --focus-ring:        rgba(181, 134, 60, 0.45);
+
+  /* status (used sparingly, kept earthy to fit palette) */
+  --status-positive:  #5E7A52;
+  --status-warning:   #B5863C;
+  --status-danger:    #A14B3C;
+}
+
+/* ===== NOCHE — apply via data-theme="night" on any ancestor ===== */
+[data-theme="night"] {
+  --surface-page:      var(--ec-acero);
+  --surface-raised:    var(--ec-superficie);
+  --surface-sunken:    #181E27;
+  --surface-inverse:   var(--ec-crema-noche);
+  --surface-accent-wash: var(--ec-cobre-wash);
+
+  --text-primary:      var(--ec-crema-noche);
+  --text-secondary:    var(--ec-gris-frio);
+  --text-muted:        #6B7480;
+  --text-on-inverse:   var(--ec-acero);
+  --text-accent:       var(--ec-cobre);
+
+  --accent:            var(--ec-cobre);
+  --accent-hover:      #E6A05C;
+  --accent-contrast:   var(--ec-acero);
+
+  --border-hairline:   var(--ec-hairline-night);
+  --border-strong:     rgba(242, 240, 234, 0.22);
+  --focus-ring:        rgba(216, 145, 73, 0.5);
+
+  --status-positive:  #7C9A6E;
+  --status-warning:   #D89149;
+  --status-danger:    #C8705E;
+}
