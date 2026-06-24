@@ -32,12 +32,12 @@ export const COMPONENTS = [
 ];
 
 export const RUBRO_OPTIONS = [
-  { id: "gastronomy",    label: "gastronomía y alimentos",   glyph: "◈" },
-  { id: "services",      label: "servicios profesionales",   glyph: "◉" },
-  { id: "retail",        label: "comercio y retail",         glyph: "◇" },
-  { id: "construction",  label: "construcción y oficios",    glyph: "△" },
-  { id: "health",        label: "salud y bienestar",         glyph: "◯" },
-  { id: "other",         label: "otro rubro",                glyph: "▷" },
+  { id: "freelance",      label: "freelance y consultores",    glyph: "◎" },
+  { id: "contenido",      label: "creadores de contenido",     glyph: "◈" },
+  { id: "produccion",     label: "producción y eventos",       glyph: "△" },
+  { id: "emprendimiento", label: "emprendedores y startups",   glyph: "◉" },
+  { id: "agencia",        label: "agencias y estudios",        glyph: "◇" },
+  { id: "servicios",      label: "servicios profesionales",    glyph: "◯" },
 ];
 
 export const MODALIDAD_OPTIONS = [

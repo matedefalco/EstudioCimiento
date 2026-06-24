@@ -2,12 +2,12 @@
 export function Icon({ name, size = 16, color = "currentColor" }: { name: string; size?: number; color?: string }) {
   const paths: Record<string, React.ReactNode> = {
     // rubros
-    gastronomy:   <><path d="M5 2v5a3 3 0 006 0V2"/><path d="M8 9v5"/></>,
-    services:     <><circle cx="8" cy="5.5" r="2.5"/><path d="M2 14.5c0-3.31 2.69-6 6-6s6 2.69 6 6"/></>,
-    retail:       <><path d="M3 4h10l-1.5 7H4.5L3 4z"/><path d="M5.5 4V3a2.5 2.5 0 015 0v1"/><circle cx="6" cy="13.5" r="1"/><circle cx="10" cy="13.5" r="1"/></>,
-    construction: <><path d="M2 14h12M8 2v8M5 6l3-4 3 4"/><rect x="5" y="10" width="6" height="4" rx="0.5"/></>,
-    health:       <><circle cx="8" cy="8" r="6"/><path d="M8 5v6M5 8h6"/></>,
-    other:        <><circle cx="4.5" cy="8" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="11.5" cy="8" r="1.5"/></>,
+    freelance:      <><circle cx="7" cy="5" r="2.5"/><path d="M2 14c0-2.76 2.24-5 5-5"/><path d="M11 10l3 2-3 2"/><path d="M14 12h-4"/></>,
+    contenido:      <><rect x="2" y="3" width="12" height="9" rx="1"/><path d="M6 12v2M10 12v2M4 14h8"/><path d="M7 8.5l3.5-2v4L7 8.5z"/></>,
+    produccion:     <><rect x="2" y="5" width="8" height="8" rx="1"/><path d="M10 8l4-2v6l-4-2V8z"/></>,
+    emprendimiento: <><path d="M8 13V9M5.5 11h5"/><path d="M8 2c0 0-4 3-4 6h8c0-3-4-6-4-6z"/><path d="M6 8v1M10 8v1"/></>,
+    agencia:        <><circle cx="5.5" cy="6" r="2"/><circle cx="10.5" cy="6" r="2"/><path d="M1 14c0-2.5 2-4 4.5-4M15 14c0-2.5-2-4-4.5-4"/><path d="M5.5 10c1.38 0 2.5 1.5 5 0"/></>,
+    servicios:      <><rect x="4" y="7" width="8" height="7" rx="1"/><path d="M6 7V5a2 2 0 014 0v2"/><circle cx="8" cy="11" r="1"/></>,
     // modules
     ops:          <><rect x="3" y="2" width="10" height="12" rx="1"/><path d="M6 5h4M6 8.5h2"/><path d="M9 8l1.5 1.5L13 7"/></>,
     fin:          <><path d="M2 11l3-5 3 3 3-4 3 3M2 13h12"/></>,
