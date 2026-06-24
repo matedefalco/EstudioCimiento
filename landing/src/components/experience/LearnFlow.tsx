@@ -126,28 +126,30 @@ export function LearnFlow({ onDone, onReset }: Props) {
         <span style={{ fontSize: 14, opacity: 0.9 }}>estudio <strong style={{ fontWeight: 600 }}>cimiento</strong></span>
       </div>
 
-      {/* camino selector — centrado */}
-      <div style={{ position: "absolute", top: 24, left: 0, right: 0, display: "flex", justifyContent: "center", zIndex: 5, gap: 6, flexWrap: "wrap" }}>
-        {CAMINOS.map(c => {
-          const on = camino === c.id;
-          return (
-            <button key={c.id} onClick={() => setCamino(c.id)} style={{
-              background: on ? C.copper : "transparent",
-              color: on ? C.steel : C.grayCold,
-              border: `1px solid ${on ? C.copper : C.lineStrong}`,
-              borderRadius: 4, fontSize: 12, fontWeight: on ? 600 : 400,
-              letterSpacing: "0.06em", padding: "7px 16px",
-              cursor: "pointer", fontFamily: "inherit", textTransform: "lowercase",
-              transition: "all 200ms ease",
-            }}>
-              {c.label}
-            </button>
-          );
-        })}
-      </div>
-
       {/* ── contenido por camino ───────────────────────────────────────── */}
-      <div className="fade-stage" key={camino} style={{ position: "relative", zIndex: 4, flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "80px 40px 32px", gap: 60, flexWrap: "wrap" }}>
+      <div className="fade-stage" key={camino} style={{ position: "relative", zIndex: 4, flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "80px 40px 32px", gap: 32 }}>
+
+        {/* camino selector — dentro del flujo, encima del contenido */}
+        <div style={{ display: "flex", justifyContent: "center", gap: 6, flexWrap: "wrap" }}>
+          {CAMINOS.map(c => {
+            const on = camino === c.id;
+            return (
+              <button key={c.id} onClick={() => setCamino(c.id)} style={{
+                background: on ? C.copper : "transparent",
+                color: on ? C.steel : C.grayCold,
+                border: `1px solid ${on ? C.copper : C.lineStrong}`,
+                borderRadius: 4, fontSize: 12, fontWeight: on ? 600 : 400,
+                letterSpacing: "0.06em", padding: "7px 16px",
+                cursor: "pointer", fontFamily: "inherit", textTransform: "lowercase",
+                transition: "all 200ms ease",
+              }}>
+                {c.label}
+              </button>
+            );
+          })}
+        </div>
+
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 60, flexWrap: "wrap", width: "100%" }}>
 
         {/* METODOLOGÍA */}
         {camino === "metodología" && (
@@ -280,6 +282,7 @@ export function LearnFlow({ onDone, onReset }: Props) {
           </div>
         )}
 
+        </div>
       </div>
     </div>
   );
