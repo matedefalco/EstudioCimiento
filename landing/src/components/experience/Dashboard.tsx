@@ -17,9 +17,11 @@ interface Props {
   activeSection: string;
   setActiveSection: (id: string) => void;
   onReset: () => void;
+  isDark?: boolean;
+  onToggleDark?: () => void;
 }
 
-export function Dashboard({ selected, brandName, activeSection, setActiveSection, onReset }: Props) {
+export function Dashboard({ selected, brandName, activeSection, setActiveSection, onReset, isDark, onToggleDark }: Props) {
   const navItems = ["resumen", ...selected];
 
   return (
@@ -61,7 +63,18 @@ export function Dashboard({ selected, brandName, activeSection, setActiveSection
           })}
         </div>
         <div style={{ flex: 1 }} />
-        <div style={{ padding: "0 18px" }}>
+        <div style={{ padding: "0 18px", display: "flex", flexDirection: "column", gap: 8 }}>
+          {onToggleDark && (
+            <button onClick={onToggleDark} title={isDark ? "cambiar a modo claro" : "cambiar a modo oscuro"} style={{
+              width: "100%", background: "transparent", color: "var(--tc-sidebar-soft)",
+              fontSize: 11.5, letterSpacing: "0.04em", padding: "9px 0",
+              border: "1px solid rgba(128,128,128,0.2)", borderRadius: 4,
+              textTransform: "lowercase", cursor: "pointer", fontFamily: "inherit",
+              display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+            }}>
+              {isDark ? "☀ modo claro" : "☾ modo oscuro"}
+            </button>
+          )}
           <button onClick={onReset} style={{
             width: "100%", background: "transparent", color: "var(--tc-sidebar-soft)",
             fontSize: 11.5, letterSpacing: "0.04em", padding: "9px 0",

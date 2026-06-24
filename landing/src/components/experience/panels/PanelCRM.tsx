@@ -1,7 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { C } from "../constants";
 import { Chip, Avatar, AvatarGroup, KpiCard, PanelTitle, SubTabs, PrimaryBtn, Pagination } from "../primitives";
+import { TableToolbar } from "../TableToolbar";
 
 // ── datos de pipeline ──────────────────────────────────────────────────────────
 
@@ -76,8 +77,45 @@ function fmtPeso(n: number) {
 
 // ── panel principal ────────────────────────────────────────────────────────────
 
+const CRM_SORT_OPTS = [
+  { id: "nombre",  label: "nombre"          },
+  { id: "ultimo",  label: "último contacto" },
+  { id: "estado",  label: "estado"          },
+  { id: "canal",   label: "canal"           },
+];
+const CRM_FILTER_OPTS = [
+  { id: "activo",       label: "activo"       },
+  { id: "en proceso",   label: "en proceso"   },
+  { id: "esperando",    label: "esperando"    },
+  { id: "sin respuesta",label: "sin respuesta"},
+  { id: "nuevo",        label: "nuevo"        },
+];
+const CRM_COL_OPTS = [
+  { id: "empresa", label: "empresa"          },
+  { id: "ultimo",  label: "último contacto"  },
+  { id: "canal",   label: "canal"            },
+  { id: "estado",  label: "estado"           },
+];
+
 export function PanelCRM() {
   const [tab, setTab] = useState("pipeline");
+  const [sortBy, setSortBy] = useState("nombre");
+  const [filters, setFilters] = useState<string[]>([]);
+  const [visibleCols, setVisibleCols] = useState(CRM_COL_OPTS.map(c => c.id));
+  const toggleFilter = (id: string) => setFilters(f => f.includes(id) ? f.filter(x => x !== id) : [...f, id]);
+  const toggleCol = (id: string) => setVisibleCols(v => v.includes(id) ? v.filter(x => x !== id) : [...v, id]);
+
+  const filteredContacts = useMemo(() => {
+    let rows = [...CONTACTOS];
+    if (filters.length > 0) rows = rows.filter(r => filters.includes(r.estado));
+    rows.sort((a, b) => {
+      if (sortBy === "ultimo") return b.ultimo.localeCompare(a.ultimo);
+      if (sortBy === "estado") return a.estado.localeCompare(b.estado);
+      if (sortBy === "canal")  return a.canal.localeCompare(b.canal);
+      return a.nombre.localeCompare(b.nombre);
+    });
+    return rows;
+  }, [sortBy, filters]);
 
   return (
     <div>
@@ -157,11 +195,16 @@ export function PanelCRM() {
       {/* ── CONTACTOS (tabla) ────────────────────────────────────────────── */}
       {tab === "contactos" && (
         <div>
+          <TableToolbar
+            sortOptions={CRM_SORT_OPTS} activeSort={sortBy} onSort={setSortBy}
+            filterOptions={CRM_FILTER_OPTS} activeFilters={filters} onFilter={toggleFilter}
+            colOptions={CRM_COL_OPTS} visibleCols={visibleCols} onToggleCol={toggleCol}
+          />
           <div style={{ background: "var(--tc-card)", border: `1px solid var(--tc-border)`, borderRadius: 14, overflow: "hidden" }}>
             {/* encabezado de tabla */}
             <div style={{
               display: "grid",
-              gridTemplateColumns: "1.4fr 1.4fr 130px 100px 110px",
+              gridTemplateColumns: `1.4fr ${visibleCols.includes("empresa") ? "1.4fr" : ""} ${visibleCols.includes("ultimo") ? "130px" : ""} ${visibleCols.includes("canal") ? "100px" : ""} ${visibleCols.includes("estado") ? "110px" : ""}`.trim(),
               padding: "10px 18px",
               fontSize: 10.5,
               color: "var(--tc-soft)",
@@ -169,21 +212,23 @@ export function PanelCRM() {
               textTransform: "lowercase",
               borderBottom: `1px solid var(--tc-border)`,
             }}>
-              {["nombre", "empresa", "último contacto", "canal", "estado"].map((h, i) => (
-                <span key={i}>{h}</span>
-              ))}
+              <span>nombre</span>
+              {visibleCols.includes("empresa") && <span>empresa</span>}
+              {visibleCols.includes("ultimo")  && <span>último contacto</span>}
+              {visibleCols.includes("canal")   && <span>canal</span>}
+              {visibleCols.includes("estado")  && <span>estado</span>}
             </div>
 
             {/* filas */}
-            {CONTACTOS.map((r, i) => (
+            {filteredContacts.map((r, i) => (
               <div
                 key={i}
                 style={{
                   display: "grid",
-                  gridTemplateColumns: "1.4fr 1.4fr 130px 100px 110px",
+                  gridTemplateColumns: `1.4fr ${visibleCols.includes("empresa") ? "1.4fr" : ""} ${visibleCols.includes("ultimo") ? "130px" : ""} ${visibleCols.includes("canal") ? "100px" : ""} ${visibleCols.includes("estado") ? "110px" : ""}`.trim(),
                   padding: "12px 18px",
                   alignItems: "center",
-                  borderBottom: i < CONTACTOS.length - 1 ? `1px solid var(--tc-border)` : "none",
+                  borderBottom: i < filteredContacts.length - 1 ? `1px solid var(--tc-border)` : "none",
                   fontSize: 12.5,
                   cursor: "pointer",
                   transition: "background 120ms",
@@ -191,26 +236,14 @@ export function PanelCRM() {
                 onMouseEnter={e => (e.currentTarget.style.background = "var(--tc-sub)")}
                 onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
               >
-                {/* nombre con avatar */}
                 <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
                   <Avatar initials={r.nombre.slice(0, 2).toUpperCase()} idx={i} size={26} />
                   <span style={{ fontWeight: 500 }}>{r.nombre}</span>
                 </div>
-
-                {/* empresa */}
-                <span style={{ fontSize: 12, color: "var(--tc-soft)" }}>{r.empresa}</span>
-
-                {/* último contacto */}
-                <span style={{ fontSize: 12, color: "var(--tc-soft)" }}>{r.ultimo}</span>
-
-                {/* canal */}
-                <div style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 12 }}>
-                  <span style={{ fontSize: 13 }}>{CANAL_ICON[r.canal]}</span>
-                  <span style={{ color: "var(--tc-soft)" }}>{r.canal}</span>
-                </div>
-
-                {/* estado */}
-                <Chip text={r.estado} tone={r.eTone} />
+                {visibleCols.includes("empresa") && <span style={{ fontSize: 12, color: "var(--tc-soft)" }}>{r.empresa}</span>}
+                {visibleCols.includes("ultimo")  && <span style={{ fontSize: 12, color: "var(--tc-soft)" }}>{r.ultimo}</span>}
+                {visibleCols.includes("canal")   && <div style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 12 }}><span style={{ fontSize: 13 }}>{CANAL_ICON[r.canal]}</span><span style={{ color: "var(--tc-soft)" }}>{r.canal}</span></div>}
+                {visibleCols.includes("estado")  && <Chip text={r.estado} tone={r.eTone} />}
               </div>
             ))}
 

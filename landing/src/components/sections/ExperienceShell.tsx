@@ -8,7 +8,7 @@ import { QuoteFlow } from "@/components/experience/QuoteFlow";
 import { Dashboard } from "@/components/experience/Dashboard";
 import { LearnFlow } from "@/components/experience/LearnFlow";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
-import { resolveThemeVars } from "@/lib/palettes";
+import { resolveThemeVars, getStyleConfig } from "@/lib/palettes";
 import type { QuoteState } from "@/types";
 
 type Mode = "intro" | "quote" | "learn";
@@ -36,6 +36,7 @@ export function ExperienceShell() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [learnStep, setLearnStep] = useState(0);
   const [quoteState, setQuoteState] = useState<QuoteState>(DEFAULT_QUOTE_STATE);
+  const [darkOverride, setDarkOverride] = useState<boolean | null>(null);
   const { submit, status: submitStatus, error: submitError } = useLeadSubmit();
 
   const setQuoteField = <K extends keyof QuoteState>(key: K, val: QuoteState[K]) =>
@@ -86,7 +87,7 @@ export function ExperienceShell() {
   };
 
   const fontVar = FONT_PRESETS.find(f => f.id === quoteState.fontPreset)?.var ?? "var(--font-inter)";
-  const themeVars = resolveThemeVars(quoteState.palette, quoteState.interfaceStyle, fontVar);
+  const themeVars = resolveThemeVars(quoteState.palette, quoteState.interfaceStyle, fontVar, darkOverride ?? undefined);
 
   return (
     <div style={{
@@ -132,6 +133,11 @@ export function ExperienceShell() {
             activeSection={activeSection ?? (quoteState.selected[0] ?? "resumen")}
             setActiveSection={setActiveSection}
             onReset={reset}
+            isDark={darkOverride ?? (getStyleConfig(quoteState.interfaceStyle).contentMode === "dark")}
+            onToggleDark={() => setDarkOverride(prev => {
+              const current = prev ?? (getStyleConfig(quoteState.interfaceStyle).contentMode === "dark");
+              return !current;
+            })}
           />
         </div>
       )}

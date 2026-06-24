@@ -1,7 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { C } from "../constants";
 import { Chip, AvatarGroup, ProgressBar, PanelTitle, SubTabs, GhostBtn, PrimaryBtn, Pagination, EmptyState } from "../primitives";
+import { TableToolbar } from "../TableToolbar";
 
 const GROUPS = [
   { name: "por hacer",   dot: C.purple, tone: "purple", count: 18, items: [
@@ -26,12 +27,45 @@ const GROUPS = [
 const PERSONAS = ["MS","JR","LK","TT","NR","LG","AW","LW","JT"];
 const PERSONA_NAMES: Record<string,string> = { MS:"Martín S.", JR:"Julia R.", LK:"Lucas K.", TT:"Timmy T.", NR:"Nina R.", LG:"Leo G.", AW:"Amira W.", LW:"Lala W.", JT:"Jesslyn T." };
 
+const OPS_SORT_OPTS = [
+  { id: "name",     label: "nombre"     },
+  { id: "date",     label: "vencimiento" },
+  { id: "progress", label: "progreso"   },
+  { id: "priority", label: "prioridad"  },
+];
+const OPS_FILTER_OPTS = [
+  { id: "por hacer",   label: "por hacer"   },
+  { id: "en curso",    label: "en curso"    },
+  { id: "en revisión", label: "en revisión" },
+  { id: "completo",    label: "completo"    },
+];
+const OPS_COL_OPTS = [
+  { id: "id",          label: "id"           },
+  { id: "responsable", label: "responsable"  },
+  { id: "proyecto",    label: "proyecto"     },
+  { id: "progreso",    label: "progreso"     },
+  { id: "vence",       label: "vencimiento"  },
+  { id: "prioridad",   label: "prioridad"    },
+];
+
 export function PanelOps() {
   const [tab, setTab] = useState("tablero");
   const [selRows, setSelRows] = useState<string[]>([]);
   const [filterPersona, setFilterPersona] = useState<string | null>(null);
+  const [sortBy, setSortBy] = useState("date");
+  const [filters, setFilters] = useState<string[]>([]);
+  const [visibleCols, setVisibleCols] = useState(OPS_COL_OPTS.map(c => c.id));
+  const toggleFilter = (id: string) => setFilters(f => f.includes(id) ? f.filter(x => x !== id) : [...f, id]);
+  const toggleCol = (id: string) => setVisibleCols(v => v.includes(id) ? v.filter(x => x !== id) : [...v, id]);
   const flatRows = GROUPS.flatMap(g => g.items.map(it => ({ ...it, col: g.name, dot: g.dot, colTone: g.tone })));
   const toggle = (id: string) => setSelRows(s => s.includes(id) ? s.filter(x => x !== id) : [...s, id]);
+
+  const filteredGroups = useMemo(() => {
+    return GROUPS.map(g => ({
+      ...g,
+      items: filters.length > 0 && !filters.includes(g.name) ? [] : g.items,
+    })).filter(g => g.items.length > 0 || filters.length === 0);
+  }, [filters]);
 
   return (
     <div>
@@ -89,6 +123,11 @@ export function PanelOps() {
       {/* ── LISTA ─────────────────────────────────────────────────────── */}
       {tab === "lista" && (
         <div>
+          <TableToolbar
+            sortOptions={OPS_SORT_OPTS} activeSort={sortBy} onSort={setSortBy}
+            filterOptions={OPS_FILTER_OPTS} activeFilters={filters} onFilter={toggleFilter}
+            colOptions={OPS_COL_OPTS} visibleCols={visibleCols} onToggleCol={toggleCol}
+          />
           {selRows.length > 0 && (
             <div style={{ background: "var(--tc-ink)", color: "#fff", borderRadius: 10, padding: "10px 18px", display: "flex", alignItems: "center", gap: 16, marginBottom: 12, fontSize: 12.5 }}>
               <span style={{ fontWeight: 600 }}>{selRows.length} seleccionadas</span>
@@ -99,7 +138,9 @@ export function PanelOps() {
               </div>
             </div>
           )}
-          {GROUPS.map(g => (
+          {filteredGroups.map(g => {
+            const colDef = `36px ${visibleCols.includes("id") ? "90px" : ""} 1.6fr ${visibleCols.includes("responsable") ? "1fr" : ""} ${visibleCols.includes("proyecto") ? "1fr" : ""} ${visibleCols.includes("progreso") ? "70px" : ""} ${visibleCols.includes("vence") ? "90px" : ""} ${visibleCols.includes("prioridad") ? "90px" : ""} 32px`.replace(/\s+/g," ").trim();
+            return (
             <div key={g.name} style={{ marginBottom: 20 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 18px", background: "var(--tc-card)", borderRadius: "12px 12px 0 0", border: `1px solid var(--tc-border)`, borderBottom: "none" }}>
                 <span style={{ width: 7, height: 7, borderRadius: "50%", background: g.dot, display: "inline-block" }} />
@@ -107,31 +148,37 @@ export function PanelOps() {
                 <span style={{ fontSize: 11, color: "var(--tc-soft)", background: "var(--tc-border)", borderRadius: 10, padding: "1px 7px" }}>{g.count}</span>
               </div>
               <div style={{ background: "var(--tc-card)", border: `1px solid var(--tc-border)`, borderTop: "none", borderRadius: "0 0 12px 12px", overflow: "hidden" }}>
-                <div style={{ display: "grid", gridTemplateColumns: "36px 90px 1.6fr 1fr 1fr 70px 90px 90px 32px", padding: "10px 18px", fontSize: 10.5, color: "var(--tc-soft)", letterSpacing: "0.06em", borderBottom: `1px solid var(--tc-border)`, textTransform: "lowercase" }}>
-                  {["","id","nombre","responsable","proyecto","progreso","vence","prioridad",""].map((h,i) => <span key={i}>{h}</span>)}
+                <div style={{ display: "grid", gridTemplateColumns: colDef, padding: "10px 18px", fontSize: 10.5, color: "var(--tc-soft)", letterSpacing: "0.06em", borderBottom: `1px solid var(--tc-border)`, textTransform: "lowercase" }}>
+                  <span/>
+                  {visibleCols.includes("id")          && <span>id</span>}
+                  <span>nombre</span>
+                  {visibleCols.includes("responsable") && <span>responsable</span>}
+                  {visibleCols.includes("proyecto")    && <span>proyecto</span>}
+                  {visibleCols.includes("progreso")    && <span>progreso</span>}
+                  {visibleCols.includes("vence")       && <span>vence</span>}
+                  {visibleCols.includes("prioridad")   && <span>prioridad</span>}
+                  <span/>
                 </div>
                 {g.items.map((r, i) => {
                   const sel = selRows.includes(r.id);
                   return (
-                    <div key={i} onClick={() => toggle(r.id)} style={{ display: "grid", gridTemplateColumns: "36px 90px 1.6fr 1fr 1fr 70px 90px 90px 32px", padding: "11px 18px", alignItems: "center", borderBottom: i < g.items.length - 1 ? `1px solid var(--tc-border)` : "none", fontSize: 12.5, background: sel ? "rgba(216,145,73,0.05)" : "transparent", cursor: "pointer" }}>
+                    <div key={i} onClick={() => toggle(r.id)} style={{ display: "grid", gridTemplateColumns: colDef, padding: "11px 18px", alignItems: "center", borderBottom: i < g.items.length - 1 ? `1px solid var(--tc-border)` : "none", fontSize: 12.5, background: sel ? "rgba(216,145,73,0.05)" : "transparent", cursor: "pointer" }}>
                       <input type="checkbox" readOnly checked={sel} onClick={e => e.stopPropagation()} style={{ accentColor: C.copper }} />
-                      <span style={{ fontSize: 11, color: "var(--tc-soft)", fontFamily: "monospace" }}>{r.id}</span>
+                      {visibleCols.includes("id")          && <span style={{ fontSize: 11, color: "var(--tc-soft)", fontFamily: "monospace" }}>{r.id}</span>}
                       <span style={{ fontWeight: 500 }}>{r.t}</span>
-                      <AvatarGroup people={r.who} size={24} />
-                      <span style={{ fontSize: 11.5, color: "var(--tc-soft)" }}>{r.proj}</span>
-                      <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                        <div style={{ flex: 1, height: 4, background: "var(--tc-border)", borderRadius: 20, overflow: "hidden", minWidth: 36 }}><div style={{ width: `${r.progress}%`, height: "100%", background: g.dot, borderRadius: 20 }} /></div>
-                        <span style={{ fontSize: 10, color: "var(--tc-soft)" }}>{r.progress}%</span>
-                      </div>
-                      <span style={{ fontSize: 12, color: "var(--tc-soft)" }}>{r.date}</span>
-                      <Chip text={r.priority} tone={r.pTone} />
+                      {visibleCols.includes("responsable") && <AvatarGroup people={r.who} size={24} />}
+                      {visibleCols.includes("proyecto")    && <span style={{ fontSize: 11.5, color: "var(--tc-soft)" }}>{r.proj}</span>}
+                      {visibleCols.includes("progreso")    && <div style={{ display: "flex", alignItems: "center", gap: 4 }}><div style={{ flex: 1, height: 4, background: "var(--tc-border)", borderRadius: 20, overflow: "hidden", minWidth: 36 }}><div style={{ width: `${r.progress}%`, height: "100%", background: g.dot, borderRadius: 20 }} /></div><span style={{ fontSize: 10, color: "var(--tc-soft)" }}>{r.progress}%</span></div>}
+                      {visibleCols.includes("vence")       && <span style={{ fontSize: 12, color: "var(--tc-soft)" }}>{r.date}</span>}
+                      {visibleCols.includes("prioridad")   && <Chip text={r.priority} tone={r.pTone} />}
                       <span style={{ fontSize: 14, color: "var(--tc-soft)", textAlign: "center" }}>⋯</span>
                     </div>
                   );
                 })}
               </div>
             </div>
-          ))}
+          );
+          })}
         </div>
       )}
 

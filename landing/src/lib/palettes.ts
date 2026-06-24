@@ -141,12 +141,14 @@ export function getStyleConfig(id: string): StyleConfig {
 export function resolveThemeVars(
   paletteId: string,
   styleId: string,
-  fontVar: string
+  fontVar: string,
+  forceDark?: boolean
 ): Record<string, string> {
   const palette = getPalette(paletteId);
   const style = getStyleConfig(styleId);
 
-  const content = style.contentMode === "dark" ? palette.dark : palette.light;
+  const effectiveDark = forceDark !== undefined ? forceDark : style.contentMode === "dark";
+  const content = effectiveDark ? palette.dark : palette.light;
   const sidebar = style.sidebarDark ? palette.dark : palette.light;
 
   return {

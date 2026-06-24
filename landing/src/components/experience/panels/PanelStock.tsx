@@ -1,13 +1,51 @@
 "use client";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { C, STOCK_ITEMS } from "../constants";
 import { Chip, KpiCard, PanelTitle, GhostBtn, PrimaryBtn, InfoRow, ProgressBar, Pagination, SubTabs, EmptyState } from "../primitives";
+import { TableToolbar } from "../TableToolbar";
 
 type Item = typeof STOCK_ITEMS[0];
+
+const STOCK_SORT_OPTS = [
+  { id: "name",   label: "nombre"      },
+  { id: "qty",    label: "stock"       },
+  { id: "price",  label: "precio"      },
+  { id: "status", label: "estado"      },
+];
+const STOCK_FILTER_OPTS = [
+  { id: "activo",      label: "activo"      },
+  { id: "bajo mínimo", label: "bajo mínimo" },
+  { id: "atención",    label: "atención"    },
+];
+const STOCK_COL_OPTS = [
+  { id: "color",    label: "imagen"   },
+  { id: "iddate",   label: "id / fecha" },
+  { id: "price",    label: "precio"   },
+  { id: "qty",      label: "stock"    },
+  { id: "status",   label: "estado"   },
+];
 
 export function PanelStock() {
   const [tab, setTab] = useState("inventario");
   const [openId, setOpenId] = useState<string | null>(null);
+  const [sortBy, setSortBy] = useState("name");
+  const [filters, setFilters] = useState<string[]>([]);
+  const [visibleCols, setVisibleCols] = useState(STOCK_COL_OPTS.map(c => c.id));
+  const toggleFilter = (id: string) => setFilters(f => f.includes(id) ? f.filter(x => x !== id) : [...f, id]);
+  const toggleCol = (id: string) => setVisibleCols(v => v.includes(id) ? v.filter(x => x !== id) : [...v, id]);
+
+  const filteredItems = useMemo(() => {
+    let items = [...STOCK_ITEMS];
+    if (filters.length > 0) items = items.filter(r => filters.includes(r.status));
+    items.sort((a, b) => {
+      if (sortBy === "qty")   return b.qty - a.qty;
+      if (sortBy === "price") return parseFloat(b.price.replace(/[$.,]/g,"")) - parseFloat(a.price.replace(/[$.,]/g,""));
+      if (sortBy === "status") return a.status.localeCompare(b.status);
+      return a.name.localeCompare(b.name);
+    });
+    return items;
+  }, [sortBy, filters]);
+
   const open = STOCK_ITEMS.find(r => r.id === openId);
 
   if (open) return <StockDetail item={open} onBack={() => setOpenId(null)} />;
@@ -32,27 +70,41 @@ export function PanelStock() {
 
       {/* ── INVENTARIO ────────────────────────────────────────────────── */}
       {tab === "inventario" && (
+        <div>
+          <TableToolbar
+            sortOptions={STOCK_SORT_OPTS} activeSort={sortBy} onSort={setSortBy}
+            filterOptions={STOCK_FILTER_OPTS} activeFilters={filters} onFilter={toggleFilter}
+            colOptions={STOCK_COL_OPTS} visibleCols={visibleCols} onToggleCol={toggleCol}
+          />
         <div style={{ background: "var(--tc-card)", border: `1px solid var(--tc-border)`, borderRadius: 14, overflow: "hidden" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "36px 2fr 1fr 90px 90px 120px", padding: "11px 18px", fontSize: 10.5, color: "var(--tc-soft)", letterSpacing: "0.06em", borderBottom: `1px solid var(--tc-border)`, textTransform: "lowercase" }}>
-            {["","ítem","id y fecha","precio","stock","estado"].map((h,i) => <span key={i}>{h}</span>)}
+          <div style={{ display: "grid", gridTemplateColumns: `36px ${visibleCols.includes("color") ? "2fr" : "2fr"} ${visibleCols.includes("iddate") ? "1fr" : ""} ${visibleCols.includes("price") ? "90px" : ""} ${visibleCols.includes("qty") ? "90px" : ""} ${visibleCols.includes("status") ? "120px" : ""}`.trim(), padding: "11px 18px", fontSize: 10.5, color: "var(--tc-soft)", letterSpacing: "0.06em", borderBottom: `1px solid var(--tc-border)`, textTransform: "lowercase" }}>
+            <span/>
+            <span>ítem</span>
+            {visibleCols.includes("iddate")  && <span>id y fecha</span>}
+            {visibleCols.includes("price")   && <span>precio</span>}
+            {visibleCols.includes("qty")     && <span>stock</span>}
+            {visibleCols.includes("status")  && <span>estado</span>}
           </div>
-          {STOCK_ITEMS.map((r, i) => (
+          {filteredItems.map((r, i) => {
+            const cols = `36px 2fr ${visibleCols.includes("iddate") ? "1fr" : ""} ${visibleCols.includes("price") ? "90px" : ""} ${visibleCols.includes("qty") ? "90px" : ""} ${visibleCols.includes("status") ? "120px" : ""}`.trim();
+            return (
             <div key={r.id} onClick={() => setOpenId(r.id)}
-              style={{ display: "grid", gridTemplateColumns: "36px 2fr 1fr 90px 90px 120px", padding: "12px 18px", alignItems: "center", borderBottom: i < STOCK_ITEMS.length - 1 ? `1px solid var(--tc-border)` : "none", fontSize: 13, cursor: "pointer", background: "var(--tc-card)", transition: "background 150ms" }}
+              style={{ display: "grid", gridTemplateColumns: cols, padding: "12px 18px", alignItems: "center", borderBottom: i < filteredItems.length - 1 ? `1px solid var(--tc-border)` : "none", fontSize: 13, cursor: "pointer", background: "var(--tc-card)", transition: "background 150ms" }}
               onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.background = "var(--tc-sub)"; }}
               onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.background = "var(--tc-card)"; }}>
               <input type="checkbox" readOnly onClick={e => e.stopPropagation()} />
               <span style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <div style={{ width: 38, height: 38, borderRadius: 8, background: r.color, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700, color: "rgba(0,0,0,0.25)" }}>{r.name[0]}</div>
+                {visibleCols.includes("color") && <div style={{ width: 38, height: 38, borderRadius: 8, background: r.color, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700, color: "rgba(0,0,0,0.25)" }}>{r.name[0]}</div>}
                 <span><div style={{ fontSize: 13.5, fontWeight: 500 }}>{r.name}</div><div style={{ fontSize: 11, color: "var(--tc-soft)", marginTop: 1 }}>{r.cat}</div></span>
               </span>
-              <span style={{ color: "var(--tc-soft)", fontSize: 11.5 }}><div>{r.id}</div><div style={{ marginTop: 2 }}>{r.date}</div></span>
-              <span style={{ fontWeight: 500 }}>{r.price}</span>
-              <span style={{ fontWeight: 600, fontFamily: "monospace", fontSize: 14, color: r.tone === "red" ? C.red : "var(--tc-ink)" }}>{r.qty}</span>
-              <Chip text={r.status} tone={r.tone} />
+              {visibleCols.includes("iddate")  && <span style={{ color: "var(--tc-soft)", fontSize: 11.5 }}><div>{r.id}</div><div style={{ marginTop: 2 }}>{r.date}</div></span>}
+              {visibleCols.includes("price")   && <span style={{ fontWeight: 500 }}>{r.price}</span>}
+              {visibleCols.includes("qty")     && <span style={{ fontWeight: 600, fontFamily: "monospace", fontSize: 14, color: r.tone === "red" ? C.red : "var(--tc-ink)" }}>{r.qty}</span>}
+              {visibleCols.includes("status")  && <Chip text={r.status} tone={r.tone} />}
             </div>
-          ))}
+          )})}
           <Pagination page={1} total={32} perPage={5} />
+        </div>
         </div>
       )}
 

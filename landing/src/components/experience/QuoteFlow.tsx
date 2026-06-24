@@ -144,7 +144,13 @@ export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, 
               <Overline>tu sistema · 4 de 6</Overline>
               <h2 style={h2s}>¿qué querés ordenar primero?</h2>
               <p style={{ fontSize: 14.5, color: C.grayCold, lineHeight: 1.55, marginTop: 14 }}>elegí los módulos y mirá cómo se arma tu sistema en tiempo real.</p>
-              <div style={{ display: "grid", gap: 10, marginTop: 28 }}>
+              <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 16 }}>
+                <button onClick={() => setQuoteField("selected", COMPONENTS.every(c => selected.includes(c.id)) ? [] : COMPONENTS.map(c => c.id))}
+                  style={{ background: "transparent", border: `1px solid ${C.lineStrong}`, color: C.grayCold, fontSize: 12, padding: "5px 14px", borderRadius: 4, cursor: "pointer", fontFamily: "inherit", textTransform: "lowercase", letterSpacing: "0.04em" }}>
+                  {COMPONENTS.every(c => selected.includes(c.id)) ? "deseleccionar todo" : "seleccionar todo"}
+                </button>
+              </div>
+              <div style={{ display: "grid", gap: 10, marginTop: 10 }}>
                 {COMPONENTS.map(c => {
                   const on = selected.includes(c.id);
                   const isSuggested = suggested.includes(c.id) && !on;
