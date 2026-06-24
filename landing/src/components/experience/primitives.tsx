@@ -96,6 +96,38 @@ export function SearchBar({ placeholder, right }: { placeholder: string; right?:
   );
 }
 
+export function SubTabs({ items, active, onChange }: { items: string[]; active: string; onChange: (v: string) => void }) {
+  return (
+    <div style={{ display: "flex", gap: 0, borderBottom: `1px solid ${C.panelLine}`, marginBottom: 24 }}>
+      {items.map(it => (
+        <div key={it} onClick={() => onChange(it)} style={{ padding: "10px 18px", fontSize: 13, fontWeight: 600, textTransform: "lowercase", color: active === it ? C.panelInk : C.gray, borderBottom: active === it ? `2px solid ${C.panelInk}` : "2px solid transparent", cursor: "pointer", transition: "all 160ms", whiteSpace: "nowrap" }}>
+          {it}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function MiniBar({ data, color = C.copper }: { data: number[]; color?: string }) {
+  const max = Math.max(...data);
+  return (
+    <div style={{ display: "flex", alignItems: "flex-end", gap: 3, height: 40 }}>
+      {data.map((v, i) => (
+        <div key={i} style={{ flex: 1, height: `${(v / max) * 100}%`, background: color, borderRadius: "2px 2px 0 0", opacity: i === data.length - 1 ? 1 : 0.45 }} />
+      ))}
+    </div>
+  );
+}
+
+export function EmptyState({ icon, text }: { icon: string; text: string }) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "48px 24px", color: C.gray, gap: 12 }}>
+      <span style={{ fontSize: 32, opacity: 0.4 }}>{icon}</span>
+      <span style={{ fontSize: 13 }}>{text}</span>
+    </div>
+  );
+}
+
 export function SegmentTabs({ items, active, onChange }: { items: string[]; active: string; onChange: (v: string) => void }) {
   return (
     <div style={{ display: "flex", gap: 3, background: C.panelSurface, border: `1px solid ${C.panelLine}`, borderRadius: 8, padding: 3, width: "fit-content" }}>
