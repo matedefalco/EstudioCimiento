@@ -40,7 +40,15 @@ export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, 
 
       {/* header */}
       <div style={{ position: "absolute", top: 28, left: 32, display: "flex", alignItems: "center", gap: 10, zIndex: 5 }}>
-        <ECSymbol size={22} />
+        {step > 0 ? (
+          <button onClick={() => go(step - 1)} style={{ background: "transparent", border: "none", color: C.grayCold, fontSize: 22, cursor: "pointer", padding: "0 4px 0 0", lineHeight: 1, display: "flex", alignItems: "center", transition: "color 160ms ease" }}
+            onMouseEnter={e => (e.currentTarget.style.color = C.cream)}
+            onMouseLeave={e => (e.currentTarget.style.color = C.grayCold)}>
+            ←
+          </button>
+        ) : (
+          <ECSymbol size={22} />
+        )}
         <span style={{ fontSize: 14, opacity: 0.9 }}>estudio <strong style={{ fontWeight: 600 }}>cimiento</strong></span>
       </div>
       <div style={{ position: "absolute", top: 32, right: 32, display: "flex", gap: 6, alignItems: "center", zIndex: 5 }}>
