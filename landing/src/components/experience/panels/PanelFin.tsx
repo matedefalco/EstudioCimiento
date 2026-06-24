@@ -8,7 +8,7 @@ const ALL_ROWS = [
   { name: "venta mostrador",        img: "VM", date: "21 jun · 11:45", type: "venta",         amount: 85000,   positive: true,  status: "completado", sTone: "green" as const, color: C.green  },
   { name: "cobro cuota #4",         img: "C4", date: "20 jun · 03:30", type: "cuota",         amount: 62000,   positive: true,  status: "completado", sTone: "green" as const, color: C.amber  },
   { name: "pago a proveedor",       img: "PP", date: "19 jun · 06:10", type: "proveedor",     amount: -84500,  positive: false, status: "completado", sTone: "green" as const, color: C.purple },
-  { name: "alquiler",               img: "AL", date: "18 jun · 10:00", type: "fijo",          amount: -210000, positive: false, status: "completado", sTone: "green" as const, color: C.gray   },
+  { name: "alquiler",               img: "AL", date: "18 jun · 10:00", type: "fijo",          amount: -210000, positive: false, status: "completado", sTone: "green" as const, color: "var(--tc-soft)"   },
   { name: "Spotify Premium",        img: "SP", date: "17 jun · 01:42", type: "suscripción",   amount: -9990,   positive: false, status: "completado", sTone: "green" as const, color: "#1DB954"},
   { name: "cobro anticipo",         img: "CA", date: "16 jun · 14:00", type: "anticipo",      amount: 95000,   positive: true,  status: "completado", sTone: "green" as const, color: C.copper },
   { name: "LinkedIn Premium",       img: "Li", date: "15 jun · 09:00", type: "suscripción",   amount: -39990,  positive: false, status: "fallido",    sTone: "red"   as const, color: "#0A66C2"},
@@ -46,31 +46,31 @@ export function PanelFin() {
             <KpiCard label="ahorro proyectado" value="$524.095"   delta="+2.2%"   positive />
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 16 }}>
-            <div style={{ background: C.panelSurface, border: `1px solid ${C.panelLine}`, borderRadius: 14, padding: 22 }}>
-              <div style={{ fontSize: 12, color: C.gray, marginBottom: 14 }}>evolución mensual</div>
+            <div style={{ background: "var(--tc-card)", border: `1px solid var(--tc-border)`, borderRadius: 14, padding: 22 }}>
+              <div style={{ fontSize: 12, color: "var(--tc-soft)", marginBottom: 14 }}>evolución mensual</div>
               <div style={{ display: "flex", alignItems: "flex-end", gap: 4 }}>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 11, color: C.gray, marginBottom: 6 }}>ingresos</div>
+                  <div style={{ fontSize: 11, color: "var(--tc-soft)", marginBottom: 6 }}>ingresos</div>
                   <MiniBar data={[620,780,540,920,850,1174]} color={C.green} />
                 </div>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 11, color: C.gray, marginBottom: 6 }}>egresos</div>
+                  <div style={{ fontSize: 11, color: "var(--tc-soft)", marginBottom: 6 }}>egresos</div>
                   <MiniBar data={[340,420,380,510,490,344]} color={C.red} />
                 </div>
               </div>
               <div style={{ display: "flex", gap: 16, marginTop: 10 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11, color: C.gray }}><span style={{ width: 8, height: 8, background: C.green, borderRadius: 2, display: "inline-block" }}/> ene – jun</div>
+                <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11, color: "var(--tc-soft)" }}><span style={{ width: 8, height: 8, background: C.green, borderRadius: 2, display: "inline-block" }}/> ene – jun</div>
               </div>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-              <div style={{ background: "#EFE3CB", border: `1px solid ${C.panelLine}`, borderRadius: 14, padding: 20 }}>
+              <div style={{ background: "#EFE3CB", border: `1px solid var(--tc-border)`, borderRadius: 14, padding: 20 }}>
                 <div style={{ fontSize: 12, color: "#6B5526", marginBottom: 6 }}>control de presupuesto mensual</div>
                 <div style={{ fontSize: 20, fontWeight: 700, marginBottom: 6 }}>$344.480 <span style={{ fontSize: 12, fontWeight: 400, color: "#6B5526" }}>de $500.000</span></div>
                 <ProgressBar value={69} tone="amber" />
                 <div style={{ fontSize: 11.5, color: C.amber, marginTop: 10 }}>⚠ te estás acercando al límite mensual.</div>
               </div>
-              <div style={{ background: C.panelSurface, border: `1px solid ${C.panelLine}`, borderRadius: 14, padding: 18 }}>
-                <div style={{ fontSize: 12, color: C.gray, marginBottom: 10 }}>distribución de egresos</div>
+              <div style={{ background: "var(--tc-card)", border: `1px solid var(--tc-border)`, borderRadius: 14, padding: 18 }}>
+                <div style={{ fontSize: 12, color: "var(--tc-soft)", marginBottom: 10 }}>distribución de egresos</div>
                 <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
                   <Donut segments={[{ value: 61, color: C.purple }, { value: 26, color: C.amber }, { value: 13, color: C.blue }]} total={100} label="$344k" />
                   <div style={{ display: "grid", gap: 6, flex: 1 }}>
@@ -93,10 +93,10 @@ export function PanelFin() {
             <KpiCard label="movimientos"    value={`${ingresos.length}`} sub="este mes" />
             <KpiCard label="promedio"       value={`$${Math.round(totalIn / ingresos.length).toLocaleString("es-AR")}`} sub="por movimiento" />
           </div>
-          <div style={{ background: C.panelSurface, border: `1px solid ${C.panelLine}`, borderRadius: 14, padding: 20, marginBottom: 16 }}>
-            <div style={{ fontSize: 12, color: C.gray, marginBottom: 10 }}>tendencia de ingresos · últimos 6 meses</div>
+          <div style={{ background: "var(--tc-card)", border: `1px solid var(--tc-border)`, borderRadius: 14, padding: 20, marginBottom: 16 }}>
+            <div style={{ fontSize: 12, color: "var(--tc-soft)", marginBottom: 10 }}>tendencia de ingresos · últimos 6 meses</div>
             <MiniBar data={[620,780,540,920,850,1174]} color={C.green} />
-            <div style={{ display: "flex", justifyContent: "space-between", marginTop: 6, fontSize: 10.5, color: C.gray }}>
+            <div style={{ display: "flex", justifyContent: "space-between", marginTop: 6, fontSize: 10.5, color: "var(--tc-soft)" }}>
               {["ene","feb","mar","abr","may","jun"].map(m => <span key={m}>{m}</span>)}
             </div>
           </div>
@@ -113,15 +113,15 @@ export function PanelFin() {
             <KpiCard label="mayor egreso"   value={`$${Math.max(...egresos.map(r => Math.abs(r.amount))).toLocaleString("es-AR")}`} sub="alquiler" />
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 16, marginBottom: 16 }}>
-            <div style={{ background: C.panelSurface, border: `1px solid ${C.panelLine}`, borderRadius: 14, padding: 20 }}>
-              <div style={{ fontSize: 12, color: C.gray, marginBottom: 10 }}>tendencia de egresos · últimos 6 meses</div>
+            <div style={{ background: "var(--tc-card)", border: `1px solid var(--tc-border)`, borderRadius: 14, padding: 20 }}>
+              <div style={{ fontSize: 12, color: "var(--tc-soft)", marginBottom: 10 }}>tendencia de egresos · últimos 6 meses</div>
               <MiniBar data={[340,420,380,510,490,344]} color={C.red} />
-              <div style={{ display: "flex", justifyContent: "space-between", marginTop: 6, fontSize: 10.5, color: C.gray }}>
+              <div style={{ display: "flex", justifyContent: "space-between", marginTop: 6, fontSize: 10.5, color: "var(--tc-soft)" }}>
                 {["ene","feb","mar","abr","may","jun"].map(m => <span key={m}>{m}</span>)}
               </div>
             </div>
-            <div style={{ background: C.panelSurface, border: `1px solid ${C.panelLine}`, borderRadius: 14, padding: 20 }}>
-              <div style={{ fontSize: 12, color: C.gray, marginBottom: 10 }}>por categoría</div>
+            <div style={{ background: "var(--tc-card)", border: `1px solid var(--tc-border)`, borderRadius: 14, padding: 20 }}>
+              <div style={{ fontSize: 12, color: "var(--tc-soft)", marginBottom: 10 }}>por categoría</div>
               <div style={{ display: "grid", gap: 8 }}>
                 {[
                   { label: "proveedor",   amount: 84500,  pct: 25 },
@@ -147,7 +147,7 @@ export function PanelFin() {
       {tab === "movimientos" && (
         <div>
           <div style={{ display: "flex", gap: 10, marginBottom: 14 }}>
-            <div style={{ flex: "1 1 200px", display: "flex", alignItems: "center", gap: 8, background: C.panelSurface, border: `1px solid ${C.panelLine}`, borderRadius: 8, padding: "8px 12px", fontSize: 12.5, color: C.gray }}>
+            <div style={{ flex: "1 1 200px", display: "flex", alignItems: "center", gap: 8, background: "var(--tc-card)", border: `1px solid var(--tc-border)`, borderRadius: 8, padding: "8px 12px", fontSize: 12.5, color: "var(--tc-soft)" }}>
               <span>⌕</span> buscar movimiento...
             </div>
             <GhostBtn>↓ exportar</GhostBtn>
@@ -162,12 +162,12 @@ export function PanelFin() {
 
 function RowTable({ rows }: { rows: typeof ALL_ROWS }) {
   return (
-    <div style={{ background: C.panelSurface, border: `1px solid ${C.panelLine}`, borderRadius: 14, overflow: "hidden" }}>
-      <div style={{ display: "grid", gridTemplateColumns: "36px 1.8fr 1.2fr 1fr 1fr 110px", padding: "11px 18px", fontSize: 10.5, color: C.gray, letterSpacing: "0.06em", borderBottom: `1px solid ${C.panelLine}`, textTransform: "lowercase" }}>
+    <div style={{ background: "var(--tc-card)", border: `1px solid var(--tc-border)`, borderRadius: 14, overflow: "hidden" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "36px 1.8fr 1.2fr 1fr 1fr 110px", padding: "11px 18px", fontSize: 10.5, color: "var(--tc-soft)", letterSpacing: "0.06em", borderBottom: `1px solid var(--tc-border)`, textTransform: "lowercase" }}>
         {["","movimiento","fecha","tipo","monto","estado"].map((h,i) => <span key={i}>{h}</span>)}
       </div>
       {rows.map((r, i) => (
-        <div key={i} style={{ display: "grid", gridTemplateColumns: "36px 1.8fr 1.2fr 1fr 1fr 110px", padding: "12px 18px", alignItems: "center", borderBottom: i < rows.length - 1 ? `1px solid ${C.panelLine}` : "none", fontSize: 13 }}>
+        <div key={i} style={{ display: "grid", gridTemplateColumns: "36px 1.8fr 1.2fr 1fr 1fr 110px", padding: "12px 18px", alignItems: "center", borderBottom: i < rows.length - 1 ? `1px solid var(--tc-border)` : "none", fontSize: 13 }}>
           <input type="checkbox" readOnly />
           <span style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <div style={{ width: 32, height: 32, borderRadius: 8, background: r.positive ? C.greenBg : C.redBg, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
@@ -175,8 +175,8 @@ function RowTable({ rows }: { rows: typeof ALL_ROWS }) {
             </div>
             <span style={{ fontWeight: 500 }}>{r.name}</span>
           </span>
-          <span style={{ color: C.gray, fontSize: 12 }}>{r.date}</span>
-          <span style={{ color: C.gray, fontSize: 12, textTransform: "lowercase" }}>{r.type}</span>
+          <span style={{ color: "var(--tc-soft)", fontSize: 12 }}>{r.date}</span>
+          <span style={{ color: "var(--tc-soft)", fontSize: 12, textTransform: "lowercase" }}>{r.type}</span>
           <span style={{ fontWeight: 600, color: r.positive ? C.green : C.red }}>{fmt(r.amount)}</span>
           <Chip text={r.status} tone={r.sTone} />
         </div>

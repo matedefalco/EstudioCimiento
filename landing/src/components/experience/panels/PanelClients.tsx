@@ -54,11 +54,11 @@ export function PanelClients() {
           </div>
           <div style={{ display: "flex", gap: 4, marginBottom: 14, flexWrap: "wrap" }}>
             {STATUS_FILTERS.map(s => (
-              <div key={s} onClick={() => setStatusFilter(s)} style={{ padding: "6px 14px", borderRadius: 8, fontSize: 12, fontWeight: 600, textTransform: "lowercase", background: statusFilter === s ? C.panelInk : C.panelSurface, color: statusFilter === s ? "#fff" : C.gray, border: `1px solid ${statusFilter === s ? C.panelInk : C.panelLine}`, cursor: "pointer" }}>{s}</div>
+              <div key={s} onClick={() => setStatusFilter(s)} style={{ padding: "6px 14px", borderRadius: 8, fontSize: 12, fontWeight: 600, textTransform: "lowercase", background: statusFilter === s ? "var(--tc-ink)" : "var(--tc-card)", color: statusFilter === s ? "#fff" : "var(--tc-soft)", border: `1px solid ${statusFilter === s ? "var(--tc-ink)" : "var(--tc-border)"}`, cursor: "pointer" }}>{s}</div>
             ))}
           </div>
           {selRows.length > 0 && (
-            <div style={{ background: C.panelInk, color: "#fff", borderRadius: 10, padding: "10px 18px", display: "flex", alignItems: "center", gap: 16, marginBottom: 12, fontSize: 12.5 }}>
+            <div style={{ background: "var(--tc-ink)", color: "#fff", borderRadius: 10, padding: "10px 18px", display: "flex", alignItems: "center", gap: 16, marginBottom: 12, fontSize: 12.5 }}>
               <span style={{ fontWeight: 600 }}>{selRows.length} seleccionadas</span>
               <div style={{ display: "flex", gap: 8, marginLeft: "auto" }}>
                 {["↓ exportar","✎ editar"].map(a => <button key={a} style={{ background: "rgba(255,255,255,0.12)", color: "#fff", fontSize: 12, padding: "5px 12px", borderRadius: 6, border: "none", cursor: "pointer", fontFamily: "inherit" }}>{a}</button>)}
@@ -67,25 +67,25 @@ export function PanelClients() {
               </div>
             </div>
           )}
-          <div style={{ background: C.panelSurface, border: `1px solid ${C.panelLine}`, borderRadius: 14, overflow: "hidden" }}>
-            <div style={{ display: "grid", gridTemplateColumns: "36px 2fr 1.2fr 1fr 1fr 80px 110px 32px", padding: "11px 18px", fontSize: 10.5, color: C.gray, letterSpacing: "0.06em", borderBottom: `1px solid ${C.panelLine}`, textTransform: "lowercase" }}>
+          <div style={{ background: "var(--tc-card)", border: `1px solid var(--tc-border)`, borderRadius: 14, overflow: "hidden" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "36px 2fr 1.2fr 1fr 1fr 80px 110px 32px", padding: "11px 18px", fontSize: 10.5, color: "var(--tc-soft)", letterSpacing: "0.06em", borderBottom: `1px solid var(--tc-border)`, textTransform: "lowercase" }}>
               {["","nombre","id y fecha","precio base","precio venta","stock","estado",""].map((h,i) => <span key={i}>{h}</span>)}
             </div>
             {filtered.map((r, i) => {
               const sel = selRows.includes(r.id);
               return (
-                <div key={r.id} onClick={() => toggle(r.id)} style={{ display: "grid", gridTemplateColumns: "36px 2fr 1.2fr 1fr 1fr 80px 110px 32px", padding: "12px 18px", alignItems: "center", borderBottom: i < filtered.length - 1 ? `1px solid ${C.panelLine}` : "none", fontSize: 13, background: sel ? "rgba(216,145,73,0.05)" : C.panelSurface, cursor: "pointer" }}>
+                <div key={r.id} onClick={() => toggle(r.id)} style={{ display: "grid", gridTemplateColumns: "36px 2fr 1.2fr 1fr 1fr 80px 110px 32px", padding: "12px 18px", alignItems: "center", borderBottom: i < filtered.length - 1 ? `1px solid var(--tc-border)` : "none", fontSize: 13, background: sel ? "rgba(216,145,73,0.05)" : "var(--tc-card)", cursor: "pointer" }}>
                   <input type="checkbox" readOnly checked={sel} onChange={() => toggle(r.id)} style={{ accentColor: C.copper }} onClick={e => e.stopPropagation()} />
                   <span style={{ display: "flex", alignItems: "center", gap: 12 }}>
                     <div style={{ width: 38, height: 38, borderRadius: 8, background: r.img, flexShrink: 0 }} />
-                    <span><div style={{ fontSize: 13.5, fontWeight: 500 }}>{r.name}</div><div style={{ fontSize: 11, color: C.gray, marginTop: 1 }}>{r.sub}</div></span>
+                    <span><div style={{ fontSize: 13.5, fontWeight: 500 }}>{r.name}</div><div style={{ fontSize: 11, color: "var(--tc-soft)", marginTop: 1 }}>{r.sub}</div></span>
                   </span>
-                  <span style={{ fontSize: 11.5, color: C.gray }}><div>{r.id}</div><div style={{ marginTop: 2 }}>{r.date}</div></span>
+                  <span style={{ fontSize: 11.5, color: "var(--tc-soft)" }}><div>{r.id}</div><div style={{ marginTop: 2 }}>{r.date}</div></span>
                   <span style={{ fontWeight: 500 }}>{fmt(r.price)}</span>
-                  <span style={{ fontSize: 12, color: C.gray }}>{fmt(r.sell)}</span>
+                  <span style={{ fontSize: 12, color: "var(--tc-soft)" }}>{fmt(r.sell)}</span>
                   <span style={{ fontFamily: "monospace", fontSize: 13 }}>{r.stock}</span>
                   <Chip text={r.status} tone={r.sTone} />
-                  <span style={{ fontSize: 14, color: C.gray, textAlign: "center" }}>⋯</span>
+                  <span style={{ fontSize: 14, color: "var(--tc-soft)", textAlign: "center" }}>⋯</span>
                 </div>
               );
             })}
@@ -97,12 +97,12 @@ export function PanelClients() {
       {/* ── VISTA CLIENTE ─────────────────────────────────────────────── */}
       {tab === "vista cliente" && (
         <div>
-          <div style={{ fontSize: 12.5, color: C.gray, marginBottom: 16, display: "flex", alignItems: "center", gap: 8 }}>
+          <div style={{ fontSize: 12.5, color: "var(--tc-soft)", marginBottom: 16, display: "flex", alignItems: "center", gap: 8 }}>
             <span style={{ background: C.amberBg, color: C.amber, fontSize: 11, fontWeight: 600, padding: "3px 10px", borderRadius: 20 }}>vista previa</span>
             así ve esta página tu cliente cuando recibe el link de cotización.
           </div>
           {/* simulated client page */}
-          <div style={{ background: "#FAFAF8", border: `1px solid ${C.panelLine}`, borderRadius: 16, overflow: "hidden" }}>
+          <div style={{ background: "#FAFAF8", border: `1px solid var(--tc-border)`, borderRadius: 16, overflow: "hidden" }}>
             {/* header del cliente */}
             <div style={{ background: config.primaryColor, padding: "24px 32px", display: "flex", alignItems: "center", gap: 16 }}>
               <div style={{ width: 44, height: 44, borderRadius: 10, background: "rgba(255,255,255,0.25)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, fontWeight: 700, color: "#fff" }}>{config.logoText}</div>
@@ -113,24 +113,24 @@ export function PanelClients() {
             </div>
             <div style={{ padding: "32px 32px 40px" }}>
               <div style={{ textAlign: "center", marginBottom: 32 }}>
-                <h2 style={{ fontSize: 26, fontWeight: 700, margin: "0 0 8px", color: C.panelInk }}>elegí tu plan</h2>
-                <p style={{ fontSize: 14, color: C.gray, margin: 0 }}>todos los planes incluyen onboarding y soporte en los primeros 30 días</p>
+                <h2 style={{ fontSize: 26, fontWeight: 700, margin: "0 0 8px", color: "var(--tc-ink)" }}>elegí tu plan</h2>
+                <p style={{ fontSize: 14, color: "var(--tc-soft)", margin: 0 }}>todos los planes incluyen onboarding y soporte en los primeros 30 días</p>
               </div>
               <div style={{ display: "grid", gridTemplateColumns: `repeat(${PLAN_PUBLISHED.length},1fr)`, gap: 16 }}>
                 {PLAN_PUBLISHED.map((plan, i) => {
                   const featured = i === Math.floor(PLAN_PUBLISHED.length / 2);
                   return (
-                    <div key={plan.id} style={{ background: featured ? config.primaryColor : C.panelSurface, border: `2px solid ${featured ? config.primaryColor : C.panelLine}`, borderRadius: 14, padding: "24px 20px", position: "relative" }}>
+                    <div key={plan.id} style={{ background: featured ? config.primaryColor : "var(--tc-card)", border: `2px solid ${featured ? config.primaryColor : "var(--tc-border)"}`, borderRadius: 14, padding: "24px 20px", position: "relative" }}>
                       {featured && (
-                        <div style={{ position: "absolute", top: -12, left: "50%", transform: "translateX(-50%)", background: C.panelInk, color: "#fff", fontSize: 10, fontWeight: 700, padding: "3px 12px", borderRadius: 20, textTransform: "lowercase", whiteSpace: "nowrap" }}>más popular</div>
+                        <div style={{ position: "absolute", top: -12, left: "50%", transform: "translateX(-50%)", background: "var(--tc-ink)", color: "#fff", fontSize: 10, fontWeight: 700, padding: "3px 12px", borderRadius: 20, textTransform: "lowercase", whiteSpace: "nowrap" }}>más popular</div>
                       )}
-                      <div style={{ fontSize: 13, fontWeight: 600, textTransform: "lowercase", color: featured ? "rgba(255,255,255,0.8)" : C.gray, marginBottom: 6 }}>{plan.sub}</div>
-                      <div style={{ fontSize: 22, fontWeight: 700, color: featured ? "#fff" : C.panelInk, marginBottom: 4 }}>{fmt(plan.sell)}</div>
-                      <div style={{ fontSize: 11, color: featured ? "rgba(255,255,255,0.7)" : C.gray, marginBottom: 20 }}>{config.currency} · pago único</div>
+                      <div style={{ fontSize: 13, fontWeight: 600, textTransform: "lowercase", color: featured ? "rgba(255,255,255,0.8)" : "var(--tc-soft)", marginBottom: 6 }}>{plan.sub}</div>
+                      <div style={{ fontSize: 22, fontWeight: 700, color: featured ? "#fff" : "var(--tc-ink)", marginBottom: 4 }}>{fmt(plan.sell)}</div>
+                      <div style={{ fontSize: 11, color: featured ? "rgba(255,255,255,0.7)" : "var(--tc-soft)", marginBottom: 20 }}>{config.currency} · pago único</div>
                       {config.showDiscount && (
-                        <div style={{ fontSize: 11, color: featured ? "rgba(255,255,255,0.7)" : C.gray, marginBottom: 16, textDecoration: "line-through" }}>{fmt(plan.price)}</div>
+                        <div style={{ fontSize: 11, color: featured ? "rgba(255,255,255,0.7)" : "var(--tc-soft)", marginBottom: 16, textDecoration: "line-through" }}>{fmt(plan.price)}</div>
                       )}
-                      <div style={{ fontSize: 13, fontWeight: 600, color: featured ? "#fff" : C.panelInk, marginBottom: 12 }}>{plan.name}</div>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: featured ? "#fff" : "var(--tc-ink)", marginBottom: 12 }}>{plan.name}</div>
                       <button style={{ width: "100%", background: featured ? "rgba(255,255,255,0.2)" : config.primaryColor, color: featured ? "#fff" : C.steel, border: featured ? "1px solid rgba(255,255,255,0.3)" : "none", borderRadius: 8, padding: "10px 0", fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "inherit", textTransform: "lowercase" }}>
                         quiero este plan
                       </button>
@@ -138,7 +138,7 @@ export function PanelClients() {
                   );
                 })}
               </div>
-              <div style={{ textAlign: "center", marginTop: 24, fontSize: 12.5, color: C.gray }}>
+              <div style={{ textAlign: "center", marginTop: 24, fontSize: 12.5, color: "var(--tc-soft)" }}>
                 ¿tenés dudas? <span style={{ color: config.primaryColor, fontWeight: 600, cursor: "pointer" }}>escribinos</span>
               </div>
             </div>
@@ -150,7 +150,7 @@ export function PanelClients() {
       {tab === "configurar" && (
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
           <div>
-            <div style={{ background: C.panelSurface, border: `1px solid ${C.panelLine}`, borderRadius: 14, padding: 22, marginBottom: 16 }}>
+            <div style={{ background: "var(--tc-card)", border: `1px solid var(--tc-border)`, borderRadius: 14, padding: 22, marginBottom: 16 }}>
               <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 16, textTransform: "lowercase" }}>identidad de marca</div>
               <div style={{ display: "grid", gap: 14 }}>
                 {[
@@ -159,38 +159,38 @@ export function PanelClients() {
                   { label: "tagline / bajada",       key: "tagline",   value: config.tagline   },
                 ].map(field => (
                   <div key={field.key}>
-                    <label style={{ fontSize: 11.5, color: C.gray, display: "block", marginBottom: 5, textTransform: "lowercase" }}>{field.label}</label>
+                    <label style={{ fontSize: 11.5, color: "var(--tc-soft)", display: "block", marginBottom: 5, textTransform: "lowercase" }}>{field.label}</label>
                     <input value={field.value} onChange={e => setConfig(p => ({ ...p, [field.key]: e.target.value }))}
-                      style={{ width: "100%", background: C.panelBg, border: `1px solid ${C.panelLine}`, borderRadius: 8, padding: "9px 12px", fontSize: 13, color: C.panelInk, fontFamily: "inherit", outline: "none" }} />
+                      style={{ width: "100%", background: "var(--tc-sub)", border: `1px solid var(--tc-border)`, borderRadius: 8, padding: "9px 12px", fontSize: 13, color: "var(--tc-ink)", fontFamily: "inherit", outline: "none" }} />
                   </div>
                 ))}
               </div>
             </div>
-            <div style={{ background: C.panelSurface, border: `1px solid ${C.panelLine}`, borderRadius: 14, padding: 22 }}>
+            <div style={{ background: "var(--tc-card)", border: `1px solid var(--tc-border)`, borderRadius: 14, padding: 22 }}>
               <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 16, textTransform: "lowercase" }}>opciones de visualización</div>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 0", borderBottom: `1px solid ${C.panelLine}` }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 0", borderBottom: `1px solid var(--tc-border)` }}>
                 <div>
                   <div style={{ fontSize: 13 }}>mostrar precio tachado</div>
-                  <div style={{ fontSize: 11.5, color: C.gray, marginTop: 2 }}>muestra el precio base comparativo</div>
+                  <div style={{ fontSize: 11.5, color: "var(--tc-soft)", marginTop: 2 }}>muestra el precio base comparativo</div>
                 </div>
                 <div onClick={() => setConfig(p => ({ ...p, showDiscount: !p.showDiscount }))}
-                  style={{ width: 40, height: 22, borderRadius: 20, background: config.showDiscount ? C.green : C.panelLine, cursor: "pointer", position: "relative", transition: "background 200ms" }}>
+                  style={{ width: 40, height: 22, borderRadius: 20, background: config.showDiscount ? C.green : "var(--tc-border)", cursor: "pointer", position: "relative", transition: "background 200ms" }}>
                   <div style={{ position: "absolute", top: 3, left: config.showDiscount ? 21 : 3, width: 16, height: 16, borderRadius: "50%", background: "#fff", transition: "left 200ms" }} />
                 </div>
               </div>
               <div style={{ padding: "14px 0 0" }}>
-                <div style={{ fontSize: 12, color: C.gray, marginBottom: 8 }}>color principal</div>
+                <div style={{ fontSize: 12, color: "var(--tc-soft)", marginBottom: 8 }}>color principal</div>
                 <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
                   {[C.copper,"#3E6FA8","#3E8460","#6B5B95","#B5524A","#1C1E22"].map(color => (
                     <div key={color} onClick={() => setConfig(p => ({ ...p, primaryColor: color }))}
-                      style={{ width: 28, height: 28, borderRadius: "50%", background: color, cursor: "pointer", border: config.primaryColor === color ? `3px solid ${C.panelInk}` : `2px solid ${C.panelLine}`, boxSizing: "border-box" }} />
+                      style={{ width: 28, height: 28, borderRadius: "50%", background: color, cursor: "pointer", border: config.primaryColor === color ? `3px solid var(--tc-ink)` : `2px solid var(--tc-border)`, boxSizing: "border-box" }} />
                   ))}
                 </div>
               </div>
             </div>
           </div>
           {/* preview lateral */}
-          <div style={{ background: C.panelSurface, border: `1px solid ${C.panelLine}`, borderRadius: 14, overflow: "hidden" }}>
+          <div style={{ background: "var(--tc-card)", border: `1px solid var(--tc-border)`, borderRadius: 14, overflow: "hidden" }}>
             <div style={{ background: config.primaryColor, padding: "18px 20px", display: "flex", alignItems: "center", gap: 12 }}>
               <div style={{ width: 36, height: 36, borderRadius: 8, background: "rgba(255,255,255,0.25)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 700, color: "#fff" }}>{config.logoText}</div>
               <div>
@@ -199,19 +199,19 @@ export function PanelClients() {
               </div>
             </div>
             <div style={{ padding: 20 }}>
-              <div style={{ fontSize: 13, fontWeight: 700, color: C.panelInk, marginBottom: 16, textAlign: "center" }}>elegí tu plan</div>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "var(--tc-ink)", marginBottom: 16, textAlign: "center" }}>elegí tu plan</div>
               <div style={{ display: "grid", gap: 10 }}>
                 {PLAN_PUBLISHED.map((plan, i) => {
                   const featured = i === Math.floor(PLAN_PUBLISHED.length / 2);
                   return (
-                    <div key={plan.id} style={{ background: featured ? config.primaryColor : C.panelBg, borderRadius: 10, padding: "12px 14px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div key={plan.id} style={{ background: featured ? config.primaryColor : "var(--tc-sub)", borderRadius: 10, padding: "12px 14px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                       <div>
-                        <div style={{ fontSize: 12, fontWeight: 600, color: featured ? "#fff" : C.panelInk }}>{plan.name}</div>
-                        <div style={{ fontSize: 11, color: featured ? "rgba(255,255,255,0.7)" : C.gray }}>{plan.sub}</div>
+                        <div style={{ fontSize: 12, fontWeight: 600, color: featured ? "#fff" : "var(--tc-ink)" }}>{plan.name}</div>
+                        <div style={{ fontSize: 11, color: featured ? "rgba(255,255,255,0.7)" : "var(--tc-soft)" }}>{plan.sub}</div>
                       </div>
                       <div style={{ textAlign: "right" }}>
-                        {config.showDiscount && <div style={{ fontSize: 10, color: featured ? "rgba(255,255,255,0.6)" : C.gray, textDecoration: "line-through" }}>{fmt(plan.price)}</div>}
-                        <div style={{ fontSize: 14, fontWeight: 700, color: featured ? "#fff" : C.panelInk }}>{fmt(plan.sell)}</div>
+                        {config.showDiscount && <div style={{ fontSize: 10, color: featured ? "rgba(255,255,255,0.6)" : "var(--tc-soft)", textDecoration: "line-through" }}>{fmt(plan.price)}</div>}
+                        <div style={{ fontSize: 14, fontWeight: 700, color: featured ? "#fff" : "var(--tc-ink)" }}>{fmt(plan.sell)}</div>
                       </div>
                     </div>
                   );

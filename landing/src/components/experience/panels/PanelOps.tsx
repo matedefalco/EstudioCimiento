@@ -53,33 +53,33 @@ export function PanelOps() {
               <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10, paddingBottom: 8, borderBottom: `2px solid ${col.dot}` }}>
                 <span style={{ width: 7, height: 7, borderRadius: "50%", background: col.dot, display: "inline-block" }} />
                 <span style={{ fontSize: 12, fontWeight: 600, textTransform: "lowercase" }}>{col.name}</span>
-                <span style={{ fontSize: 10.5, color: C.gray, background: C.panelLine, borderRadius: 10, padding: "1px 6px", marginLeft: "auto" }}>{col.count}</span>
+                <span style={{ fontSize: 10.5, color: "var(--tc-soft)", background: "var(--tc-border)", borderRadius: 10, padding: "1px 6px", marginLeft: "auto" }}>{col.count}</span>
               </div>
               <div style={{ display: "grid", gap: 10 }}>
                 {col.items.map((it, i) => (
-                  <div key={i} style={{ background: C.panelSurface, border: `1px solid ${C.panelLine}`, borderRadius: 12, padding: "13px 14px", borderLeft: `3px solid ${col.dot}` }}>
+                  <div key={i} style={{ background: "var(--tc-card)", border: `1px solid var(--tc-border)`, borderRadius: 12, padding: "13px 14px", borderLeft: `3px solid ${col.dot}` }}>
                     <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
                       <Chip text={it.status} tone={it.sTone} />
-                      <span style={{ fontSize: 10.5, color: C.gray, fontFamily: "monospace" }}>{it.id}</span>
+                      <span style={{ fontSize: 10.5, color: "var(--tc-soft)", fontFamily: "monospace" }}>{it.id}</span>
                     </div>
                     <div style={{ fontSize: 13, fontWeight: 500, marginBottom: 6, lineHeight: 1.35 }}>{it.t}</div>
-                    <div style={{ fontSize: 10.5, color: C.gray, marginBottom: 10 }}>{it.proj}</div>
+                    <div style={{ fontSize: 10.5, color: "var(--tc-soft)", marginBottom: 10 }}>{it.proj}</div>
                     {it.progress > 0 && it.progress < 100 && (
                       <div style={{ marginBottom: 10 }}>
                         <ProgressBar value={it.progress} tone={col.tone} />
-                        <span style={{ fontSize: 10, color: C.gray }}>{it.progress}%</span>
+                        <span style={{ fontSize: 10, color: "var(--tc-soft)" }}>{it.progress}%</span>
                       </div>
                     )}
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: 10, borderTop: `1px solid ${C.panelLine}` }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: 10, borderTop: `1px solid var(--tc-border)` }}>
                       <AvatarGroup people={it.who} size={22} />
                       <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                        <span style={{ fontSize: 10.5, color: C.gray }}>⚑ {it.date}</span>
+                        <span style={{ fontSize: 10.5, color: "var(--tc-soft)" }}>⚑ {it.date}</span>
                         <Chip text={it.priority} tone={it.pTone} />
                       </div>
                     </div>
                   </div>
                 ))}
-                <div style={{ border: `1.5px dashed ${C.panelLine}`, borderRadius: 12, padding: "10px 14px", fontSize: 12, color: C.gray, cursor: "pointer", textAlign: "center" }}>+ agregar tarea</div>
+                <div style={{ border: `1.5px dashed var(--tc-border)`, borderRadius: 12, padding: "10px 14px", fontSize: 12, color: "var(--tc-soft)", cursor: "pointer", textAlign: "center" }}>+ agregar tarea</div>
               </div>
             </div>
           ))}
@@ -90,7 +90,7 @@ export function PanelOps() {
       {tab === "lista" && (
         <div>
           {selRows.length > 0 && (
-            <div style={{ background: C.panelInk, color: "#fff", borderRadius: 10, padding: "10px 18px", display: "flex", alignItems: "center", gap: 16, marginBottom: 12, fontSize: 12.5 }}>
+            <div style={{ background: "var(--tc-ink)", color: "#fff", borderRadius: 10, padding: "10px 18px", display: "flex", alignItems: "center", gap: 16, marginBottom: 12, fontSize: 12.5 }}>
               <span style={{ fontWeight: 600 }}>{selRows.length} seleccionadas</span>
               <div style={{ display: "flex", gap: 8, marginLeft: "auto" }}>
                 {["exportar","editar"].map(a => <button key={a} style={{ background: "rgba(255,255,255,0.12)", color: "#fff", fontSize: 12, padding: "5px 12px", borderRadius: 6, border: "none", cursor: "pointer", fontFamily: "inherit" }}>{a}</button>)}
@@ -101,31 +101,31 @@ export function PanelOps() {
           )}
           {GROUPS.map(g => (
             <div key={g.name} style={{ marginBottom: 20 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 18px", background: C.panelSurface, borderRadius: "12px 12px 0 0", border: `1px solid ${C.panelLine}`, borderBottom: "none" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 18px", background: "var(--tc-card)", borderRadius: "12px 12px 0 0", border: `1px solid var(--tc-border)`, borderBottom: "none" }}>
                 <span style={{ width: 7, height: 7, borderRadius: "50%", background: g.dot, display: "inline-block" }} />
                 <span style={{ fontSize: 12.5, fontWeight: 600, textTransform: "lowercase" }}>{g.name}</span>
-                <span style={{ fontSize: 11, color: C.gray, background: C.panelLine, borderRadius: 10, padding: "1px 7px" }}>{g.count}</span>
+                <span style={{ fontSize: 11, color: "var(--tc-soft)", background: "var(--tc-border)", borderRadius: 10, padding: "1px 7px" }}>{g.count}</span>
               </div>
-              <div style={{ background: C.panelSurface, border: `1px solid ${C.panelLine}`, borderTop: "none", borderRadius: "0 0 12px 12px", overflow: "hidden" }}>
-                <div style={{ display: "grid", gridTemplateColumns: "36px 90px 1.6fr 1fr 1fr 70px 90px 90px 32px", padding: "10px 18px", fontSize: 10.5, color: C.gray, letterSpacing: "0.06em", borderBottom: `1px solid ${C.panelLine}`, textTransform: "lowercase" }}>
+              <div style={{ background: "var(--tc-card)", border: `1px solid var(--tc-border)`, borderTop: "none", borderRadius: "0 0 12px 12px", overflow: "hidden" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "36px 90px 1.6fr 1fr 1fr 70px 90px 90px 32px", padding: "10px 18px", fontSize: 10.5, color: "var(--tc-soft)", letterSpacing: "0.06em", borderBottom: `1px solid var(--tc-border)`, textTransform: "lowercase" }}>
                   {["","id","nombre","responsable","proyecto","progreso","vence","prioridad",""].map((h,i) => <span key={i}>{h}</span>)}
                 </div>
                 {g.items.map((r, i) => {
                   const sel = selRows.includes(r.id);
                   return (
-                    <div key={i} onClick={() => toggle(r.id)} style={{ display: "grid", gridTemplateColumns: "36px 90px 1.6fr 1fr 1fr 70px 90px 90px 32px", padding: "11px 18px", alignItems: "center", borderBottom: i < g.items.length - 1 ? `1px solid ${C.panelLine}` : "none", fontSize: 12.5, background: sel ? "rgba(216,145,73,0.05)" : "transparent", cursor: "pointer" }}>
+                    <div key={i} onClick={() => toggle(r.id)} style={{ display: "grid", gridTemplateColumns: "36px 90px 1.6fr 1fr 1fr 70px 90px 90px 32px", padding: "11px 18px", alignItems: "center", borderBottom: i < g.items.length - 1 ? `1px solid var(--tc-border)` : "none", fontSize: 12.5, background: sel ? "rgba(216,145,73,0.05)" : "transparent", cursor: "pointer" }}>
                       <input type="checkbox" readOnly checked={sel} onClick={e => e.stopPropagation()} style={{ accentColor: C.copper }} />
-                      <span style={{ fontSize: 11, color: C.gray, fontFamily: "monospace" }}>{r.id}</span>
+                      <span style={{ fontSize: 11, color: "var(--tc-soft)", fontFamily: "monospace" }}>{r.id}</span>
                       <span style={{ fontWeight: 500 }}>{r.t}</span>
                       <AvatarGroup people={r.who} size={24} />
-                      <span style={{ fontSize: 11.5, color: C.gray }}>{r.proj}</span>
+                      <span style={{ fontSize: 11.5, color: "var(--tc-soft)" }}>{r.proj}</span>
                       <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                        <div style={{ flex: 1, height: 4, background: C.panelLine, borderRadius: 20, overflow: "hidden", minWidth: 36 }}><div style={{ width: `${r.progress}%`, height: "100%", background: g.dot, borderRadius: 20 }} /></div>
-                        <span style={{ fontSize: 10, color: C.gray }}>{r.progress}%</span>
+                        <div style={{ flex: 1, height: 4, background: "var(--tc-border)", borderRadius: 20, overflow: "hidden", minWidth: 36 }}><div style={{ width: `${r.progress}%`, height: "100%", background: g.dot, borderRadius: 20 }} /></div>
+                        <span style={{ fontSize: 10, color: "var(--tc-soft)" }}>{r.progress}%</span>
                       </div>
-                      <span style={{ fontSize: 12, color: C.gray }}>{r.date}</span>
+                      <span style={{ fontSize: 12, color: "var(--tc-soft)" }}>{r.date}</span>
                       <Chip text={r.priority} tone={r.pTone} />
-                      <span style={{ fontSize: 14, color: C.gray, textAlign: "center" }}>⋯</span>
+                      <span style={{ fontSize: 14, color: "var(--tc-soft)", textAlign: "center" }}>⋯</span>
                     </div>
                   );
                 })}
@@ -141,8 +141,8 @@ export function PanelOps() {
           <div style={{ display: "flex", gap: 10, marginBottom: 20, flexWrap: "wrap" }}>
             {PERSONAS.map(p => (
               <div key={p} onClick={() => setFilterPersona(filterPersona === p ? null : p)}
-                style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 14px", borderRadius: 30, border: `1.5px solid ${filterPersona === p ? C.panelInk : C.panelLine}`, background: filterPersona === p ? C.panelInk : C.panelSurface, cursor: "pointer", fontSize: 12.5, fontWeight: 600, color: filterPersona === p ? "#fff" : C.panelInk }}>
-                <div style={{ width: 22, height: 22, borderRadius: "50%", background: filterPersona === p ? "rgba(255,255,255,0.2)" : C.panelBg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 700 }}>{p}</div>
+                style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 14px", borderRadius: 30, border: `1.5px solid ${filterPersona === p ? "var(--tc-ink)" : "var(--tc-border)"}`, background: filterPersona === p ? "var(--tc-ink)" : "var(--tc-card)", cursor: "pointer", fontSize: 12.5, fontWeight: 600, color: filterPersona === p ? "#fff" : "var(--tc-ink)" }}>
+                <div style={{ width: 22, height: 22, borderRadius: "50%", background: filterPersona === p ? "rgba(255,255,255,0.2)" : "var(--tc-sub)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 700 }}>{p}</div>
                 {PERSONA_NAMES[p]}
               </div>
             ))}
@@ -156,23 +156,23 @@ export function PanelOps() {
                   <div style={{ width: 32, height: 32, borderRadius: "50%", background: C.copper, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700 }}>{persona}</div>
                   <div>
                     <div style={{ fontSize: 13.5, fontWeight: 600 }}>{PERSONA_NAMES[persona]}</div>
-                    <div style={{ fontSize: 11.5, color: C.gray }}>{tasks.length} tarea{tasks.length > 1 ? "s" : ""} asignada{tasks.length > 1 ? "s" : ""}</div>
+                    <div style={{ fontSize: 11.5, color: "var(--tc-soft)" }}>{tasks.length} tarea{tasks.length > 1 ? "s" : ""} asignada{tasks.length > 1 ? "s" : ""}</div>
                   </div>
                 </div>
                 <div style={{ display: "grid", gap: 8 }}>
                   {tasks.map((r, i) => (
-                    <div key={i} style={{ background: C.panelSurface, border: `1px solid ${C.panelLine}`, borderRadius: 10, padding: "12px 16px", display: "flex", alignItems: "center", gap: 16 }}>
+                    <div key={i} style={{ background: "var(--tc-card)", border: `1px solid var(--tc-border)`, borderRadius: 10, padding: "12px 16px", display: "flex", alignItems: "center", gap: 16 }}>
                       <div style={{ width: 8, height: 8, borderRadius: "50%", background: r.dot, flexShrink: 0 }} />
                       <div style={{ flex: 1 }}>
                         <div style={{ fontSize: 13, fontWeight: 500 }}>{r.t}</div>
-                        <div style={{ fontSize: 11, color: C.gray, marginTop: 2 }}>{r.proj}</div>
+                        <div style={{ fontSize: 11, color: "var(--tc-soft)", marginTop: 2 }}>{r.proj}</div>
                       </div>
                       <Chip text={r.status} tone={r.sTone} />
                       <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                        <div style={{ width: 60, height: 4, background: C.panelLine, borderRadius: 20, overflow: "hidden" }}><div style={{ width: `${r.progress}%`, height: "100%", background: r.dot, borderRadius: 20 }} /></div>
-                        <span style={{ fontSize: 10.5, color: C.gray }}>{r.progress}%</span>
+                        <div style={{ width: 60, height: 4, background: "var(--tc-border)", borderRadius: 20, overflow: "hidden" }}><div style={{ width: `${r.progress}%`, height: "100%", background: r.dot, borderRadius: 20 }} /></div>
+                        <span style={{ fontSize: 10.5, color: "var(--tc-soft)" }}>{r.progress}%</span>
                       </div>
-                      <span style={{ fontSize: 11.5, color: C.gray }}>⚑ {r.date}</span>
+                      <span style={{ fontSize: 11.5, color: "var(--tc-soft)" }}>⚑ {r.date}</span>
                       <Chip text={r.priority} tone={r.pTone} />
                     </div>
                   ))}
@@ -191,7 +191,7 @@ export function PanelOps() {
               <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
                 <div style={{ width: 10, height: 10, borderRadius: "50%", background: g.dot }} />
                 <span style={{ fontSize: 14, fontWeight: 600, textTransform: "lowercase" }}>{g.name}</span>
-                <span style={{ fontSize: 11.5, color: C.gray }}>· {g.count} tareas en total</span>
+                <span style={{ fontSize: 11.5, color: "var(--tc-soft)" }}>· {g.count} tareas en total</span>
                 <div style={{ marginLeft: "auto", display: "flex", gap: 6 }}>
                   {g.items.map(it => it.who).flat().filter((v,i,a)=>a.indexOf(v)===i).map((p,i) => (
                     <div key={p} style={{ width: 24, height: 24, borderRadius: "50%", background: [C.copper,C.blue,C.green,C.purple][i%4], color: "#fff", fontSize: 9, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center" }}>{p}</div>
@@ -200,21 +200,21 @@ export function PanelOps() {
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(280px,1fr))", gap: 10 }}>
                 {g.items.map((it, i) => (
-                  <div key={i} style={{ background: C.panelSurface, border: `1px solid ${C.panelLine}`, borderRadius: 12, padding: "14px 16px" }}>
+                  <div key={i} style={{ background: "var(--tc-card)", border: `1px solid var(--tc-border)`, borderRadius: 12, padding: "14px 16px" }}>
                     <div style={{ fontSize: 13, fontWeight: 500, marginBottom: 8 }}>{it.t}</div>
-                    <div style={{ fontSize: 11, color: C.gray, marginBottom: 10 }}>{it.proj}</div>
+                    <div style={{ fontSize: 11, color: "var(--tc-soft)", marginBottom: 10 }}>{it.proj}</div>
                     {it.progress > 0 && (
                       <div style={{ marginBottom: 10 }}>
                         <ProgressBar value={it.progress} tone={g.tone} />
                         <div style={{ display: "flex", justifyContent: "space-between", marginTop: 3 }}>
-                          <span style={{ fontSize: 10, color: C.gray }}>progreso</span>
-                          <span style={{ fontSize: 10, fontWeight: 600, color: C.panelInk }}>{it.progress}%</span>
+                          <span style={{ fontSize: 10, color: "var(--tc-soft)" }}>progreso</span>
+                          <span style={{ fontSize: 10, fontWeight: 600, color: "var(--tc-ink)" }}>{it.progress}%</span>
                         </div>
                       </div>
                     )}
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                       <AvatarGroup people={it.who} size={22} />
-                      <span style={{ fontSize: 11.5, color: C.gray }}>⚑ {it.date}</span>
+                      <span style={{ fontSize: 11.5, color: "var(--tc-soft)" }}>⚑ {it.date}</span>
                     </div>
                   </div>
                 ))}
