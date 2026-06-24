@@ -7,6 +7,9 @@ import { PanelOps } from "./panels/PanelOps";
 import { PanelFin } from "./panels/PanelFin";
 import { PanelStock } from "./panels/PanelStock";
 import { PanelClients } from "./panels/PanelClients";
+import { PanelCRM } from "./panels/PanelCRM";
+import { PanelAgenda } from "./panels/PanelAgenda";
+import { PanelReportes } from "./panels/PanelReportes";
 
 interface Props {
   selected: string[];
@@ -80,6 +83,9 @@ export function Dashboard({ selected, brandName, activeSection, setActiveSection
         {activeSection === "fin"      && <PanelFin />}
         {activeSection === "stock"    && <PanelStock />}
         {activeSection === "clients"  && <PanelClients />}
+        {activeSection === "crm"      && <PanelCRM />}
+        {activeSection === "agenda"   && <PanelAgenda />}
+        {activeSection === "reportes" && <PanelReportes />}
       </div>
     </div>
   );

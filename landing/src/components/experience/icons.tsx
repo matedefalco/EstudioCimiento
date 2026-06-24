@@ -8,6 +8,10 @@ export function Icon({ name, size = 16, color = "currentColor" }: { name: string
     emprendimiento: <><path d="M8 13V9M5.5 11h5"/><path d="M8 2c0 0-4 3-4 6h8c0-3-4-6-4-6z"/><path d="M6 8v1M10 8v1"/></>,
     agencia:        <><circle cx="5.5" cy="6" r="2"/><circle cx="10.5" cy="6" r="2"/><path d="M1 14c0-2.5 2-4 4.5-4M15 14c0-2.5-2-4-4.5-4"/><path d="M5.5 10c1.38 0 2.5 1.5 5 0"/></>,
     servicios:      <><rect x="4" y="7" width="8" height="7" rx="1"/><path d="M6 7V5a2 2 0 014 0v2"/><circle cx="8" cy="11" r="1"/></>,
+    // new modules
+    crm:            <><circle cx="8" cy="5" r="2.5"/><path d="M3 14c0-2.76 2.24-5 5-5s5 2.24 5 5"/><path d="M12 8l1.5 1.5L16 7"/></>,
+    agenda:         <><rect x="2" y="4" width="12" height="11" rx="1"/><path d="M2 8h12M6 2v3M10 2v3"/><path d="M5 11h2M9 11h2"/></>,
+    reportes:       <><path d="M2 13l3-4 3 2 3-5 3 3"/><rect x="2" y="14" width="12" height="1" rx="0.5"/><path d="M14 2v12"/></>,
     // dashboard
     resumen:        <><rect x="2" y="2" width="5" height="5" rx="0.5"/><rect x="9" y="2" width="5" height="5" rx="0.5"/><rect x="2" y="9" width="5" height="5" rx="0.5"/><rect x="9" y="9" width="5" height="5" rx="0.5"/></>,
     // modules

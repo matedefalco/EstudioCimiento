@@ -25,10 +25,13 @@ export const C = {
 };
 
 export const COMPONENTS = [
-  { id: "ops",     name: "operaciones",           desc: "el día a día organizado: quién hace qué, y para cuándo.", glyph: "▤" },
-  { id: "fin",     name: "finanzas",              desc: "ingresos, egresos y números claros, sin pelear con el excel.", glyph: "◆" },
-  { id: "stock",   name: "stock",                 desc: "qué tenés, qué falta y qué se mueve, en un solo lugar.", glyph: "▦" },
-  { id: "clients", name: "cotizador para tus clientes", desc: "lo mismo que estás viviendo ahora, para ofrecerle a los tuyos.", glyph: "◇" },
+  { id: "ops",      name: "operaciones",                desc: "el día a día organizado: quién hace qué, y para cuándo.", glyph: "▤" },
+  { id: "fin",      name: "finanzas",                   desc: "ingresos, egresos y números claros, sin pelear con el excel.", glyph: "◆" },
+  { id: "stock",    name: "stock",                      desc: "qué tenés, qué falta y qué se mueve, en un solo lugar.", glyph: "▦" },
+  { id: "clients",  name: "cotizador para tus clientes", desc: "lo mismo que estás viviendo ahora, para ofrecerle a los tuyos.", glyph: "◇" },
+  { id: "crm",      name: "crm",                        desc: "tu pipeline y tus clientes, en un solo lugar.", glyph: "◎" },
+  { id: "agenda",   name: "agenda",                     desc: "tus turnos y disponibilidad, sin ir y venir por whatsapp.", glyph: "◷" },
+  { id: "reportes", name: "reportes",                   desc: "todo lo que pasa en tu negocio, en un solo lugar.", glyph: "◈" },
 ];
 
 export const RUBRO_OPTIONS = [
@@ -131,11 +134,14 @@ export const FASES = [
 ];
 
 export const SECTION_META: Record<string, { label: string; glyph: string }> = {
-  resumen: { label: "resumen",       glyph: "◆" },
-  ops:     { label: "operaciones",   glyph: "▤" },
-  fin:     { label: "finanzas",      glyph: "◆" },
-  stock:   { label: "stock",         glyph: "▦" },
-  clients: { label: "cotizaciones",  glyph: "◇" },
+  resumen:   { label: "resumen",       glyph: "◆" },
+  ops:       { label: "operaciones",   glyph: "▤" },
+  fin:       { label: "finanzas",      glyph: "◆" },
+  stock:     { label: "stock",         glyph: "▦" },
+  clients:   { label: "cotizaciones",  glyph: "◇" },
+  crm:       { label: "crm",           glyph: "◎" },
+  agenda:    { label: "agenda",        glyph: "◷" },
+  reportes:  { label: "reportes",      glyph: "◈" },
 };
 
 export const STOCK_ITEMS = [
