@@ -10,14 +10,6 @@ const primaryBtn: React.CSSProperties = {
   borderRadius: 4, border: "none", cursor: "pointer", fontFamily: "inherit",
 };
 
-const CASES = [
-  {
-    name: "gryphon",
-    rubro: "servicios financieros",
-    modules: ["operaciones", "finanzas"],
-    desc: "plataforma a medida para gestionar comitentes, operaciones y base de datos. redujo ampliamente los tiempos de carga y revisión.",
-  },
-];
 
 function BuildingSVG({ activePhase }: { activePhase: number }) {
   const floorFill = (i: number) => {
@@ -135,25 +127,6 @@ export function LearnFlow({ onDone, onReset }: Props) {
                 {FASES[activePhase].desc}
               </div>
             </div>
-          </div>
-
-          {/* cases */}
-          <div style={{ borderTop: `1px solid ${C.line}`, paddingTop: 24 }}>
-            <div style={{ fontSize: 11, letterSpacing: "0.22em", color: C.grayCold, textTransform: "lowercase", marginBottom: 16 }}>caso de éxito</div>
-            {CASES.map(c => (
-              <div key={c.name} style={{ background: C.surface, border: `1px solid ${C.line}`, borderRadius: 10, padding: "16px 20px" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
-                  <div style={{ fontSize: 16, fontWeight: 600, color: C.cream, textTransform: "lowercase" }}>{c.name}</div>
-                  <div style={{ fontSize: 11, color: C.grayCold, background: "rgba(242,240,234,0.07)", borderRadius: 20, padding: "3px 10px" }}>{c.rubro}</div>
-                </div>
-                <div style={{ fontSize: 13, color: C.grayCold, lineHeight: 1.55, marginBottom: 10 }}>{c.desc}</div>
-                <div style={{ display: "flex", gap: 6 }}>
-                  {c.modules.map(m => (
-                    <span key={m} style={{ fontSize: 10, letterSpacing: "0.08em", color: C.copper, border: `1px solid rgba(216,145,73,0.35)`, borderRadius: 20, padding: "2px 10px", textTransform: "lowercase" }}>{m}</span>
-                  ))}
-                </div>
-              </div>
-            ))}
           </div>
 
           <button onClick={onDone} style={primaryBtn}>quiero mi cotización →</button>
