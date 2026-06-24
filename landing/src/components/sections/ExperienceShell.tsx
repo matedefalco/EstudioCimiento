@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import { C } from "@/components/experience/constants";
+import { FONT_PRESETS } from "@/components/experience/constants";
 import { Intro } from "@/components/experience/Intro";
 import { QuoteFlow } from "@/components/experience/QuoteFlow";
 import { Dashboard } from "@/components/experience/Dashboard";
 import { LearnFlow } from "@/components/experience/LearnFlow";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
+import { resolveThemeVars } from "@/lib/palettes";
 import type { QuoteState } from "@/types";
 
 type Mode = "intro" | "quote" | "learn";
@@ -19,8 +21,9 @@ const DEFAULT_QUOTE_STATE: QuoteState = {
   selected: [],
   size: null,
   brandName: "",
-  brandColor: "#D89149",
+  palette: "copper",
   interfaceStyle: "elegante",
+  fontPreset: "inter",
   contactName: "",
   contactEmail: "",
   contactCompany: "",
@@ -67,7 +70,9 @@ export function ExperienceShell() {
       tools: quoteState.tools,
       urgencia: quoteState.urgencia ?? undefined,
       brand_name: quoteState.brandName || undefined,
-      brand_color: quoteState.brandColor,
+      brand_palette: quoteState.palette,
+      brand_style: quoteState.interfaceStyle,
+      brand_font: quoteState.fontPreset,
     });
     go(6);
   };
@@ -79,6 +84,9 @@ export function ExperienceShell() {
     setActiveSection(null);
     setLearnStep(0);
   };
+
+  const fontVar = FONT_PRESETS.find(f => f.id === quoteState.fontPreset)?.var ?? "var(--font-inter)";
+  const themeVars = resolveThemeVars(quoteState.palette, quoteState.interfaceStyle, fontVar);
 
   return (
     <div style={{
@@ -117,15 +125,15 @@ export function ExperienceShell() {
       )}
 
       {mode === "quote" && step === 6 && (
-        <Dashboard
-          selected={quoteState.selected}
-          brandName={quoteState.brandName}
-          brandColor={quoteState.brandColor}
-          interfaceStyle={quoteState.interfaceStyle}
-          activeSection={activeSection ?? (quoteState.selected[0] ?? "resumen")}
-          setActiveSection={setActiveSection}
-          onReset={reset}
-        />
+        <div style={{ flex: 1, display: "flex", overflow: "hidden", ...themeVars } as React.CSSProperties}>
+          <Dashboard
+            selected={quoteState.selected}
+            brandName={quoteState.brandName}
+            activeSection={activeSection ?? (quoteState.selected[0] ?? "resumen")}
+            setActiveSection={setActiveSection}
+            onReset={reset}
+          />
+        </div>
       )}
 
       {mode === "learn" && (

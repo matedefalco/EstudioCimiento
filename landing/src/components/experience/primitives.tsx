@@ -118,7 +118,7 @@ export function SubTabs({ items, active, onChange }: { items: string[]; active: 
   );
 }
 
-export function MiniBar({ data, color = C.copper }: { data: number[]; color?: string }) {
+export function MiniBar({ data, color = "var(--tc-accent)" }: { data: number[]; color?: string }) {
   const max = Math.max(...data);
   return (
     <div style={{ display: "flex", alignItems: "flex-end", gap: 3, height: 40 }}>
@@ -205,7 +205,7 @@ export function Pagination({ page = 1, total = 30, perPage = 6 }: { page?: numbe
       <span>mostrando {(page - 1) * perPage + 1}–{Math.min(page * perPage, total)} de {total}</span>
       <div style={{ display: "flex", gap: 3 }}>
         {Array.from({ length: pages }).map((_, i) => (
-          <div key={i} style={{ width: 26, height: 26, borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11.5, fontWeight: 600, cursor: "pointer", background: i + 1 === page ? C.copper : "transparent", color: i + 1 === page ? "#fff" : tc.ink, border: i + 1 === page ? "none" : `1px solid ${tc.border}` }}>
+          <div key={i} style={{ width: 26, height: 26, borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11.5, fontWeight: 600, cursor: "pointer", background: i + 1 === page ? "var(--tc-accent)" : "transparent", color: i + 1 === page ? "var(--tc-accent-fg)" : tc.ink, border: i + 1 === page ? "none" : `1px solid ${tc.border}` }}>
             {i + 1}
           </div>
         ))}

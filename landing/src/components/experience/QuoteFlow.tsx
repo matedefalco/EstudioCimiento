@@ -1,13 +1,14 @@
 "use client";
-import { C, COMPONENTS, RUBRO_OPTIONS, MODALIDAD_OPTIONS, TOOLS_OPTIONS, URGENCIA_OPTIONS, SIZE_OPTIONS, BRAND_COLORS, INTERFACE_STYLES, getSuggestedModules } from "./constants";
+import { C, COMPONENTS, RUBRO_OPTIONS, MODALIDAD_OPTIONS, TOOLS_OPTIONS, URGENCIA_OPTIONS, SIZE_OPTIONS, BRAND_COLORS, INTERFACE_STYLES, FONT_PRESETS, getSuggestedModules } from "./constants";
 import { ECSymbol, Overline } from "./primitives";
 import { ParticleField } from "./ParticleField";
 import { Cimiento3D } from "./Cimiento3D";
+import { PALETTES } from "@/lib/palettes";
 import type { QuoteState } from "@/types";
 
 const h2s: React.CSSProperties = { fontSize: 30, fontWeight: 500, letterSpacing: "-0.02em", lineHeight: 1.15, margin: 0, textTransform: "lowercase" };
 const cardBase: React.CSSProperties = { background: C.surface, border: `1px solid ${C.line}`, borderRadius: 12, padding: "16px 18px", cursor: "pointer", transition: "all 200ms ease" };
-const primaryBtn: React.CSSProperties = { background: C.copper, color: C.steel, fontSize: 14, fontWeight: 600, letterSpacing: "0.04em", textTransform: "lowercase", padding: "15px 32px", borderRadius: 4, border: "none", cursor: "pointer", fontFamily: "inherit" };
+const primaryBtn: React.CSSProperties = { fontSize: 14, fontWeight: 600, letterSpacing: "0.04em", textTransform: "lowercase", padding: "15px 32px", borderRadius: 4, border: "none", cursor: "pointer", fontFamily: "inherit" };
 const inputStyle: React.CSSProperties = { background: C.surface, border: `1px solid ${C.line}`, borderRadius: 8, padding: "13px 16px", fontSize: 14.5, color: C.cream, fontFamily: "inherit", outline: "none", width: "100%", boxSizing: "border-box", transition: "border-color 200ms ease" };
 
 interface Props {
@@ -24,9 +25,13 @@ interface Props {
 }
 
 export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, toggleTool, toggleComp, onSubmit, submitStatus, submitError }: Props) {
-  const { rubro, modalidad, tools, urgencia, selected, size, brandName, brandColor, interfaceStyle, contactName, contactEmail, contactCompany } = quoteState;
+  const { rubro, modalidad, tools, urgencia, selected, size, brandName, palette, interfaceStyle, fontPreset, contactName, contactEmail, contactCompany } = quoteState;
   const suggested = getSuggestedModules(rubro, urgencia);
   const canSubmit = contactName.trim() && contactEmail.trim() && selected.length > 0 && submitStatus !== "loading";
+
+  // current palette accent for use in QuoteFlow (EC-branded shell uses C.copper as base)
+  const currentPalette = PALETTES.find(p => p.id === palette) ?? PALETTES[0];
+  const accent = currentPalette.light.accent;
 
   return (
     <div style={{ position: "relative", flex: 1, display: "flex", flexDirection: "column" }}>
@@ -100,7 +105,7 @@ export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, 
             <button
               disabled={!modalidad}
               onClick={() => go(2)}
-              style={{ ...primaryBtn, marginTop: 28, opacity: !modalidad ? 0.35 : 1, cursor: !modalidad ? "not-allowed" : "pointer" }}>
+              style={{ ...primaryBtn, marginTop: 28, background: C.copper, color: C.steel, opacity: !modalidad ? 0.35 : 1, cursor: !modalidad ? "not-allowed" : "pointer" }}>
               seguir
             </button>
           </div>
@@ -151,7 +156,7 @@ export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, 
                 })}
               </div>
               <button disabled={selected.length === 0} onClick={() => go(4)}
-                style={{ ...primaryBtn, marginTop: 24, opacity: selected.length === 0 ? 0.35 : 1, cursor: selected.length === 0 ? "not-allowed" : "pointer" }}>
+                style={{ ...primaryBtn, marginTop: 24, background: C.copper, color: C.steel, opacity: selected.length === 0 ? 0.35 : 1, cursor: selected.length === 0 ? "not-allowed" : "pointer" }}>
                 seguir
               </button>
             </div>
@@ -166,11 +171,12 @@ export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, 
 
         {/* STEP 4: personalización */}
         {step === 4 && (
-          <div className="fade-stage" style={{ maxWidth: 560, width: "100%" }}>
+          <div className="fade-stage" style={{ maxWidth: 600, width: "100%" }}>
             <Overline>personalización · 5 de 6</Overline>
             <h2 style={h2s}>dale identidad a tu sistema</h2>
             <p style={{ fontSize: 14.5, color: C.grayCold, lineHeight: 1.55, marginTop: 14 }}>opcional, pero hace que el demo se sienta tuyo.</p>
 
+            {/* nombre */}
             <div style={{ marginTop: 32 }}>
               <div style={{ fontSize: 12, letterSpacing: "0.14em", color: C.grayCold, textTransform: "lowercase", marginBottom: 10 }}>nombre de tu negocio</div>
               <input
@@ -184,40 +190,51 @@ export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, 
               />
             </div>
 
+            {/* paleta de colores */}
             <div style={{ marginTop: 28 }}>
-              <div style={{ fontSize: 12, letterSpacing: "0.14em", color: C.grayCold, textTransform: "lowercase", marginBottom: 14 }}>acento de color del sistema</div>
+              <div style={{ fontSize: 12, letterSpacing: "0.14em", color: C.grayCold, textTransform: "lowercase", marginBottom: 14 }}>paleta de color</div>
               <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-                {BRAND_COLORS.map(bc => (
-                  <div key={bc.id} onClick={() => setQuoteField("brandColor", bc.hex)}
-                    style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, cursor: "pointer" }}>
-                    <div style={{
-                      width: 36, height: 36, borderRadius: "50%", background: bc.hex,
-                      border: brandColor === bc.hex ? `2px solid ${C.cream}` : "2px solid transparent",
-                      boxShadow: brandColor === bc.hex ? `0 0 0 2px ${bc.hex}` : "none",
-                      transition: "all 200ms ease",
-                    }} />
-                    <span style={{ fontSize: 10, color: brandColor === bc.hex ? C.cream : C.grayCold, letterSpacing: "0.08em" }}>{bc.label}</span>
-                  </div>
-                ))}
+                {BRAND_COLORS.map(bc => {
+                  const on = palette === bc.id;
+                  return (
+                    <div key={bc.id} onClick={() => setQuoteField("palette", bc.id)}
+                      style={{ cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+                      <div style={{
+                        width: 48, height: 48, borderRadius: 10, overflow: "hidden", display: "flex",
+                        outline: on ? `2px solid ${C.cream}` : "2px solid transparent",
+                        outlineOffset: 2, transition: "outline 200ms ease",
+                      }}>
+                        <div style={{ width: "36%", background: bc.sidebarBg }} />
+                        <div style={{ flex: 1, background: bc.contentBg, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                          <div style={{ width: 10, height: 6, background: bc.accent, borderRadius: 2 }} />
+                        </div>
+                      </div>
+                      <span style={{ fontSize: 10, color: on ? C.cream : C.grayCold, letterSpacing: "0.06em" }}>{bc.label}</span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
-            <div style={{ marginTop: 32 }}>
+            {/* estilo de interfaz */}
+            <div style={{ marginTop: 28 }}>
               <div style={{ fontSize: 12, letterSpacing: "0.14em", color: C.grayCold, textTransform: "lowercase", marginBottom: 14 }}>estilo de interfaz</div>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
                 {INTERFACE_STYLES.map(s => {
                   const on = interfaceStyle === s.id;
+                  const contentTokens = s.contentMode === "dark" ? currentPalette.dark : currentPalette.light;
+                  const sidebarTokens = s.sidebarDark ? currentPalette.dark : currentPalette.light;
                   return (
                     <div key={s.id} onClick={() => setQuoteField("interfaceStyle", s.id)}
-                      style={{ ...cardBase, padding: "14px 16px", borderColor: on ? brandColor : C.line, background: on ? "rgba(216,145,73,0.06)" : C.surface, cursor: "pointer" }}>
-                      {/* mini preview */}
-                      <div style={{ display: "flex", borderRadius: 6, overflow: "hidden", marginBottom: 10, height: 36, border: `1px solid ${C.line}` }}>
-                        <div style={{ width: "30%", background: s.sidebarBg }} />
-                        <div style={{ flex: 1, background: s.contentBg, display: "flex", alignItems: "center", justifyContent: "center", padding: 4 }}>
-                          <div style={{ width: "80%", height: "70%", background: s.cardBg, borderRadius: 3, border: `1px solid ${s.borderColor}` }} />
+                      style={{ ...cardBase, padding: "14px 16px", borderColor: on ? accent : C.line, background: on ? "rgba(255,255,255,0.04)" : C.surface, cursor: "pointer" }}>
+                      {/* mini preview con los colores de la paleta actual */}
+                      <div style={{ display: "flex", borderRadius: 5, overflow: "hidden", marginBottom: 10, height: 36, border: `1px solid ${C.line}` }}>
+                        <div style={{ width: "30%", background: sidebarTokens.sidebarBg }} />
+                        <div style={{ flex: 1, background: contentTokens.bg, display: "flex", alignItems: "center", justifyContent: "center", padding: 4 }}>
+                          <div style={{ width: "80%", height: "70%", background: contentTokens.surface, borderRadius: 2, border: `1px solid ${contentTokens.border}` }} />
                         </div>
                       </div>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: on ? brandColor : C.cream }}>{s.label}</div>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: on ? accent : C.cream }}>{s.label}</div>
                       <div style={{ fontSize: 11, color: C.grayCold, marginTop: 2 }}>{s.desc}</div>
                     </div>
                   );
@@ -225,7 +242,24 @@ export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, 
               </div>
             </div>
 
-            <button onClick={() => go(5)} style={{ ...primaryBtn, marginTop: 32, background: brandColor, color: "#fff" }}>
+            {/* tipografía */}
+            <div style={{ marginTop: 28 }}>
+              <div style={{ fontSize: 12, letterSpacing: "0.14em", color: C.grayCold, textTransform: "lowercase", marginBottom: 14 }}>tipografía</div>
+              <div style={{ display: "flex", gap: 10 }}>
+                {FONT_PRESETS.map(fp => {
+                  const on = fontPreset === fp.id;
+                  return (
+                    <div key={fp.id} onClick={() => setQuoteField("fontPreset", fp.id)}
+                      style={{ ...cardBase, flex: 1, padding: "12px 14px", borderColor: on ? accent : C.line, background: on ? "rgba(255,255,255,0.04)" : C.surface }}>
+                      <div style={{ fontSize: 15, fontWeight: 600, color: on ? accent : C.cream, fontFamily: fp.var, marginBottom: 3 }}>{fp.label}</div>
+                      <div style={{ fontSize: 10.5, color: C.grayCold }}>{fp.desc}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <button onClick={() => go(5)} style={{ ...primaryBtn, marginTop: 32, background: accent, color: "#fff" }}>
               seguir
             </button>
           </div>
@@ -242,17 +276,17 @@ export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, 
               <div>
                 <div style={{ fontSize: 12, letterSpacing: "0.14em", color: C.grayCold, textTransform: "lowercase", marginBottom: 8 }}>tu nombre *</div>
                 <input type="text" placeholder="ej: lucas" value={contactName} onChange={e => setQuoteField("contactName", e.target.value)}
-                  style={inputStyle} onFocus={e => (e.currentTarget.style.borderColor = brandColor)} onBlur={e => (e.currentTarget.style.borderColor = C.line)} />
+                  style={inputStyle} onFocus={e => (e.currentTarget.style.borderColor = accent)} onBlur={e => (e.currentTarget.style.borderColor = C.line)} />
               </div>
               <div>
                 <div style={{ fontSize: 12, letterSpacing: "0.14em", color: C.grayCold, textTransform: "lowercase", marginBottom: 8 }}>email *</div>
                 <input type="email" placeholder="ej: lucas@minegocio.com" value={contactEmail} onChange={e => setQuoteField("contactEmail", e.target.value)}
-                  style={inputStyle} onFocus={e => (e.currentTarget.style.borderColor = brandColor)} onBlur={e => (e.currentTarget.style.borderColor = C.line)} />
+                  style={inputStyle} onFocus={e => (e.currentTarget.style.borderColor = accent)} onBlur={e => (e.currentTarget.style.borderColor = C.line)} />
               </div>
               <div>
                 <div style={{ fontSize: 12, letterSpacing: "0.14em", color: C.grayCold, textTransform: "lowercase", marginBottom: 8 }}>empresa o negocio (opcional)</div>
                 <input type="text" placeholder={brandName || "ej: ferretería norte"} value={contactCompany} onChange={e => setQuoteField("contactCompany", e.target.value)}
-                  style={inputStyle} onFocus={e => (e.currentTarget.style.borderColor = brandColor)} onBlur={e => (e.currentTarget.style.borderColor = C.line)} />
+                  style={inputStyle} onFocus={e => (e.currentTarget.style.borderColor = accent)} onBlur={e => (e.currentTarget.style.borderColor = C.line)} />
               </div>
             </div>
 
@@ -261,8 +295,8 @@ export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, 
               <div style={{ display: "flex", gap: 10 }}>
                 {SIZE_OPTIONS.map(o => (
                   <div key={o.id} onClick={() => setQuoteField("size", o.id)}
-                    style={{ ...cardBase, padding: "10px 18px", flex: 1, textAlign: "center", borderColor: size === o.id ? brandColor : C.line, background: size === o.id ? "rgba(216,145,73,0.08)" : C.surface }}>
-                    <span style={{ fontSize: 13.5, color: size === o.id ? brandColor : C.cream }}>{o.label}</span>
+                    style={{ ...cardBase, padding: "10px 18px", flex: 1, textAlign: "center", borderColor: size === o.id ? accent : C.line, background: size === o.id ? "rgba(255,255,255,0.05)" : C.surface }}>
+                    <span style={{ fontSize: 13.5, color: size === o.id ? accent : C.cream }}>{o.label}</span>
                   </div>
                 ))}
               </div>
@@ -275,7 +309,7 @@ export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, 
             )}
 
             <button disabled={!canSubmit} onClick={onSubmit}
-              style={{ ...primaryBtn, marginTop: 28, background: brandColor, color: "#fff", opacity: !canSubmit ? 0.35 : 1, cursor: !canSubmit ? "not-allowed" : "pointer", width: "100%" }}>
+              style={{ ...primaryBtn, marginTop: 28, background: accent, color: "#fff", opacity: !canSubmit ? 0.35 : 1, cursor: !canSubmit ? "not-allowed" : "pointer", width: "100%" }}>
               {submitStatus === "loading" ? "enviando..." : "ver mi sistema →"}
             </button>
             <p style={{ fontSize: 12, color: C.grayCold, marginTop: 12, textAlign: "center" }}>no spam. te contactamos solo si tiene sentido para vos.</p>

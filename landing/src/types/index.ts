@@ -8,8 +8,9 @@ export interface QuoteState {
   selected: string[];
   size: string | null;
   brandName: string;
-  brandColor: string;
-  interfaceStyle: string;
+  palette: string;        // palette id: "copper" | "blue" | "green" | "purple" | "red" | "slate"
+  interfaceStyle: string; // "elegante" | "sofisticado" | "simple" | "profesional"
+  fontPreset: string;     // "inter" | "jakarta" | "sora"
   contactName: string;
   contactEmail: string;
   contactCompany: string;
@@ -31,7 +32,9 @@ export interface Lead {
     tools?: string[];
     urgencia?: string;
     brand_name?: string;
-    brand_color?: string;
+    brand_palette?: string;
+    brand_style?: string;
+    brand_font?: string;
   };
 }
 
@@ -47,7 +50,9 @@ export interface QuoteSubmission {
   tools?: string[];
   urgencia?: string;
   brand_name?: string;
-  brand_color?: string;
+  brand_palette?: string;
+  brand_style?: string;
+  brand_font?: string;
 }
 
 export type ModuleId = "ops" | "fin" | "stock" | "clients";

@@ -31,7 +31,9 @@ export async function POST(request: NextRequest) {
           tools: body.tools ?? [],
           urgencia: body.urgencia ?? null,
           brand_name: body.brand_name ?? null,
-          brand_color: body.brand_color ?? null,
+          brand_palette: body.brand_palette ?? null,
+          brand_style: body.brand_style ?? null,
+          brand_font: body.brand_font ?? null,
         },
       })
       .select("id")

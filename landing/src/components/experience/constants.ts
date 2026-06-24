@@ -69,97 +69,27 @@ export const SIZE_OPTIONS = [
   { id: "mid",   label: "6 a 15 personas" },
 ];
 
-export const BRAND_COLORS = [
-  { id: "copper",  label: "cobre",   hex: "#D89149" },
-  { id: "blue",    label: "azul",    hex: "#3E6FA8" },
-  { id: "green",   label: "verde",   hex: "#3E8460" },
-  { id: "purple",  label: "violeta", hex: "#6B5B95" },
-  { id: "red",     label: "rojo",    hex: "#B5524A" },
-  { id: "slate",   label: "pizarra", hex: "#607080" },
+import { PALETTES, STYLE_CONFIGS } from "@/lib/palettes";
+
+// Palettes re-exported for the QuoteFlow color picker
+export const BRAND_COLORS = PALETTES.map(p => ({
+  id: p.id,
+  label: p.label,
+  accent: p.light.accent,
+  sidebarBg: p.dark.sidebarBg,
+  contentBg: p.light.bg,
+  cardBg: p.light.surface,
+  borderColor: p.light.border,
+}));
+
+// Interface styles re-exported for the QuoteFlow style picker
+export const INTERFACE_STYLES = STYLE_CONFIGS;
+
+export const FONT_PRESETS = [
+  { id: "inter",   label: "inter",        desc: "técnica · neutral",      var: "var(--font-inter)"   },
+  { id: "jakarta", label: "plus jakarta", desc: "moderna · cálida",       var: "var(--font-jakarta)" },
+  { id: "sora",    label: "sora",         desc: "geométrica · amigable",  var: "var(--font-sora)"    },
 ];
-
-export interface InterfaceStyle {
-  id: string;
-  label: string;
-  desc: string;
-  sidebarBg: string;
-  sidebarText: string;
-  sidebarTextSoft: string;
-  contentBg: string;
-  cardBg: string;
-  cardSubBg: string;
-  borderColor: string;
-  ink: string;
-  inkSoft: string;
-  shadow: string;
-}
-
-export const INTERFACE_STYLES: InterfaceStyle[] = [
-  {
-    id: "elegante",
-    label: "elegante",
-    desc: "sidebar oscuro, paneles cálidos",
-    sidebarBg: "#1E2530",
-    sidebarText: "#F2F0EA",
-    sidebarTextSoft: "#8A93A0",
-    contentBg: "#F4F0E8",
-    cardBg: "#FFFFFF",
-    cardSubBg: "#F4F0E8",
-    borderColor: "#E7E1D3",
-    ink: "#1C1E22",
-    inkSoft: "#7A7468",
-    shadow: "0 2px 12px rgba(180,140,80,0.06)",
-  },
-  {
-    id: "sofisticado",
-    label: "sofisticado",
-    desc: "dark full, denso, sin distracciones",
-    sidebarBg: "#0F1419",
-    sidebarText: "#E8E8E8",
-    sidebarTextSoft: "#6B7280",
-    contentBg: "#1A2130",
-    cardBg: "#232D3A",
-    cardSubBg: "#1A2130",
-    borderColor: "rgba(255,255,255,0.08)",
-    ink: "#E8E8E8",
-    inkSoft: "#8A93A0",
-    shadow: "0 2px 8px rgba(0,0,0,0.3)",
-  },
-  {
-    id: "simple",
-    label: "simple",
-    desc: "todo claro, minimalista, sin sombras",
-    sidebarBg: "#F0EEE9",
-    sidebarText: "#1C1E22",
-    sidebarTextSoft: "#8A8276",
-    contentBg: "#F7F6F3",
-    cardBg: "#FFFFFF",
-    cardSubBg: "#F0EEE9",
-    borderColor: "#E2E0D9",
-    ink: "#1C1E22",
-    inkSoft: "#7A7468",
-    shadow: "none",
-  },
-  {
-    id: "profesional",
-    label: "profesional",
-    desc: "sidebar slate, bordes definidos",
-    sidebarBg: "#2D3748",
-    sidebarText: "#F7FAFC",
-    sidebarTextSoft: "#A0AEC0",
-    contentBg: "#F0F2F5",
-    cardBg: "#FFFFFF",
-    cardSubBg: "#F0F2F5",
-    borderColor: "#CBD5E0",
-    ink: "#1A202C",
-    inkSoft: "#718096",
-    shadow: "none",
-  },
-];
-
-export function getInterfaceStyle(id: string): InterfaceStyle {
-  return INTERFACE_STYLES.find(s => s.id === id) ?? INTERFACE_STYLES[0];
-}
 
 export function getSuggestedModules(rubro: string | null, urgencia: string | null): string[] {
   const suggestions: string[] = [];
