@@ -1,5 +1,6 @@
 "use client";
 import { C, COMPONENTS, RUBRO_OPTIONS, MODALIDAD_OPTIONS, TOOLS_OPTIONS, URGENCIA_OPTIONS, SIZE_OPTIONS, BRAND_COLORS, INTERFACE_STYLES, FONT_PRESETS, getSuggestedModules } from "./constants";
+import { Icon } from "./icons";
 import { ECSymbol, Overline } from "./primitives";
 import { ParticleField } from "./ParticleField";
 import { Cimiento3D } from "./Cimiento3D";
@@ -68,7 +69,7 @@ export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, 
               {RUBRO_OPTIONS.map(o => (
                 <div key={o.id} onClick={() => { setQuoteField("rubro", o.id); go(1); }}
                   style={{ ...cardBase, display: "flex", alignItems: "center", gap: 12, borderColor: rubro === o.id ? C.copper : C.line }}>
-                  <span style={{ fontSize: 16, color: rubro === o.id ? C.copper : C.grayCold, width: 20, textAlign: "center" }}>{o.glyph}</span>
+                  <Icon name={o.id} size={18} color={rubro === o.id ? C.copper : C.grayCold} />
                   <span style={{ fontSize: 14, color: C.cream }}>{o.label}</span>
                 </div>
               ))}
@@ -150,7 +151,7 @@ export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, 
                   return (
                     <div key={c.id} onClick={() => toggleComp(c.id)}
                       style={{ ...cardBase, display: "flex", alignItems: "center", gap: 16, borderColor: on ? C.copper : C.line, background: on ? "rgba(216,145,73,0.08)" : C.surface }}>
-                      <span style={{ fontSize: 18, color: on ? C.copper : C.grayCold, width: 22 }}>{c.glyph}</span>
+                      <Icon name={c.id} size={20} color={on ? C.copper : C.grayCold} />
                       <div style={{ flex: 1 }}>
                         <div style={{ fontSize: 15, fontWeight: 500, color: C.cream, display: "flex", alignItems: "center", gap: 8 }}>
                           {c.name}
@@ -259,7 +260,8 @@ export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, 
                   return (
                     <div key={fp.id} onClick={() => setQuoteField("fontPreset", fp.id)}
                       style={{ ...cardBase, flex: 1, padding: "12px 14px", borderColor: on ? accent : C.line, background: on ? "rgba(255,255,255,0.04)" : C.surface }}>
-                      <div style={{ fontSize: 15, fontWeight: 600, color: on ? accent : C.cream, fontFamily: fp.var, marginBottom: 3 }}>{fp.label}</div>
+                      <div style={{ fontSize: 26, fontWeight: 400, letterSpacing: "-0.01em", color: on ? accent : C.cream, fontFamily: fp.var, lineHeight: 1, marginBottom: 6 }}>Aa</div>
+                      <div style={{ fontSize: 11.5, fontWeight: 600, color: on ? accent : C.cream, fontFamily: fp.var, marginBottom: 3, textTransform: "lowercase" }}>{fp.label}</div>
                       <div style={{ fontSize: 10.5, color: C.grayCold }}>{fp.desc}</div>
                     </div>
                   );

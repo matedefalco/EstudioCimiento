@@ -1,72 +1,164 @@
 "use client";
+import { useState } from "react";
 import { C, FASES } from "./constants";
-import { ECSymbol, Overline } from "./primitives";
+import { ECSymbol } from "./primitives";
 import { ParticleField } from "./ParticleField";
 
-const h2s: React.CSSProperties = { fontSize: 30, fontWeight: 500, letterSpacing: "-0.02em", lineHeight: 1.15, margin: 0, textTransform: "lowercase" };
-const primaryBtn: React.CSSProperties = { background: C.copper, color: C.steel, fontSize: 14, fontWeight: 600, letterSpacing: "0.04em", textTransform: "lowercase", padding: "15px 32px", borderRadius: 4, border: "none", cursor: "pointer", fontFamily: "inherit" };
+const primaryBtn: React.CSSProperties = {
+  background: C.copper, color: C.steel, fontSize: 14, fontWeight: 600,
+  letterSpacing: "0.04em", textTransform: "lowercase", padding: "14px 28px",
+  borderRadius: 4, border: "none", cursor: "pointer", fontFamily: "inherit",
+};
 
-const CASE = [
-  { l: "contexto",  t: "una financiera manejaba toda su base de datos en un excel que le quedó corto al escalar." },
-  { l: "problema",  t: "sin un sistema central, cargar y revisar operaciones se volvía cada vez más lento." },
-  { l: "solución",  t: "una plataforma de gestión a medida para administrar comitentes, operaciones y bases de datos." },
-  { l: "resultado", t: "el sistema está en uso, redujo de forma amplia los tiempos de carga y revisión." },
+const CASES = [
+  {
+    name: "gryphon",
+    rubro: "servicios financieros",
+    modules: ["operaciones", "finanzas"],
+    desc: "plataforma a medida para gestionar comitentes, operaciones y base de datos. redujo ampliamente los tiempos de carga y revisión.",
+  },
 ];
 
-const TOTAL = 6;
+function BuildingSVG({ activePhase }: { activePhase: number }) {
+  const floorFill = (i: number) => {
+    if (i === activePhase) return C.copper;
+    if (i < activePhase) return "rgba(216,145,73,0.35)";
+    return "rgba(242,240,234,0.06)";
+  };
+  const windowFill = (i: number) =>
+    activePhase >= i ? "rgba(0,0,0,0.28)" : "rgba(242,240,234,0.04)";
+
+  return (
+    <svg width={130} height={190} viewBox="0 0 130 190" style={{ overflow: "visible" }}>
+      {/* roof */}
+      <polygon points="5,50 65,8 125,50"
+        fill={activePhase === 3 ? C.copper : "rgba(242,240,234,0.08)"}
+        stroke={activePhase === 3 ? C.copper : C.lineStrong} strokeWidth={1}
+        style={{ transition: "fill 400ms ease, stroke 400ms ease" }} />
+      {/* floor 4 — traspaso */}
+      <rect x={5} y={52} width={120} height={30} rx={0}
+        fill={floorFill(3)} stroke={C.lineStrong} strokeWidth={1}
+        style={{ transition: "fill 400ms ease" }} />
+      {[20, 58, 96].map(x => <rect key={x} x={x} y={59} width={14} height={16} rx={1} fill={windowFill(3)} style={{ transition: "fill 400ms ease" }} />)}
+      {/* floor 3 — validación */}
+      <rect x={5} y={84} width={120} height={30} rx={0}
+        fill={floorFill(2)} stroke={C.lineStrong} strokeWidth={1}
+        style={{ transition: "fill 400ms ease" }} />
+      {[20, 58, 96].map(x => <rect key={x} x={x} y={91} width={14} height={16} rx={1} fill={windowFill(2)} style={{ transition: "fill 400ms ease" }} />)}
+      {/* floor 2 — desarrollo */}
+      <rect x={5} y={116} width={120} height={30} rx={0}
+        fill={floorFill(1)} stroke={C.lineStrong} strokeWidth={1}
+        style={{ transition: "fill 400ms ease" }} />
+      {[20, 58, 96].map(x => <rect key={x} x={x} y={123} width={14} height={16} rx={1} fill={windowFill(1)} style={{ transition: "fill 400ms ease" }} />)}
+      {/* floor 1 — relevamiento */}
+      <rect x={5} y={148} width={120} height={30} rx={0}
+        fill={floorFill(0)} stroke={C.lineStrong} strokeWidth={1}
+        style={{ transition: "fill 400ms ease" }} />
+      {[20, 58].map(x => <rect key={x} x={x} y={155} width={14} height={16} rx={1} fill={windowFill(0)} style={{ transition: "fill 400ms ease" }} />)}
+      {/* door */}
+      <rect x={84} y={160} width={22} height={18} rx={1} fill="rgba(0,0,0,0.4)" />
+      {/* ground line */}
+      <line x1={0} y1={179} x2={130} y2={179} stroke={C.lineStrong} strokeWidth={1} />
+    </svg>
+  );
+}
 
 interface Props { step: number; setStep: (n: number) => void; onDone: () => void; onReset: () => void; }
 
-export function LearnFlow({ step, setStep, onDone, onReset }: Props) {
+export function LearnFlow({ onDone, onReset }: Props) {
+  const [activePhase, setActivePhase] = useState(0);
+
   return (
-    <div style={{ position: "relative", flex: 1, display: "flex", flexDirection: "column" }}>
+    <div style={{ position: "relative", flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
       <ParticleField active={true} intensity={2} />
       <div style={{ position: "absolute", inset: 0, backgroundImage: `linear-gradient(${C.line} 1px,transparent 1px),linear-gradient(90deg,${C.line} 1px,transparent 1px)`, backgroundSize: "64px 64px", opacity: 0.5, pointerEvents: "none" }} />
+
+      {/* header */}
       <div style={{ position: "absolute", top: 28, left: 32, display: "flex", alignItems: "center", gap: 10, zIndex: 5, cursor: "pointer" }} onClick={onReset}>
-        <ECSymbol size={22} /><span style={{ fontSize: 14, opacity: 0.9 }}>estudio <strong style={{ fontWeight: 600 }}>cimiento</strong></span>
+        <ECSymbol size={22} />
+        <span style={{ fontSize: 14, opacity: 0.9 }}>estudio <strong style={{ fontWeight: 600 }}>cimiento</strong></span>
       </div>
 
-      <div className="fade-stage" key={step} style={{ position: "relative", zIndex: 4, flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: 32 }}>
-        {step === 0 && (
-          <div style={{ maxWidth: 560, textAlign: "center" }}>
-            <Overline>nuestro proceso</Overline>
-            <h2 style={h2s}>cuatro fases, una base</h2>
-            <p style={{ fontSize: 14.5, color: C.grayCold, lineHeight: 1.55, marginTop: 14, maxWidth: 460, margin: "14px auto 0" }}>así trabajamos en cada proyecto, sin atajos y sin dejarte dependiendo de nosotros.</p>
-            <button onClick={() => setStep(1)} style={{ ...primaryBtn, marginTop: 32 }}>seguir</button>
-          </div>
-        )}
-        {step >= 1 && step <= 4 && (
-          <div style={{ maxWidth: 560, width: "100%" }}>
-            <Overline>{`fase ${FASES[step - 1].n}`}</Overline>
-            <h2 style={h2s}>{FASES[step - 1].title}</h2>
-            <p style={{ fontSize: 14.5, color: C.grayCold, lineHeight: 1.55, marginTop: 14, maxWidth: 460 }}>{FASES[step - 1].desc}</p>
-            <button onClick={() => setStep(step + 1)} style={{ ...primaryBtn, marginTop: 32 }}>seguir</button>
-          </div>
-        )}
-        {step === 5 && (
-          <div style={{ maxWidth: 600, width: "100%" }}>
-            <Overline>caso de uso</Overline>
-            <h2 style={h2s}>gryphon</h2>
-            <div style={{ display: "grid", gap: 14, marginTop: 24 }}>
-              {CASE.map(c => (
-                <div key={c.l} style={{ borderLeft: `2px solid ${C.copper}`, paddingLeft: 16 }}>
-                  <div style={{ fontSize: 11, letterSpacing: "0.18em", color: C.copper, textTransform: "lowercase", marginBottom: 4 }}>{c.l}</div>
-                  <div style={{ fontSize: 14, color: C.cream, lineHeight: 1.5 }}>{c.t}</div>
+      {/* main layout */}
+      <div className="fade-stage" style={{ position: "relative", zIndex: 4, flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "80px 40px 32px", gap: 60, flexWrap: "wrap" }}>
+
+        {/* LEFT: phase tabs */}
+        <div style={{ flex: "0 0 220px" }}>
+          <div style={{ fontSize: 11, letterSpacing: "0.28em", color: C.grayCold, textTransform: "lowercase", marginBottom: 28 }}>nuestro proceso</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+            {FASES.map((f, i) => {
+              const on = activePhase === i;
+              const done = i < activePhase;
+              return (
+                <div key={f.n} onClick={() => setActivePhase(i)}
+                  style={{
+                    display: "flex", alignItems: "center", gap: 14, padding: "13px 16px",
+                    borderRadius: 8, cursor: "pointer", transition: "all 200ms ease",
+                    background: on ? "rgba(216,145,73,0.10)" : "transparent",
+                    border: `1px solid ${on ? C.copper : "transparent"}`,
+                  }}>
+                  <div style={{
+                    width: 28, height: 28, borderRadius: "50%", flexShrink: 0,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: 10, fontWeight: 700, letterSpacing: "0.04em",
+                    background: on ? C.copper : done ? "rgba(216,145,73,0.25)" : "rgba(242,240,234,0.08)",
+                    color: on ? C.steel : done ? C.copper : C.grayCold,
+                    transition: "all 300ms ease",
+                  }}>{f.n}</div>
+                  <div>
+                    <div style={{ fontSize: 14, fontWeight: on ? 600 : 400, color: on ? C.cream : C.grayCold, textTransform: "lowercase", transition: "color 200ms ease" }}>{f.title}</div>
+                  </div>
                 </div>
-              ))}
-            </div>
-            <button onClick={onDone} style={{ ...primaryBtn, marginTop: 28 }}>quiero mi cotización</button>
+              );
+            })}
           </div>
-        )}
-      </div>
-
-      {step > 0 && (
-        <div style={{ position: "absolute", bottom: 28, left: 0, right: 0, display: "flex", justifyContent: "center", gap: 6, zIndex: 5 }}>
-          {Array.from({ length: TOTAL }).map((_, i) => (
-            <div key={i} style={{ width: 22, height: 4, background: i <= step ? C.copper : C.lineStrong, transition: "all 300ms ease" }} />
-          ))}
         </div>
-      )}
+
+        {/* RIGHT: building + phase description */}
+        <div style={{ flex: "1 1 320px", maxWidth: 440, display: "flex", flexDirection: "column", gap: 32 }}>
+          {/* building + description side by side */}
+          <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
+            <div style={{ flexShrink: 0 }}>
+              <BuildingSVG activePhase={activePhase} />
+              <div style={{ fontSize: 10, letterSpacing: "0.2em", color: C.grayCold, textAlign: "center", marginTop: 8, textTransform: "lowercase" }}>
+                {activePhase < 3 ? `${activePhase + 1} de 4` : "sistema completo"}
+              </div>
+            </div>
+            <div>
+              <div style={{ fontSize: 11, letterSpacing: "0.22em", color: C.copper, textTransform: "lowercase", marginBottom: 12 }}>
+                fase {FASES[activePhase].n}
+              </div>
+              <div style={{ fontSize: 22, fontWeight: 500, letterSpacing: "-0.01em", color: C.cream, textTransform: "lowercase", marginBottom: 12, lineHeight: 1.2 }}>
+                {FASES[activePhase].title}
+              </div>
+              <div style={{ fontSize: 14, color: C.grayCold, lineHeight: 1.6 }}>
+                {FASES[activePhase].desc}
+              </div>
+            </div>
+          </div>
+
+          {/* cases */}
+          <div style={{ borderTop: `1px solid ${C.line}`, paddingTop: 24 }}>
+            <div style={{ fontSize: 11, letterSpacing: "0.22em", color: C.grayCold, textTransform: "lowercase", marginBottom: 16 }}>caso de éxito</div>
+            {CASES.map(c => (
+              <div key={c.name} style={{ background: C.surface, border: `1px solid ${C.line}`, borderRadius: 10, padding: "16px 20px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+                  <div style={{ fontSize: 16, fontWeight: 600, color: C.cream, textTransform: "lowercase" }}>{c.name}</div>
+                  <div style={{ fontSize: 11, color: C.grayCold, background: "rgba(242,240,234,0.07)", borderRadius: 20, padding: "3px 10px" }}>{c.rubro}</div>
+                </div>
+                <div style={{ fontSize: 13, color: C.grayCold, lineHeight: 1.55, marginBottom: 10 }}>{c.desc}</div>
+                <div style={{ display: "flex", gap: 6 }}>
+                  {c.modules.map(m => (
+                    <span key={m} style={{ fontSize: 10, letterSpacing: "0.08em", color: C.copper, border: `1px solid rgba(216,145,73,0.35)`, borderRadius: 20, padding: "2px 10px", textTransform: "lowercase" }}>{m}</span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <button onClick={onDone} style={primaryBtn}>quiero mi cotización →</button>
+        </div>
+      </div>
     </div>
   );
 }
