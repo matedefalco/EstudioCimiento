@@ -63,9 +63,9 @@ export function PanelFin() {
               </div>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-              <div style={{ background: "#EFE3CB", border: `1px solid var(--tc-border)`, borderRadius: 14, padding: 20 }}>
-                <div style={{ fontSize: 12, color: "#6B5526", marginBottom: 6 }}>control de presupuesto mensual</div>
-                <div style={{ fontSize: 20, fontWeight: 700, marginBottom: 6 }}>$344.480 <span style={{ fontSize: 12, fontWeight: 400, color: "#6B5526" }}>de $500.000</span></div>
+              <div style={{ background: "rgba(181,134,60,0.10)", border: `1px solid rgba(181,134,60,0.25)`, borderRadius: 14, padding: 20 }}>
+                <div style={{ fontSize: 12, color: "var(--tc-soft)", marginBottom: 6 }}>control de presupuesto mensual</div>
+                <div style={{ fontSize: 20, fontWeight: 700, color: "var(--tc-ink)", marginBottom: 6 }}>$344.480 <span style={{ fontSize: 12, fontWeight: 400, color: "var(--tc-soft)" }}>de $500.000</span></div>
                 <ProgressBar value={69} tone="amber" />
                 <div style={{ fontSize: 11.5, color: C.amber, marginTop: 10 }}>⚠ te estás acercando al límite mensual.</div>
               </div>

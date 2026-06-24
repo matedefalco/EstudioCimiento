@@ -1,6 +1,7 @@
 "use client";
 import { SECTION_META } from "./constants";
 import { ECSymbol } from "./primitives";
+import { Icon } from "./icons";
 import { PanelResumen } from "./panels/PanelResumen";
 import { PanelOps } from "./panels/PanelOps";
 import { PanelFin } from "./panels/PanelFin";
@@ -50,7 +51,7 @@ export function Dashboard({ selected, brandName, activeSection, setActiveSection
                   color: on ? "var(--tc-accent)" : "var(--tc-sidebar-text)",
                   cursor: "pointer", transition: "all 160ms ease",
                 }}>
-                <span style={{ fontSize: 13, width: 16 }}>{meta?.glyph}</span>
+                <Icon name={id} size={14} color={on ? "var(--tc-accent)" : "var(--tc-sidebar-soft)"} />
                 <span style={{ fontSize: 12.5, textTransform: "lowercase" }}>{meta?.label}</span>
               </div>
             );
@@ -74,7 +75,7 @@ export function Dashboard({ selected, brandName, activeSection, setActiveSection
         flex: 1, background: "var(--tc-bg)", color: "var(--tc-ink)",
         overflowY: "auto", padding: "32px 40px",
       }}>
-        {activeSection === "resumen"  && <PanelResumen selected={selected} />}
+        {activeSection === "resumen"  && <PanelResumen selected={selected} brandName={brandName} />}
         {activeSection === "ops"      && <PanelOps />}
         {activeSection === "fin"      && <PanelFin />}
         {activeSection === "stock"    && <PanelStock />}

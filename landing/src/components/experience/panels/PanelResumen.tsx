@@ -82,7 +82,7 @@ function WidgetStock() {
       </div>
       <div style={{ display: "grid", gap: 8 }}>
         {alerts.map((a, i) => (
-          <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", background: a.stock === 0 ? C.redBg : C.amberBg, borderRadius: 10 }}>
+          <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", background: a.stock === 0 ? "rgba(181,82,74,0.14)" : "rgba(181,134,60,0.12)", borderRadius: 10, border: `1px solid ${a.stock === 0 ? "rgba(181,82,74,0.25)" : "rgba(181,134,60,0.22)"}` }}>
             <span style={{ fontSize: 18 }}>{a.stock === 0 ? "⛔" : "⚠️"}</span>
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: 12.5, fontWeight: 600 }}>{a.name}</div>
@@ -136,7 +136,7 @@ function WidgetCotizaciones() {
   );
 }
 
-export function PanelResumen({ selected }: { selected: string[] }) {
+export function PanelResumen({ selected, brandName }: { selected: string[]; brandName?: string }) {
   const showFin    = selected.includes("fin");
   const showStock  = selected.includes("stock");
   const showClient = selected.includes("clients");
@@ -144,7 +144,7 @@ export function PanelResumen({ selected }: { selected: string[] }) {
   return (
     <div>
       <div style={{ marginBottom: 24 }}>
-        <PanelTitle sub="todo lo que importa, en un solo lugar.">resumen del sistema</PanelTitle>
+        <PanelTitle sub="todo lo que importa, en un solo lugar.">{brandName ? `sistema ${brandName}` : "resumen del sistema"}</PanelTitle>
       </div>
 
       <div style={{ display: "flex", gap: 14, marginBottom: 20, flexWrap: "wrap" }}>
