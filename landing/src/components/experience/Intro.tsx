@@ -12,17 +12,9 @@ export function Intro({ onQuote, onLearn }: { onQuote: () => void; onLearn: () =
         <div className="animate-pulse-slow">
           <ECSymbol size={56} stroke={1.2} />
         </div>
-        <div style={{ textAlign: "center" }}>
-          <div style={{ fontSize: 22, fontWeight: 500, letterSpacing: "-0.01em", color: C.cream, textTransform: "lowercase", marginBottom: 10 }}>
-            sistemas que ordenan tu operación
-          </div>
-          <div style={{ fontSize: 14, color: C.grayCold, letterSpacing: "0.01em" }}>
-            sin depender de nosotros para usarlo.
-          </div>
-        </div>
         <div style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "center" }}>
           <button onClick={onQuote} style={{ background: C.copper, color: C.steel, fontSize: 17, letterSpacing: "0.16em", textTransform: "lowercase", padding: "20px 52px", border: "none", borderRadius: 2, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}>
-            diseñar mi sistema
+            comenzar
           </button>
           <button onClick={onLearn} style={{ background: "transparent", color: C.cream, fontSize: 17, letterSpacing: "0.16em", textTransform: "lowercase", padding: "20px 52px", border: `1.5px solid ${C.lineStrong}`, borderRadius: 2, fontWeight: 500, cursor: "pointer", fontFamily: "inherit", transition: "border-color 200ms" }}
             onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = C.copper; }}

@@ -21,6 +21,7 @@ const sora = Sora({
 });
 
 export const metadata: Metadata = {
+  icons: { icon: "/favicon.svg" },
   title: "Estudio Cimiento · sistemas que ordenan tu operación",
   description:
     "Construimos sistemas a medida para pymes y equipos que necesitan ordenar su operación: tareas, finanzas, stock y más.",
