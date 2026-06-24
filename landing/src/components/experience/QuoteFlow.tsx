@@ -63,7 +63,7 @@ export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, 
         {/* STEP 0: rubro */}
         {step === 0 && (
           <div className="fade-stage" style={{ maxWidth: 560, width: "100%" }}>
-            <Overline>relevamiento · 1 de 6</Overline>
+            <Overline>tu negocio · 1 de 6</Overline>
             <h2 style={h2s}>¿a qué se dedica tu negocio?</h2>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 32 }}>
               {RUBRO_OPTIONS.map(o => (
@@ -80,11 +80,11 @@ export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, 
         {/* STEP 1: modalidad + herramientas */}
         {step === 1 && (
           <div className="fade-stage" style={{ maxWidth: 560, width: "100%" }}>
-            <Overline>relevamiento · 2 de 6</Overline>
-            <h2 style={h2s}>¿cómo operás y qué usás hoy?</h2>
+            <Overline>tu negocio · 2 de 6</Overline>
+            <h2 style={h2s}>¿cómo funciona tu operación hoy?</h2>
 
             <div style={{ marginTop: 28 }}>
-              <div style={{ fontSize: 12, letterSpacing: "0.14em", color: C.grayCold, textTransform: "lowercase", marginBottom: 12 }}>¿cómo operás?</div>
+              <div style={{ fontSize: 12, letterSpacing: "0.14em", color: C.grayCold, textTransform: "lowercase", marginBottom: 12 }}>¿dónde operás?</div>
               <div style={{ display: "flex", gap: 10 }}>
                 {MODALIDAD_OPTIONS.map(o => (
                   <div key={o.id} onClick={() => setQuoteField("modalidad", o.id)}
@@ -123,8 +123,8 @@ export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, 
         {/* STEP 2: urgencia */}
         {step === 2 && (
           <div className="fade-stage" style={{ maxWidth: 560, width: "100%" }}>
-            <Overline>relevamiento · 3 de 6</Overline>
-            <h2 style={h2s}>¿en qué momento está el negocio?</h2>
+            <Overline>tu negocio · 3 de 6</Overline>
+            <h2 style={h2s}>¿qué describe mejor tu situación actual?</h2>
             <p style={{ fontSize: 14.5, color: C.grayCold, lineHeight: 1.55, marginTop: 14 }}>esto nos ayuda a entender el contexto, no solo lo que querés.</p>
             <div style={{ display: "grid", gap: 12, marginTop: 28 }}>
               {URGENCIA_OPTIONS.map(o => (
@@ -141,9 +141,9 @@ export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, 
         {step === 3 && (
           <div className="fade-stage" style={{ display: "flex", gap: 64, alignItems: "center", maxWidth: 900, width: "100%", flexWrap: "wrap", justifyContent: "center" }}>
             <div style={{ flex: "1 1 420px", maxWidth: 480 }}>
-              <Overline>desarrollo · 4 de 6</Overline>
+              <Overline>tu sistema · 4 de 6</Overline>
               <h2 style={h2s}>¿qué querés ordenar primero?</h2>
-              <p style={{ fontSize: 14.5, color: C.grayCold, lineHeight: 1.55, marginTop: 14 }}>elegí los componentes. mirá cómo se levanta tu sistema a la derecha.</p>
+              <p style={{ fontSize: 14.5, color: C.grayCold, lineHeight: 1.55, marginTop: 14 }}>elegí los módulos y mirá cómo se arma tu sistema en tiempo real.</p>
               <div style={{ display: "grid", gap: 10, marginTop: 28 }}>
                 {COMPONENTS.map(c => {
                   const on = selected.includes(c.id);
@@ -280,7 +280,7 @@ export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, 
           <div className="fade-stage" style={{ maxWidth: 560, width: "100%" }}>
             <Overline>contacto · 6 de 6</Overline>
             <h2 style={h2s}>¿con quién hablamos?</h2>
-            <p style={{ fontSize: 14.5, color: C.grayCold, lineHeight: 1.55, marginTop: 14 }}>te mostramos el sistema ahora. te contactamos después para hablar de tu proyecto.</p>
+            <p style={{ fontSize: 14.5, color: C.grayCold, lineHeight: 1.55, marginTop: 14 }}>te mostramos el sistema ahora y te contactamos después para hablar del proyecto.</p>
 
             <div style={{ display: "grid", gap: 14, marginTop: 32 }}>
               <div>
@@ -322,7 +322,7 @@ export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, 
               style={{ ...primaryBtn, marginTop: 28, background: accent, color: "#fff", opacity: !canSubmit ? 0.35 : 1, cursor: !canSubmit ? "not-allowed" : "pointer", width: "100%" }}>
               {submitStatus === "loading" ? "enviando..." : "ver mi sistema →"}
             </button>
-            <p style={{ fontSize: 12, color: C.grayCold, marginTop: 12, textAlign: "center" }}>no spam. te contactamos solo si tiene sentido para vos.</p>
+            <p style={{ fontSize: 12, color: C.grayCold, marginTop: 12, textAlign: "center" }}>te contactamos solo cuando tenga sentido, sin spam.</p>
           </div>
         )}
       </div>

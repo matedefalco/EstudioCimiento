@@ -25,8 +25,8 @@ export const C = {
 };
 
 export const COMPONENTS = [
-  { id: "ops",     name: "tareas y operaciones", desc: "el día a día ordenado: qué hay que hacer, quién y cuándo.", glyph: "▤" },
-  { id: "fin",     name: "finanzas",              desc: "ingresos, gastos y números claros sin pelear con el excel.", glyph: "◆" },
+  { id: "ops",     name: "operaciones",           desc: "el día a día organizado: quién hace qué, y para cuándo.", glyph: "▤" },
+  { id: "fin",     name: "finanzas",              desc: "ingresos, egresos y números claros, sin pelear con el excel.", glyph: "◆" },
   { id: "stock",   name: "stock",                 desc: "qué tenés, qué falta y qué se mueve, en un solo lugar.", glyph: "▦" },
   { id: "clients", name: "cotizador para tus clientes", desc: "lo mismo que estás viviendo ahora, para ofrecerle a los tuyos.", glyph: "◇" },
 ];
@@ -57,10 +57,10 @@ export const TOOLS_OPTIONS = [
 ];
 
 export const URGENCIA_OPTIONS = [
-  { id: "starting",  label: "recién arrancando, quiero ordenarme desde el principio" },
-  { id: "growing",   label: "estoy creciendo y el desorden me empieza a costar" },
-  { id: "crisis",    label: "necesito resolver esto urgente" },
-  { id: "optimize",  label: "ya tengo algo pero quiero mejorar lo que funciona" },
+  { id: "starting",  label: "arrancando, quiero hacerlo bien desde el día uno" },
+  { id: "growing",   label: "creciendo, el desorden ya me está costando" },
+  { id: "crisis",    label: "en crisis, necesito orden ahora" },
+  { id: "optimize",  label: "funcionando, quiero subir el nivel" },
 ];
 
 export const SIZE_OPTIONS = [
@@ -127,15 +127,15 @@ export const FASES = [
   { n: "01", title: "relevamiento", desc: "entendemos cómo funciona hoy tu negocio, sin asumir nada." },
   { n: "02", title: "desarrollo",   desc: "construimos el sistema a tu medida, no una plantilla genérica." },
   { n: "03", title: "validación",   desc: "lo probamos juntos y ajustamos lo que haga falta." },
-  { n: "04", title: "traspaso",     desc: "te dejamos manejándolo solo. ese es el verdadero diferencial." },
+  { n: "04", title: "traspaso",     desc: "te dejamos manejándolo vos solo, ese es el verdadero diferencial." },
 ];
 
 export const SECTION_META: Record<string, { label: string; glyph: string }> = {
-  resumen: { label: "resumen",            glyph: "◆" },
-  ops:     { label: "tareas y ops",       glyph: "▤" },
-  fin:     { label: "finanzas",           glyph: "◆" },
-  stock:   { label: "stock",              glyph: "▦" },
-  clients: { label: "cotizador clientes", glyph: "◇" },
+  resumen: { label: "resumen",       glyph: "◆" },
+  ops:     { label: "operaciones",   glyph: "▤" },
+  fin:     { label: "finanzas",      glyph: "◆" },
+  stock:   { label: "stock",         glyph: "▦" },
+  clients: { label: "cotizaciones",  glyph: "◇" },
 };
 
 export const STOCK_ITEMS = [

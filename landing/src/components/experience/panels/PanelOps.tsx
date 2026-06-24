@@ -36,7 +36,7 @@ export function PanelOps() {
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16, flexWrap: "wrap", gap: 10 }}>
-        <PanelTitle sub="tu equipo y vos, viendo lo mismo, en tiempo real.">tareas y operaciones</PanelTitle>
+        <PanelTitle sub="tu equipo y vos, mirando lo mismo, en tiempo real.">operaciones</PanelTitle>
         <div style={{ display: "flex", gap: 8 }}>
           <GhostBtn>filtrar</GhostBtn>
           <PrimaryBtn>+ nueva tarea</PrimaryBtn>
