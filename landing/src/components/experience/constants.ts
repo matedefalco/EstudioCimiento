@@ -31,6 +31,154 @@ export const COMPONENTS = [
   { id: "clients", name: "cotizador para tus clientes", desc: "lo mismo que estás viviendo ahora, para ofrecerle a los tuyos.", glyph: "◇" },
 ];
 
+export const RUBRO_OPTIONS = [
+  { id: "gastronomy",    label: "gastronomía y alimentos",   glyph: "◈" },
+  { id: "services",      label: "servicios profesionales",   glyph: "◉" },
+  { id: "retail",        label: "comercio y retail",         glyph: "◇" },
+  { id: "construction",  label: "construcción y oficios",    glyph: "△" },
+  { id: "health",        label: "salud y bienestar",         glyph: "◯" },
+  { id: "other",         label: "otro rubro",                glyph: "▷" },
+];
+
+export const MODALIDAD_OPTIONS = [
+  { id: "physical", label: "local físico" },
+  { id: "online",   label: "100% online" },
+  { id: "hybrid",   label: "físico y online" },
+];
+
+export const TOOLS_OPTIONS = [
+  { id: "paper",    label: "papel o cuaderno" },
+  { id: "excel",    label: "excel / google sheets" },
+  { id: "whatsapp", label: "whatsapp y grupos" },
+  { id: "notion",   label: "notion" },
+  { id: "gsuite",   label: "google workspace" },
+  { id: "erp",      label: "sistema erp o similar" },
+  { id: "none",     label: "nada todavía" },
+];
+
+export const URGENCIA_OPTIONS = [
+  { id: "starting",  label: "recién arrancando, quiero ordenarme desde el principio" },
+  { id: "growing",   label: "estoy creciendo y el desorden me empieza a costar" },
+  { id: "crisis",    label: "necesito resolver esto urgente" },
+  { id: "optimize",  label: "ya tengo algo pero quiero mejorar lo que funciona" },
+];
+
+export const SIZE_OPTIONS = [
+  { id: "solo",  label: "solo yo" },
+  { id: "small", label: "2 a 5 personas" },
+  { id: "mid",   label: "6 a 15 personas" },
+];
+
+export const BRAND_COLORS = [
+  { id: "copper",  label: "cobre",   hex: "#D89149" },
+  { id: "blue",    label: "azul",    hex: "#3E6FA8" },
+  { id: "green",   label: "verde",   hex: "#3E8460" },
+  { id: "purple",  label: "violeta", hex: "#6B5B95" },
+  { id: "red",     label: "rojo",    hex: "#B5524A" },
+  { id: "slate",   label: "pizarra", hex: "#607080" },
+];
+
+export interface InterfaceStyle {
+  id: string;
+  label: string;
+  desc: string;
+  sidebarBg: string;
+  sidebarText: string;
+  sidebarTextSoft: string;
+  contentBg: string;
+  cardBg: string;
+  cardSubBg: string;
+  borderColor: string;
+  ink: string;
+  inkSoft: string;
+  shadow: string;
+}
+
+export const INTERFACE_STYLES: InterfaceStyle[] = [
+  {
+    id: "elegante",
+    label: "elegante",
+    desc: "sidebar oscuro, paneles cálidos",
+    sidebarBg: "#1E2530",
+    sidebarText: "#F2F0EA",
+    sidebarTextSoft: "#8A93A0",
+    contentBg: "#F4F0E8",
+    cardBg: "#FFFFFF",
+    cardSubBg: "#F4F0E8",
+    borderColor: "#E7E1D3",
+    ink: "#1C1E22",
+    inkSoft: "#7A7468",
+    shadow: "0 2px 12px rgba(180,140,80,0.06)",
+  },
+  {
+    id: "sofisticado",
+    label: "sofisticado",
+    desc: "dark full, denso, sin distracciones",
+    sidebarBg: "#0F1419",
+    sidebarText: "#E8E8E8",
+    sidebarTextSoft: "#6B7280",
+    contentBg: "#1A2130",
+    cardBg: "#232D3A",
+    cardSubBg: "#1A2130",
+    borderColor: "rgba(255,255,255,0.08)",
+    ink: "#E8E8E8",
+    inkSoft: "#8A93A0",
+    shadow: "0 2px 8px rgba(0,0,0,0.3)",
+  },
+  {
+    id: "simple",
+    label: "simple",
+    desc: "todo claro, minimalista, sin sombras",
+    sidebarBg: "#F0EEE9",
+    sidebarText: "#1C1E22",
+    sidebarTextSoft: "#8A8276",
+    contentBg: "#F7F6F3",
+    cardBg: "#FFFFFF",
+    cardSubBg: "#F0EEE9",
+    borderColor: "#E2E0D9",
+    ink: "#1C1E22",
+    inkSoft: "#7A7468",
+    shadow: "none",
+  },
+  {
+    id: "profesional",
+    label: "profesional",
+    desc: "sidebar slate, bordes definidos",
+    sidebarBg: "#2D3748",
+    sidebarText: "#F7FAFC",
+    sidebarTextSoft: "#A0AEC0",
+    contentBg: "#F0F2F5",
+    cardBg: "#FFFFFF",
+    cardSubBg: "#F0F2F5",
+    borderColor: "#CBD5E0",
+    ink: "#1A202C",
+    inkSoft: "#718096",
+    shadow: "none",
+  },
+];
+
+export function getInterfaceStyle(id: string): InterfaceStyle {
+  return INTERFACE_STYLES.find(s => s.id === id) ?? INTERFACE_STYLES[0];
+}
+
+export function getSuggestedModules(rubro: string | null, urgencia: string | null): string[] {
+  const suggestions: string[] = [];
+  if (urgencia === "crisis") suggestions.push("ops");
+  if (rubro === "gastronomy" || rubro === "retail") {
+    if (!suggestions.includes("stock")) suggestions.push("stock");
+    if (!suggestions.includes("ops")) suggestions.push("ops");
+  } else if (rubro === "services" || rubro === "construction") {
+    suggestions.push("clients");
+    if (!suggestions.includes("ops")) suggestions.push("ops");
+  } else if (rubro === "health") {
+    suggestions.push("clients");
+    if (!suggestions.includes("fin")) suggestions.push("fin");
+  }
+  if (suggestions.length === 0) suggestions.push("ops");
+  return suggestions;
+}
+
+// kept for backward compat
 export const TODAY_OPTIONS = [
   { id: "hand",  label: "a mano o en papel" },
   { id: "excel", label: "en un excel que me quedó corto" },
@@ -43,12 +191,6 @@ export const PAIN_OPTIONS = [
   { id: "fin",     label: "cobrar, pagar y entender los números" },
   { id: "stock",   label: "saber qué tengo y qué se está terminando" },
   { id: "clients", label: "armar cotizaciones para mis propios clientes" },
-];
-
-export const SIZE_OPTIONS = [
-  { id: "solo",  label: "solo yo" },
-  { id: "small", label: "2 a 5 personas" },
-  { id: "mid",   label: "6 a 15 personas" },
 ];
 
 export const FASES = [

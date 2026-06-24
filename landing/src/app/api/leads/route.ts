@@ -25,6 +25,14 @@ export async function POST(request: NextRequest) {
         modules: body.modules,
         team_size: body.team_size,
         status: "new",
+        metadata: {
+          rubro: body.rubro ?? null,
+          modalidad: body.modalidad ?? null,
+          tools: body.tools ?? [],
+          urgencia: body.urgencia ?? null,
+          brand_name: body.brand_name ?? null,
+          brand_color: body.brand_color ?? null,
+        },
       })
       .select("id")
       .single();
