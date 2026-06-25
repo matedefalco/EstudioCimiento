@@ -216,10 +216,10 @@ export function LearnFlow({ onDone, onReset, isDark = true }: Props) {
                       </div>
                     </div>
                   </div>
+                  <div style={{ marginTop: 36 }}>
+                    <button onClick={onDone} style={primaryBtn(isDark)}>quiero mi cotización →</button>
+                  </div>
                 </div>
-              </div>
-              <div style={{ marginTop: 40 }}>
-                <button onClick={onDone} style={primaryBtn(isDark)}>quiero mi cotización →</button>
               </div>
             </div>
           )}

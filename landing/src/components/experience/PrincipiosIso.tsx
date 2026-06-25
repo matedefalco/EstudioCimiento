@@ -681,7 +681,7 @@ export function PrincipiosIso({ onDone, isDark = true }: Props) {
 				)}
 			</div>
 
-			<div style={{ textAlign: "center" }}>
+			<div style={{ textAlign: "center", marginTop: 40 }}>
 				<button onClick={onDone} style={primaryBtn(isDark)}>
 					quiero mi cotización →
 				</button>
