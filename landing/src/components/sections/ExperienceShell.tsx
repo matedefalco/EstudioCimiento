@@ -13,6 +13,17 @@ import type { QuoteState } from "@/types";
 
 type Mode = "intro" | "quote" | "learn";
 
+// Light palette for app-level dark/light toggle
+export const LIGHT = {
+  bg:      "#F4F0E8",
+  surface: "#FFFFFF",
+  text:    "#1C1E22",
+  muted:   "#8A8276",
+  accent:  "#B5863C",
+  border:  "rgba(28,30,34,0.10)",
+  gridLine:"rgba(28,30,34,0.06)",
+};
+
 const DEFAULT_QUOTE_STATE: QuoteState = {
   rubro: null,
   modalidad: null,
@@ -37,6 +48,7 @@ export function ExperienceShell() {
   const [learnStep, setLearnStep] = useState(0);
   const [quoteState, setQuoteState] = useState<QuoteState>(DEFAULT_QUOTE_STATE);
   const [darkOverride, setDarkOverride] = useState<boolean | null>(null);
+  const [appDark, setAppDark] = useState(true);
   const { submit, status: submitStatus, error: submitError } = useLeadSubmit();
 
   const setQuoteField = <K extends keyof QuoteState>(key: K, val: QuoteState[K]) =>
@@ -89,12 +101,16 @@ export function ExperienceShell() {
   const fontVar = FONT_PRESETS.find(f => f.id === quoteState.fontPreset)?.var ?? "var(--font-inter)";
   const themeVars = resolveThemeVars(quoteState.palette, quoteState.interfaceStyle, fontVar, darkOverride ?? undefined);
 
+  const isDashboard = mode === "quote" && step === 6;
+
   return (
     <div style={{
       position: "fixed", inset: 0,
-      background: C.steel, color: C.cream,
+      background: appDark ? C.steel : LIGHT.bg,
+      color: appDark ? C.cream : LIGHT.text,
       fontFamily: "'Hanken Grotesk', system-ui, sans-serif",
       overflow: "hidden", display: "flex", flexDirection: "column",
+      transition: "background 300ms ease, color 300ms ease",
     }}>
       <style>{`
         .fade-stage { animation: fadeUp .55s cubic-bezier(.22,1,.36,1) both; }
@@ -103,10 +119,33 @@ export function ExperienceShell() {
         @keyframes pulseSlow { 0%,100% { transform:scale(1); opacity:1; } 50% { transform:scale(1.04); opacity:.85; } }
       `}</style>
 
+      {/* Dark/light toggle — hidden inside dashboard (has its own toggle) */}
+      {!isDashboard && (
+        <button
+          onClick={() => setAppDark(d => !d)}
+          title={appDark ? "modo claro" : "modo oscuro"}
+          style={{
+            position: "absolute", bottom: 24, right: 24, zIndex: 10,
+            background: "transparent",
+            border: `1px solid ${appDark ? C.lineStrong : LIGHT.border}`,
+            borderRadius: 20, padding: "6px 12px",
+            color: appDark ? C.grayCold : LIGHT.muted,
+            fontSize: 12, letterSpacing: "0.08em",
+            cursor: "pointer", fontFamily: "inherit",
+            display: "flex", alignItems: "center", gap: 6,
+            transition: "all 200ms ease",
+          }}
+        >
+          <span style={{ fontSize: 14 }}>{appDark ? "☀" : "☾"}</span>
+          <span style={{ textTransform: "lowercase" }}>{appDark ? "claro" : "oscuro"}</span>
+        </button>
+      )}
+
       {mode === "intro" && (
         <Intro
           onQuote={() => { setMode("quote"); setStep(0); }}
           onLearn={() => { setMode("learn"); setLearnStep(0); }}
+          isDark={appDark}
         />
       )}
 
@@ -147,6 +186,7 @@ export function ExperienceShell() {
           step={learnStep} setStep={setLearnStep}
           onDone={() => { setMode("quote"); setStep(0); }}
           onReset={reset}
+          isDark={appDark}
         />
       )}
     </div>
