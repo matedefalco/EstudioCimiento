@@ -27,8 +27,6 @@
     "three": "^0.185.0"
   },
   "devDependencies": {
-    "@babel/plugin-transform-react-jsx-development": "^8.0.1",
-    "@babel/plugin-transform-react-jsx-source": "^7.29.7",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",

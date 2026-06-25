@@ -35,7 +35,7 @@ export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, 
   const accent = currentPalette.light.accent;
 
   return (
-    <div style={{ position: "relative", flex: 1, display: "flex", flexDirection: "column" }}>
+    <div style={{ position: "relative", flex: 1, display: "flex", flexDirection: "column", minHeight: 0 }}>
       <ParticleField active={true} intensity={selected.length} />
       <div style={{ position: "absolute", inset: 0, backgroundImage: `linear-gradient(${C.line} 1px,transparent 1px),linear-gradient(90deg,${C.line} 1px,transparent 1px)`, backgroundSize: "64px 64px", opacity: 0.5, pointerEvents: "none" }} />
 
@@ -58,7 +58,7 @@ export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, 
         ))}
       </div>
 
-      <div style={{ position: "relative", zIndex: 4, flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: 32, opacity: transitioning ? 0 : 1, transition: "opacity 480ms ease" }}>
+      <div className="qf-content-scroll" style={{ position: "relative", zIndex: 4, flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: 32, opacity: transitioning ? 0 : 1, transition: "opacity 480ms ease" }}>
 
         {/* STEP 0: rubro */}
         {step === 0 && (
@@ -175,7 +175,7 @@ export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, 
                 seguir
               </button>
             </div>
-            <div style={{ flex: "0 0 auto", textAlign: "center" }}>
+            <div className="qf-3d-preview" style={{ flex: "0 0 auto", textAlign: "center" }}>
               <Cimiento3D layers={selected} />
               <div style={{ fontSize: 11, letterSpacing: "0.2em", color: C.grayCold, marginTop: 8 }}>
                 {selected.length === 0 ? "tu base" : `${selected.length} ${selected.length === 1 ? "componente" : "componentes"}`}

@@ -117,6 +117,16 @@ export function ExperienceShell() {
         @keyframes fadeUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
         .animate-pulse-slow { animation: pulseSlow 3s ease-in-out infinite; }
         @keyframes pulseSlow { 0%,100% { transform:scale(1); opacity:1; } 50% { transform:scale(1.04); opacity:.85; } }
+        @media (max-width: 768px) {
+          .qf-content-scroll {
+            overflow-y: auto !important;
+            align-items: flex-start !important;
+            justify-content: flex-start !important;
+            padding: 80px 16px 32px !important;
+            min-height: 0 !important;
+          }
+          .qf-3d-preview { display: none !important; }
+        }
       `}</style>
 
       {/* Dark/light toggle — hidden inside dashboard (has its own toggle) */}

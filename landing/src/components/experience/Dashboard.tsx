@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect } from "react";
 import { SECTION_META } from "./constants";
 import { ECSymbol } from "./primitives";
 import { Icon } from "./icons";
@@ -23,6 +24,95 @@ interface Props {
 
 export function Dashboard({ selected, brandName, activeSection, setActiveSection, onReset, isDark, onToggleDark }: Props) {
   const navItems = ["resumen", ...selected];
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 768px)");
+    setIsMobile(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  const panelContent = (
+    <>
+      {activeSection === "resumen"  && <PanelResumen selected={selected} brandName={brandName} />}
+      {activeSection === "ops"      && <PanelOps />}
+      {activeSection === "fin"      && <PanelFin />}
+      {activeSection === "stock"    && <PanelStock />}
+      {activeSection === "clients"  && <PanelClients />}
+      {activeSection === "crm"      && <PanelCRM />}
+      {activeSection === "agenda"   && <PanelAgenda />}
+      {activeSection === "reportes" && <PanelReportes />}
+    </>
+  );
+
+  if (isMobile) {
+    return (
+      <div className="fade-stage" style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+        {/* top bar */}
+        <div style={{
+          flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "space-between",
+          padding: "12px 16px", background: "var(--tc-sidebar)",
+          borderBottom: "1px solid rgba(128,128,128,0.12)",
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <ECSymbol size={16} color="var(--tc-accent)" />
+            <span style={{ fontSize: 12, color: "var(--tc-sidebar-text)" }}>
+              {brandName ? brandName : "estudio"} <strong style={{ fontWeight: 600 }}>cimiento</strong>
+            </span>
+          </div>
+          <div style={{ display: "flex", gap: 6 }}>
+            {onToggleDark && (
+              <button onClick={onToggleDark} style={{
+                background: "transparent", border: "1px solid rgba(128,128,128,0.2)", borderRadius: 4,
+                padding: "6px 10px", color: "var(--tc-sidebar-soft)", fontSize: 14, cursor: "pointer",
+              }}>
+                {isDark ? "☀" : "☾"}
+              </button>
+            )}
+            <button onClick={onReset} style={{
+              background: "transparent", border: "1px solid rgba(128,128,128,0.2)", borderRadius: 4,
+              padding: "6px 10px", color: "var(--tc-sidebar-soft)", fontSize: 11,
+              cursor: "pointer", fontFamily: "inherit", textTransform: "lowercase",
+            }}>
+              reiniciar
+            </button>
+          </div>
+        </div>
+
+        {/* panel content */}
+        <div style={{ flex: 1, background: "var(--tc-bg)", color: "var(--tc-ink)", overflowY: "auto", padding: "20px 16px" }}>
+          {panelContent}
+        </div>
+
+        {/* bottom nav */}
+        <div style={{
+          flexShrink: 0, background: "var(--tc-sidebar)",
+          borderTop: "1px solid rgba(128,128,128,0.12)",
+          display: "flex", overflowX: "auto", padding: "0 4px",
+          scrollbarWidth: "none",
+        }}>
+          {navItems.map(id => {
+            const meta = SECTION_META[id];
+            const on = activeSection === id;
+            return (
+              <button key={id} onClick={() => setActiveSection(id)} style={{
+                display: "flex", flexDirection: "column", alignItems: "center", gap: 3,
+                padding: "10px 14px", border: "none", background: "transparent",
+                color: on ? "var(--tc-accent)" : "var(--tc-sidebar-soft)",
+                cursor: "pointer", flexShrink: 0, fontFamily: "inherit",
+                borderTop: on ? "2px solid var(--tc-accent)" : "2px solid transparent",
+              }}>
+                <Icon name={id} size={18} color={on ? "var(--tc-accent)" : "var(--tc-sidebar-soft)"} />
+                <span style={{ fontSize: 9, letterSpacing: "0.06em", textTransform: "lowercase" }}>{meta?.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="fade-stage" style={{ flex: 1, display: "flex", overflow: "hidden" }}>
@@ -91,14 +181,7 @@ export function Dashboard({ selected, brandName, activeSection, setActiveSection
         flex: 1, background: "var(--tc-bg)", color: "var(--tc-ink)",
         overflowY: "auto", padding: "32px 40px",
       }}>
-        {activeSection === "resumen"  && <PanelResumen selected={selected} brandName={brandName} />}
-        {activeSection === "ops"      && <PanelOps />}
-        {activeSection === "fin"      && <PanelFin />}
-        {activeSection === "stock"    && <PanelStock />}
-        {activeSection === "clients"  && <PanelClients />}
-        {activeSection === "crm"      && <PanelCRM />}
-        {activeSection === "agenda"   && <PanelAgenda />}
-        {activeSection === "reportes" && <PanelReportes />}
+        {panelContent}
       </div>
     </div>
   );
