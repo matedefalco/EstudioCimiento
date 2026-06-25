@@ -172,6 +172,7 @@ export function ExperienceShell() {
           submitStatus={submitStatus}
           submitError={submitError}
           isDark={appDark}
+          onReset={() => { setMode("intro"); setStep(0); setQuoteState(DEFAULT_QUOTE_STATE); setActiveSection(null); }}
         />
       )}
 

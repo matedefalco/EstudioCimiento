@@ -24,9 +24,10 @@ interface Props {
   submitStatus: "idle" | "loading" | "success" | "error";
   submitError: string | null;
   isDark?: boolean;
+  onReset?: () => void;
 }
 
-export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, toggleTool, toggleComp, onSubmit, submitStatus, submitError, isDark = true }: Props) {
+export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, toggleTool, toggleComp, onSubmit, submitStatus, submitError, isDark = true, onReset }: Props) {
   const { rubro, modalidad, tools, urgencia, selected, size, brandName, palette, interfaceStyle, fontPreset, contactName, contactEmail, contactCompany } = quoteState;
   const suggested = getSuggestedModules(rubro, urgencia);
   const canSubmit = contactName.trim() && contactEmail.trim() && selected.length > 0 && submitStatus !== "loading";
@@ -51,7 +52,11 @@ export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, 
         ) : (
           <ECSymbol size={22} />
         )}
-        <span style={{ fontSize: 14, opacity: 0.9 }}>estudio <strong style={{ fontWeight: 600 }}>cimiento</strong></span>
+        <span
+          onClick={onReset}
+          style={{ fontSize: 14, opacity: 0.9, cursor: onReset ? "pointer" : "default" }}
+          title={onReset ? "volver al inicio" : undefined}
+        >estudio <strong style={{ fontWeight: 600 }}>cimiento</strong></span>
       </div>
       <div style={{ position: "absolute", top: 32, right: 32, display: "flex", gap: 6, alignItems: "center", zIndex: 5 }}>
         {[0,1,2,3,4,5].map(n => (
