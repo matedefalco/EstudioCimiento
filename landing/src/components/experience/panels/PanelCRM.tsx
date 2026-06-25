@@ -3,6 +3,7 @@ import { useState, useMemo } from "react";
 import { C } from "../constants";
 import { Chip, Avatar, AvatarGroup, KpiCard, PanelTitle, SubTabs, PrimaryBtn, Pagination } from "../primitives";
 import { TableToolbar } from "../TableToolbar";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 // ── datos de pipeline ──────────────────────────────────────────────────────────
 
@@ -98,6 +99,7 @@ const CRM_COL_OPTS = [
 ];
 
 export function PanelCRM() {
+  const isMobile = useIsMobile();
   const [tab, setTab] = useState("pipeline");
   const [sortBy, setSortBy] = useState("nombre");
   const [filters, setFilters] = useState<string[]>([]);
@@ -138,9 +140,9 @@ export function PanelCRM() {
 
       {/* ── PIPELINE (kanban) ────────────────────────────────────────────── */}
       {tab === "pipeline" && (
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 14 }}>
+        <div style={{ display: isMobile ? "flex" : "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 14, overflowX: isMobile ? "auto" : "visible", paddingBottom: isMobile ? 8 : 0 }}>
           {PIPELINE.map(col => (
-            <div key={col.name}>
+            <div key={col.name} style={isMobile ? { minWidth: 210, flexShrink: 0 } : {}}>
               {/* encabezado de columna */}
               <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10, paddingBottom: 8, borderBottom: `2px solid ${col.dot}` }}>
                 <span style={{ width: 7, height: 7, borderRadius: "50%", background: col.dot, display: "inline-block" }} />
@@ -201,53 +203,59 @@ export function PanelCRM() {
             colOptions={CRM_COL_OPTS} visibleCols={visibleCols} onToggleCol={toggleCol}
           />
           <div style={{ background: "var(--tc-card)", border: `1px solid var(--tc-border)`, borderRadius: 14, overflow: "hidden" }}>
-            {/* encabezado de tabla */}
-            <div style={{
-              display: "grid",
-              gridTemplateColumns: `1.4fr ${visibleCols.includes("empresa") ? "1.4fr" : ""} ${visibleCols.includes("ultimo") ? "130px" : ""} ${visibleCols.includes("canal") ? "100px" : ""} ${visibleCols.includes("estado") ? "110px" : ""}`.trim(),
-              padding: "10px 18px",
-              fontSize: 10.5,
-              color: "var(--tc-soft)",
-              letterSpacing: "0.06em",
-              textTransform: "lowercase",
-              borderBottom: `1px solid var(--tc-border)`,
-            }}>
-              <span>nombre</span>
-              {visibleCols.includes("empresa") && <span>empresa</span>}
-              {visibleCols.includes("ultimo")  && <span>último contacto</span>}
-              {visibleCols.includes("canal")   && <span>canal</span>}
-              {visibleCols.includes("estado")  && <span>estado</span>}
-            </div>
+            {!isMobile && (
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: `1.4fr ${visibleCols.includes("empresa") ? "1.4fr" : ""} ${visibleCols.includes("ultimo") ? "130px" : ""} ${visibleCols.includes("canal") ? "100px" : ""} ${visibleCols.includes("estado") ? "110px" : ""}`.trim(),
+                padding: "10px 18px", fontSize: 10.5, color: "var(--tc-soft)",
+                letterSpacing: "0.06em", textTransform: "lowercase", borderBottom: `1px solid var(--tc-border)`,
+              }}>
+                <span>nombre</span>
+                {visibleCols.includes("empresa") && <span>empresa</span>}
+                {visibleCols.includes("ultimo")  && <span>último contacto</span>}
+                {visibleCols.includes("canal")   && <span>canal</span>}
+                {visibleCols.includes("estado")  && <span>estado</span>}
+              </div>
+            )}
 
-            {/* filas */}
-            {filteredContacts.map((r, i) => (
-              <div
-                key={i}
-                style={{
+            {filteredContacts.map((r, i) => {
+              const border = i < filteredContacts.length - 1 ? `1px solid var(--tc-border)` : "none";
+              if (isMobile) return (
+                <div key={i} style={{ padding: "14px 16px", borderBottom: border }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
+                    <Avatar initials={r.nombre.slice(0, 2).toUpperCase()} idx={i} size={28} />
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontWeight: 600, fontSize: 13 }}>{r.nombre}</div>
+                      {visibleCols.includes("empresa") && <div style={{ fontSize: 11.5, color: "var(--tc-soft)", marginTop: 1 }}>{r.empresa}</div>}
+                    </div>
+                    {visibleCols.includes("estado") && <Chip text={r.estado} tone={r.eTone} />}
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11.5, color: "var(--tc-soft)" }}>
+                    {visibleCols.includes("ultimo") && <span>{r.ultimo}</span>}
+                    {visibleCols.includes("canal") && <div style={{ display: "flex", alignItems: "center", gap: 4 }}><span>{CANAL_ICON[r.canal]}</span><span>{r.canal}</span></div>}
+                  </div>
+                </div>
+              );
+              return (
+                <div key={i} style={{
                   display: "grid",
                   gridTemplateColumns: `1.4fr ${visibleCols.includes("empresa") ? "1.4fr" : ""} ${visibleCols.includes("ultimo") ? "130px" : ""} ${visibleCols.includes("canal") ? "100px" : ""} ${visibleCols.includes("estado") ? "110px" : ""}`.trim(),
-                  padding: "12px 18px",
-                  alignItems: "center",
-                  borderBottom: i < filteredContacts.length - 1 ? `1px solid var(--tc-border)` : "none",
-                  fontSize: 12.5,
-                  cursor: "pointer",
-                  transition: "background 120ms",
+                  padding: "12px 18px", alignItems: "center", borderBottom: border, fontSize: 12.5, cursor: "pointer", transition: "background 120ms",
                 }}
                 onMouseEnter={e => (e.currentTarget.style.background = "var(--tc-sub)")}
                 onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
-              >
-                <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
-                  <Avatar initials={r.nombre.slice(0, 2).toUpperCase()} idx={i} size={26} />
-                  <span style={{ fontWeight: 500 }}>{r.nombre}</span>
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
+                    <Avatar initials={r.nombre.slice(0, 2).toUpperCase()} idx={i} size={26} />
+                    <span style={{ fontWeight: 500 }}>{r.nombre}</span>
+                  </div>
+                  {visibleCols.includes("empresa") && <span style={{ fontSize: 12, color: "var(--tc-soft)" }}>{r.empresa}</span>}
+                  {visibleCols.includes("ultimo")  && <span style={{ fontSize: 12, color: "var(--tc-soft)" }}>{r.ultimo}</span>}
+                  {visibleCols.includes("canal")   && <div style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 12 }}><span style={{ fontSize: 13 }}>{CANAL_ICON[r.canal]}</span><span style={{ color: "var(--tc-soft)" }}>{r.canal}</span></div>}
+                  {visibleCols.includes("estado")  && <Chip text={r.estado} tone={r.eTone} />}
                 </div>
-                {visibleCols.includes("empresa") && <span style={{ fontSize: 12, color: "var(--tc-soft)" }}>{r.empresa}</span>}
-                {visibleCols.includes("ultimo")  && <span style={{ fontSize: 12, color: "var(--tc-soft)" }}>{r.ultimo}</span>}
-                {visibleCols.includes("canal")   && <div style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 12 }}><span style={{ fontSize: 13 }}>{CANAL_ICON[r.canal]}</span><span style={{ color: "var(--tc-soft)" }}>{r.canal}</span></div>}
-                {visibleCols.includes("estado")  && <Chip text={r.estado} tone={r.eTone} />}
-              </div>
-            ))}
-
-            {/* paginación */}
+              );
+            })}
             <Pagination page={1} total={CONTACTOS.length} perPage={8} />
           </div>
         </div>

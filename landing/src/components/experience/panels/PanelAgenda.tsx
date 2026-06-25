@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { C } from "../constants";
 import { Chip, Avatar, KpiCard, PanelTitle, SubTabs, PrimaryBtn, ProgressBar } from "../primitives";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 // ── datos de muestra ──────────────────────────────────────────────────────────
 
@@ -182,6 +183,7 @@ function BarChart() {
 // ── panel principal ───────────────────────────────────────────────────────────
 
 export function PanelAgenda() {
+  const isMobile = useIsMobile();
   const [tab, setTab] = useState("próximos turnos");
 
   return (
@@ -229,9 +231,11 @@ export function PanelAgenda() {
             </span>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 10 }}>
+          <div style={{ display: isMobile ? "flex" : "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 10, overflowX: isMobile ? "auto" : "visible" }}>
+            {/* minWidth per column on mobile so days don't crush */}
+
             {DISPONIBILIDAD.map((d) => (
-              <div key={d.dia}>
+              <div key={d.dia} style={isMobile ? { minWidth: 110, flexShrink: 0 } : {}}>
                 <div style={{
                   fontSize: 12,
                   fontWeight: 700,

@@ -1,6 +1,7 @@
 "use client";
 import { C } from "../constants";
 import { Chip, KpiCard, PanelTitle, ProgressBar, MiniBar, Avatar } from "../primitives";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 function WidgetTareas() {
   const tasks = [
@@ -137,6 +138,7 @@ function WidgetCotizaciones() {
 }
 
 export function PanelResumen({ selected, brandName }: { selected: string[]; brandName?: string }) {
+  const isMobile = useIsMobile();
   const showFin    = selected.includes("fin");
   const showStock  = selected.includes("stock");
   const showClient = selected.includes("clients");
@@ -154,7 +156,7 @@ export function PanelResumen({ selected, brandName }: { selected: string[]; bran
         {showClient && <KpiCard label="cotizaciones"     value="142"        delta="38 cerradas"      positive />}
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 16 }}>
         <WidgetTareas />
         {showFin    ? <WidgetFinanzas />      : <WidgetCotizaciones />}
         {showStock  ? <WidgetStock />         : <WidgetTareas />}

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { C } from "../constants";
 import { Chip, KpiCard, PanelTitle, GhostBtn, PrimaryBtn, Pagination, SubTabs, InfoRow } from "../primitives";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const PRODUCTS = [
   { id: "#KMI662266", name: "cotización básica",   sub: "módulo operaciones", date: "01 ene 2024", price: 480000,  sell: 504000,  stock: 120, status: "publicada", sTone: "green" as const, img: "#E2EAF2" },
@@ -16,6 +17,7 @@ const STATUS_FILTERS = ["todos","publicada","inactiva","borrador","sin stock"];
 const PLAN_PUBLISHED = PRODUCTS.filter(p => p.status === "publicada");
 
 export function PanelClients() {
+  const isMobile = useIsMobile();
   const [tab, setTab] = useState("mis cotizaciones");
   const [selRows, setSelRows] = useState<string[]>([]);
   const [statusFilter, setStatusFilter] = useState("todos");
@@ -68,13 +70,33 @@ export function PanelClients() {
             </div>
           )}
           <div style={{ background: "var(--tc-card)", border: `1px solid var(--tc-border)`, borderRadius: 14, overflow: "hidden" }}>
-            <div style={{ display: "grid", gridTemplateColumns: "36px 2fr 1.2fr 1fr 1fr 80px 110px 32px", padding: "11px 18px", fontSize: 10.5, color: "var(--tc-soft)", letterSpacing: "0.06em", borderBottom: `1px solid var(--tc-border)`, textTransform: "lowercase" }}>
-              {["","nombre","id y fecha","precio base","precio venta","stock","estado",""].map((h,i) => <span key={i}>{h}</span>)}
-            </div>
+            {!isMobile && (
+              <div style={{ display: "grid", gridTemplateColumns: "36px 2fr 1.2fr 1fr 1fr 80px 110px 32px", padding: "11px 18px", fontSize: 10.5, color: "var(--tc-soft)", letterSpacing: "0.06em", borderBottom: `1px solid var(--tc-border)`, textTransform: "lowercase" }}>
+                {["","nombre","id y fecha","precio base","precio venta","stock","estado",""].map((h,i) => <span key={i}>{h}</span>)}
+              </div>
+            )}
             {filtered.map((r, i) => {
               const sel = selRows.includes(r.id);
+              const border = i < filtered.length - 1 ? `1px solid var(--tc-border)` : "none";
+              if (isMobile) return (
+                <div key={r.id} onClick={() => toggle(r.id)} style={{ padding: "14px 16px", borderBottom: border, background: sel ? "rgba(216,145,73,0.05)" : "transparent", cursor: "pointer" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+                    <div style={{ width: 40, height: 40, borderRadius: 8, background: r.img, flexShrink: 0 }} />
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: 13.5, fontWeight: 600 }}>{r.name}</div>
+                      <div style={{ fontSize: 11, color: "var(--tc-soft)", marginTop: 2 }}>{r.sub}</div>
+                    </div>
+                    <Chip text={r.status} tone={r.sTone} />
+                  </div>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6, fontSize: 12 }}>
+                    <div><span style={{ color: "var(--tc-soft)" }}>precio venta: </span><span style={{ fontWeight: 600 }}>{fmt(r.sell)}</span></div>
+                    <div><span style={{ color: "var(--tc-soft)" }}>stock: </span><span style={{ fontWeight: 600, fontFamily: "monospace" }}>{r.stock}</span></div>
+                    <div style={{ gridColumn: "1 / -1", color: "var(--tc-soft)", fontSize: 11 }}>{r.id} · {r.date}</div>
+                  </div>
+                </div>
+              );
               return (
-                <div key={r.id} onClick={() => toggle(r.id)} style={{ display: "grid", gridTemplateColumns: "36px 2fr 1.2fr 1fr 1fr 80px 110px 32px", padding: "12px 18px", alignItems: "center", borderBottom: i < filtered.length - 1 ? `1px solid var(--tc-border)` : "none", fontSize: 13, background: sel ? "rgba(216,145,73,0.05)" : "var(--tc-card)", cursor: "pointer" }}>
+                <div key={r.id} onClick={() => toggle(r.id)} style={{ display: "grid", gridTemplateColumns: "36px 2fr 1.2fr 1fr 1fr 80px 110px 32px", padding: "12px 18px", alignItems: "center", borderBottom: border, fontSize: 13, background: sel ? "rgba(216,145,73,0.05)" : "var(--tc-card)", cursor: "pointer" }}>
                   <input type="checkbox" readOnly checked={sel} onChange={() => toggle(r.id)} style={{ accentColor: C.copper }} onClick={e => e.stopPropagation()} />
                   <span style={{ display: "flex", alignItems: "center", gap: 12 }}>
                     <div style={{ width: 38, height: 38, borderRadius: 8, background: r.img, flexShrink: 0 }} />
@@ -148,7 +170,7 @@ export function PanelClients() {
 
       {/* ── CONFIGURAR ────────────────────────────────────────────────── */}
       {tab === "configurar" && (
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 20 }}>
           <div>
             <div style={{ background: "var(--tc-card)", border: `1px solid var(--tc-border)`, borderRadius: 14, padding: 22, marginBottom: 16 }}>
               <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 16, textTransform: "lowercase" }}>identidad de marca</div>

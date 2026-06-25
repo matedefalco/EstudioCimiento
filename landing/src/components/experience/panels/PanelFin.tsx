@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { C } from "../constants";
 import { KpiCard, PanelTitle, GhostBtn, PrimaryBtn, Chip, ProgressBar, Donut, LegendRow, Pagination, SubTabs, MiniBar } from "../primitives";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const ALL_ROWS = [
   { name: "transferencia recibida", img: "TF", date: "22 jun · 09:15", type: "transferencia", amount: 420000,  positive: true,  status: "completado", sTone: "green" as const, color: C.blue   },
@@ -17,6 +18,7 @@ const ALL_ROWS = [
 const fmt = (n: number) => `${n < 0 ? "-" : "+"}$${Math.abs(n).toLocaleString("es-AR")}`;
 
 export function PanelFin() {
+  const isMobile = useIsMobile();
   const [tab, setTab] = useState("resumen");
 
   const ingresos = ALL_ROWS.filter(r => r.positive);
@@ -45,7 +47,7 @@ export function PanelFin() {
             <KpiCard label="egresos del mes"   value={`$${totalEg.toLocaleString("es-AR")}`}  delta="6% vs anterior"  positive={false} />
             <KpiCard label="ahorro proyectado" value="$524.095"   delta="+2.2%"   positive />
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 16 }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1.4fr 1fr", gap: 16 }}>
             <div style={{ background: "var(--tc-card)", border: `1px solid var(--tc-border)`, borderRadius: 14, padding: 22 }}>
               <div style={{ fontSize: 12, color: "var(--tc-soft)", marginBottom: 14 }}>evolución mensual</div>
               <div style={{ display: "flex", alignItems: "flex-end", gap: 4 }}>
@@ -100,7 +102,7 @@ export function PanelFin() {
               {["ene","feb","mar","abr","may","jun"].map(m => <span key={m}>{m}</span>)}
             </div>
           </div>
-          <RowTable rows={ingresos} />
+          <RowTable rows={ingresos} isMobile={isMobile} />
         </div>
       )}
 
@@ -112,7 +114,7 @@ export function PanelFin() {
             <KpiCard label="movimientos"    value={`${egresos.length}`} sub="este mes" />
             <KpiCard label="mayor egreso"   value={`$${Math.max(...egresos.map(r => Math.abs(r.amount))).toLocaleString("es-AR")}`} sub="alquiler" />
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 16, marginBottom: 16 }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1.4fr 1fr", gap: 16, marginBottom: 16 }}>
             <div style={{ background: "var(--tc-card)", border: `1px solid var(--tc-border)`, borderRadius: 14, padding: 20 }}>
               <div style={{ fontSize: 12, color: "var(--tc-soft)", marginBottom: 10 }}>tendencia de egresos · últimos 6 meses</div>
               <MiniBar data={[340,420,380,510,490,344]} color={C.red} />
@@ -139,7 +141,7 @@ export function PanelFin() {
               </div>
             </div>
           </div>
-          <RowTable rows={egresos} />
+          <RowTable rows={egresos} isMobile={isMobile} />
         </div>
       )}
 
@@ -153,33 +155,51 @@ export function PanelFin() {
             <GhostBtn>↓ exportar</GhostBtn>
             <GhostBtn>⚙ filtrar</GhostBtn>
           </div>
-          <RowTable rows={ALL_ROWS} />
+          <RowTable rows={ALL_ROWS} isMobile={isMobile} />
         </div>
       )}
     </div>
   );
 }
 
-function RowTable({ rows }: { rows: typeof ALL_ROWS }) {
+function RowTable({ rows, isMobile }: { rows: typeof ALL_ROWS; isMobile?: boolean }) {
   return (
     <div style={{ background: "var(--tc-card)", border: `1px solid var(--tc-border)`, borderRadius: 14, overflow: "hidden" }}>
-      <div style={{ display: "grid", gridTemplateColumns: "36px 1.8fr 1.2fr 1fr 1fr 110px", padding: "11px 18px", fontSize: 10.5, color: "var(--tc-soft)", letterSpacing: "0.06em", borderBottom: `1px solid var(--tc-border)`, textTransform: "lowercase" }}>
-        {["","movimiento","fecha","tipo","monto","estado"].map((h,i) => <span key={i}>{h}</span>)}
-      </div>
-      {rows.map((r, i) => (
-        <div key={i} style={{ display: "grid", gridTemplateColumns: "36px 1.8fr 1.2fr 1fr 1fr 110px", padding: "12px 18px", alignItems: "center", borderBottom: i < rows.length - 1 ? `1px solid var(--tc-border)` : "none", fontSize: 13 }}>
-          <input type="checkbox" readOnly />
-          <span style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <div style={{ width: 32, height: 32, borderRadius: 8, background: r.positive ? C.greenBg : C.redBg, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <div style={{ width: 24, height: 24, borderRadius: 6, background: r.color, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: 9, fontWeight: 700 }}>{r.img}</div>
-            </div>
-            <span style={{ fontWeight: 500 }}>{r.name}</span>
-          </span>
-          <span style={{ color: "var(--tc-soft)", fontSize: 12 }}>{r.date}</span>
-          <span style={{ color: "var(--tc-soft)", fontSize: 12, textTransform: "lowercase" }}>{r.type}</span>
-          <span style={{ fontWeight: 600, color: r.positive ? C.green : C.red }}>{fmt(r.amount)}</span>
-          <Chip text={r.status} tone={r.sTone} />
+      {!isMobile && (
+        <div style={{ display: "grid", gridTemplateColumns: "36px 1.8fr 1.2fr 1fr 1fr 110px", padding: "11px 18px", fontSize: 10.5, color: "var(--tc-soft)", letterSpacing: "0.06em", borderBottom: `1px solid var(--tc-border)`, textTransform: "lowercase" }}>
+          {["","movimiento","fecha","tipo","monto","estado"].map((h,i) => <span key={i}>{h}</span>)}
         </div>
+      )}
+      {rows.map((r, i) => (
+        isMobile ? (
+          <div key={i} style={{ padding: "14px 16px", borderBottom: i < rows.length - 1 ? `1px solid var(--tc-border)` : "none" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+              <div style={{ width: 32, height: 32, borderRadius: 8, background: r.positive ? C.greenBg : C.redBg, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <div style={{ width: 24, height: 24, borderRadius: 6, background: r.color, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: 9, fontWeight: 700 }}>{r.img}</div>
+              </div>
+              <span style={{ fontWeight: 500, flex: 1, fontSize: 13 }}>{r.name}</span>
+              <span style={{ fontWeight: 700, fontSize: 14, color: r.positive ? C.green : C.red }}>{fmt(r.amount)}</span>
+            </div>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 11.5 }}>
+              <span style={{ color: "var(--tc-soft)" }}>{r.date} · {r.type}</span>
+              <Chip text={r.status} tone={r.sTone} />
+            </div>
+          </div>
+        ) : (
+          <div key={i} style={{ display: "grid", gridTemplateColumns: "36px 1.8fr 1.2fr 1fr 1fr 110px", padding: "12px 18px", alignItems: "center", borderBottom: i < rows.length - 1 ? `1px solid var(--tc-border)` : "none", fontSize: 13 }}>
+            <input type="checkbox" readOnly />
+            <span style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <div style={{ width: 32, height: 32, borderRadius: 8, background: r.positive ? C.greenBg : C.redBg, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <div style={{ width: 24, height: 24, borderRadius: 6, background: r.color, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: 9, fontWeight: 700 }}>{r.img}</div>
+              </div>
+              <span style={{ fontWeight: 500 }}>{r.name}</span>
+            </span>
+            <span style={{ color: "var(--tc-soft)", fontSize: 12 }}>{r.date}</span>
+            <span style={{ color: "var(--tc-soft)", fontSize: 12, textTransform: "lowercase" }}>{r.type}</span>
+            <span style={{ fontWeight: 600, color: r.positive ? C.green : C.red }}>{fmt(r.amount)}</span>
+            <Chip text={r.status} tone={r.sTone} />
+          </div>
+        )
       ))}
       <Pagination page={1} total={rows.length * 6} perPage={rows.length} />
     </div>

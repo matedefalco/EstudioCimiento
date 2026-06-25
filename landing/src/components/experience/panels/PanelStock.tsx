@@ -3,6 +3,7 @@ import { useState, useMemo } from "react";
 import { C, STOCK_ITEMS } from "../constants";
 import { Chip, KpiCard, PanelTitle, GhostBtn, PrimaryBtn, InfoRow, ProgressBar, Pagination, SubTabs, EmptyState } from "../primitives";
 import { TableToolbar } from "../TableToolbar";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 type Item = typeof STOCK_ITEMS[0];
 
@@ -26,6 +27,7 @@ const STOCK_COL_OPTS = [
 ];
 
 export function PanelStock() {
+  const isMobile = useIsMobile();
   const [tab, setTab] = useState("inventario");
   const [openId, setOpenId] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState("name");
@@ -77,32 +79,52 @@ export function PanelStock() {
             colOptions={STOCK_COL_OPTS} visibleCols={visibleCols} onToggleCol={toggleCol}
           />
         <div style={{ background: "var(--tc-card)", border: `1px solid var(--tc-border)`, borderRadius: 14, overflow: "hidden" }}>
-          <div style={{ display: "grid", gridTemplateColumns: `36px ${visibleCols.includes("color") ? "2fr" : "2fr"} ${visibleCols.includes("iddate") ? "1fr" : ""} ${visibleCols.includes("price") ? "90px" : ""} ${visibleCols.includes("qty") ? "90px" : ""} ${visibleCols.includes("status") ? "120px" : ""}`.trim(), padding: "11px 18px", fontSize: 10.5, color: "var(--tc-soft)", letterSpacing: "0.06em", borderBottom: `1px solid var(--tc-border)`, textTransform: "lowercase" }}>
-            <span/>
-            <span>ítem</span>
-            {visibleCols.includes("iddate")  && <span>id y fecha</span>}
-            {visibleCols.includes("price")   && <span>precio</span>}
-            {visibleCols.includes("qty")     && <span>stock</span>}
-            {visibleCols.includes("status")  && <span>estado</span>}
-          </div>
+          {!isMobile && (
+            <div style={{ display: "grid", gridTemplateColumns: `36px 2fr ${visibleCols.includes("iddate") ? "1fr" : ""} ${visibleCols.includes("price") ? "90px" : ""} ${visibleCols.includes("qty") ? "90px" : ""} ${visibleCols.includes("status") ? "120px" : ""}`.trim(), padding: "11px 18px", fontSize: 10.5, color: "var(--tc-soft)", letterSpacing: "0.06em", borderBottom: `1px solid var(--tc-border)`, textTransform: "lowercase" }}>
+              <span/><span>ítem</span>
+              {visibleCols.includes("iddate")  && <span>id y fecha</span>}
+              {visibleCols.includes("price")   && <span>precio</span>}
+              {visibleCols.includes("qty")     && <span>stock</span>}
+              {visibleCols.includes("status")  && <span>estado</span>}
+            </div>
+          )}
           {filteredItems.map((r, i) => {
+            const border = i < filteredItems.length - 1 ? `1px solid var(--tc-border)` : "none";
+            if (isMobile) return (
+              <div key={r.id} onClick={() => setOpenId(r.id)} style={{ padding: "14px 16px", borderBottom: border, cursor: "pointer" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+                  <div style={{ width: 40, height: 40, borderRadius: 8, background: r.color, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, fontWeight: 700, color: "rgba(0,0,0,0.25)" }}>{r.name[0]}</div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 13.5, fontWeight: 600 }}>{r.name}</div>
+                    <div style={{ fontSize: 11, color: "var(--tc-soft)", marginTop: 2 }}>{r.cat}</div>
+                  </div>
+                  <Chip text={r.status} tone={r.tone} />
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "var(--tc-soft)" }}>
+                  <span>{r.id} · {r.date}</span>
+                  <span style={{ fontWeight: 700, fontSize: 14, color: r.tone === "red" ? C.red : "var(--tc-ink)", fontFamily: "monospace" }}>{r.qty} <span style={{ fontSize: 10, fontWeight: 400 }}>uds</span></span>
+                </div>
+                {visibleCols.includes("price") && <div style={{ marginTop: 4, fontSize: 12, color: "var(--tc-soft)" }}>precio: <span style={{ color: "var(--tc-ink)", fontWeight: 500 }}>{r.price}</span></div>}
+              </div>
+            );
             const cols = `36px 2fr ${visibleCols.includes("iddate") ? "1fr" : ""} ${visibleCols.includes("price") ? "90px" : ""} ${visibleCols.includes("qty") ? "90px" : ""} ${visibleCols.includes("status") ? "120px" : ""}`.trim();
             return (
-            <div key={r.id} onClick={() => setOpenId(r.id)}
-              style={{ display: "grid", gridTemplateColumns: cols, padding: "12px 18px", alignItems: "center", borderBottom: i < filteredItems.length - 1 ? `1px solid var(--tc-border)` : "none", fontSize: 13, cursor: "pointer", background: "var(--tc-card)", transition: "background 150ms" }}
-              onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.background = "var(--tc-sub)"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.background = "var(--tc-card)"; }}>
-              <input type="checkbox" readOnly onClick={e => e.stopPropagation()} />
-              <span style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                {visibleCols.includes("color") && <div style={{ width: 38, height: 38, borderRadius: 8, background: r.color, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700, color: "rgba(0,0,0,0.25)" }}>{r.name[0]}</div>}
-                <span><div style={{ fontSize: 13.5, fontWeight: 500 }}>{r.name}</div><div style={{ fontSize: 11, color: "var(--tc-soft)", marginTop: 1 }}>{r.cat}</div></span>
-              </span>
-              {visibleCols.includes("iddate")  && <span style={{ color: "var(--tc-soft)", fontSize: 11.5 }}><div>{r.id}</div><div style={{ marginTop: 2 }}>{r.date}</div></span>}
-              {visibleCols.includes("price")   && <span style={{ fontWeight: 500 }}>{r.price}</span>}
-              {visibleCols.includes("qty")     && <span style={{ fontWeight: 600, fontFamily: "monospace", fontSize: 14, color: r.tone === "red" ? C.red : "var(--tc-ink)" }}>{r.qty}</span>}
-              {visibleCols.includes("status")  && <Chip text={r.status} tone={r.tone} />}
-            </div>
-          )})}
+              <div key={r.id} onClick={() => setOpenId(r.id)}
+                style={{ display: "grid", gridTemplateColumns: cols, padding: "12px 18px", alignItems: "center", borderBottom: border, fontSize: 13, cursor: "pointer", background: "var(--tc-card)", transition: "background 150ms" }}
+                onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.background = "var(--tc-sub)"; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.background = "var(--tc-card)"; }}>
+                <input type="checkbox" readOnly onClick={e => e.stopPropagation()} />
+                <span style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  {visibleCols.includes("color") && <div style={{ width: 38, height: 38, borderRadius: 8, background: r.color, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700, color: "rgba(0,0,0,0.25)" }}>{r.name[0]}</div>}
+                  <span><div style={{ fontSize: 13.5, fontWeight: 500 }}>{r.name}</div><div style={{ fontSize: 11, color: "var(--tc-soft)", marginTop: 1 }}>{r.cat}</div></span>
+                </span>
+                {visibleCols.includes("iddate")  && <span style={{ color: "var(--tc-soft)", fontSize: 11.5 }}><div>{r.id}</div><div style={{ marginTop: 2 }}>{r.date}</div></span>}
+                {visibleCols.includes("price")   && <span style={{ fontWeight: 500 }}>{r.price}</span>}
+                {visibleCols.includes("qty")     && <span style={{ fontWeight: 600, fontFamily: "monospace", fontSize: 14, color: r.tone === "red" ? C.red : "var(--tc-ink)" }}>{r.qty}</span>}
+                {visibleCols.includes("status")  && <Chip text={r.status} tone={r.tone} />}
+              </div>
+            );
+          })}
           <Pagination page={1} total={32} perPage={5} />
         </div>
         </div>
@@ -127,7 +149,7 @@ export function PanelStock() {
                   <Chip text="activo" tone="green" />
                 </div>
                 {items.map((it, i) => (
-                  <div key={it.id} style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 100px", padding: "12px 20px", alignItems: "center", borderBottom: i < items.length - 1 ? `1px solid var(--tc-border)` : "none", fontSize: 13 }}>
+                  <div key={it.id} style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr 80px" : "1fr 1fr 1fr 100px", padding: "12px 20px", alignItems: "center", borderBottom: i < items.length - 1 ? `1px solid var(--tc-border)` : "none", fontSize: 13 }}>
                     <span style={{ display: "flex", alignItems: "center", gap: 10 }}>
                       <div style={{ width: 28, height: 28, borderRadius: 6, background: it.color, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, color: "rgba(0,0,0,0.25)" }}>{it.name[0]}</div>
                       <span>

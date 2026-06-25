@@ -3,6 +3,7 @@ import { useState, useMemo } from "react";
 import { C } from "../constants";
 import { Chip, AvatarGroup, ProgressBar, PanelTitle, SubTabs, GhostBtn, PrimaryBtn, Pagination, EmptyState } from "../primitives";
 import { TableToolbar } from "../TableToolbar";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const GROUPS = [
   { name: "por hacer",   dot: C.purple, tone: "purple", count: 18, items: [
@@ -49,6 +50,7 @@ const OPS_COL_OPTS = [
 ];
 
 export function PanelOps() {
+  const isMobile = useIsMobile();
   const [tab, setTab] = useState("tablero");
   const [selRows, setSelRows] = useState<string[]>([]);
   const [filterPersona, setFilterPersona] = useState<string | null>(null);
@@ -81,9 +83,9 @@ export function PanelOps() {
 
       {/* ── TABLERO ───────────────────────────────────────────────────── */}
       {tab === "tablero" && (
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 14 }}>
+        <div style={{ display: isMobile ? "flex" : "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 14, overflowX: isMobile ? "auto" : "visible", paddingBottom: isMobile ? 8 : 0 }}>
           {GROUPS.map(col => (
-            <div key={col.name}>
+            <div key={col.name} style={isMobile ? { minWidth: 220, flexShrink: 0 } : {}}>
               <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10, paddingBottom: 8, borderBottom: `2px solid ${col.dot}` }}>
                 <span style={{ width: 7, height: 7, borderRadius: "50%", background: col.dot, display: "inline-block" }} />
                 <span style={{ fontSize: 12, fontWeight: 600, textTransform: "lowercase" }}>{col.name}</span>
@@ -148,21 +150,46 @@ export function PanelOps() {
                 <span style={{ fontSize: 11, color: "var(--tc-soft)", background: "var(--tc-border)", borderRadius: 10, padding: "1px 7px" }}>{g.count}</span>
               </div>
               <div style={{ background: "var(--tc-card)", border: `1px solid var(--tc-border)`, borderTop: "none", borderRadius: "0 0 12px 12px", overflow: "hidden" }}>
-                <div style={{ display: "grid", gridTemplateColumns: colDef, padding: "10px 18px", fontSize: 10.5, color: "var(--tc-soft)", letterSpacing: "0.06em", borderBottom: `1px solid var(--tc-border)`, textTransform: "lowercase" }}>
-                  <span/>
-                  {visibleCols.includes("id")          && <span>id</span>}
-                  <span>nombre</span>
-                  {visibleCols.includes("responsable") && <span>responsable</span>}
-                  {visibleCols.includes("proyecto")    && <span>proyecto</span>}
-                  {visibleCols.includes("progreso")    && <span>progreso</span>}
-                  {visibleCols.includes("vence")       && <span>vence</span>}
-                  {visibleCols.includes("prioridad")   && <span>prioridad</span>}
-                  <span/>
-                </div>
+                {!isMobile && (
+                  <div style={{ display: "grid", gridTemplateColumns: colDef, padding: "10px 18px", fontSize: 10.5, color: "var(--tc-soft)", letterSpacing: "0.06em", borderBottom: `1px solid var(--tc-border)`, textTransform: "lowercase" }}>
+                    <span/>
+                    {visibleCols.includes("id")          && <span>id</span>}
+                    <span>nombre</span>
+                    {visibleCols.includes("responsable") && <span>responsable</span>}
+                    {visibleCols.includes("proyecto")    && <span>proyecto</span>}
+                    {visibleCols.includes("progreso")    && <span>progreso</span>}
+                    {visibleCols.includes("vence")       && <span>vence</span>}
+                    {visibleCols.includes("prioridad")   && <span>prioridad</span>}
+                    <span/>
+                  </div>
+                )}
                 {g.items.map((r, i) => {
                   const sel = selRows.includes(r.id);
+                  const border = i < g.items.length - 1 ? `1px solid var(--tc-border)` : "none";
+                  if (isMobile) return (
+                    <div key={i} onClick={() => toggle(r.id)} style={{ padding: "14px 16px", borderBottom: border, background: sel ? "rgba(216,145,73,0.05)" : "transparent", cursor: "pointer", borderLeft: `3px solid ${g.dot}` }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 6 }}>
+                        <span style={{ fontWeight: 600, fontSize: 13, flex: 1, paddingRight: 8 }}>{r.t}</span>
+                        <Chip text={r.status} tone={r.sTone} />
+                      </div>
+                      <div style={{ fontSize: 11.5, color: "var(--tc-soft)", marginBottom: 8 }}>{r.proj}</div>
+                      {r.progress > 0 && (
+                        <div style={{ marginBottom: 8 }}>
+                          <ProgressBar value={r.progress} tone={g.tone} />
+                          <span style={{ fontSize: 10, color: "var(--tc-soft)" }}>{r.progress}%</span>
+                        </div>
+                      )}
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <AvatarGroup people={r.who} size={22} />
+                        <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+                          <span style={{ fontSize: 11, color: "var(--tc-soft)" }}>⚑ {r.date}</span>
+                          <Chip text={r.priority} tone={r.pTone} />
+                        </div>
+                      </div>
+                    </div>
+                  );
                   return (
-                    <div key={i} onClick={() => toggle(r.id)} style={{ display: "grid", gridTemplateColumns: colDef, padding: "11px 18px", alignItems: "center", borderBottom: i < g.items.length - 1 ? `1px solid var(--tc-border)` : "none", fontSize: 12.5, background: sel ? "rgba(216,145,73,0.05)" : "transparent", cursor: "pointer" }}>
+                    <div key={i} onClick={() => toggle(r.id)} style={{ display: "grid", gridTemplateColumns: colDef, padding: "11px 18px", alignItems: "center", borderBottom: border, fontSize: 12.5, background: sel ? "rgba(216,145,73,0.05)" : "transparent", cursor: "pointer" }}>
                       <input type="checkbox" readOnly checked={sel} onClick={e => e.stopPropagation()} style={{ accentColor: C.copper }} />
                       {visibleCols.includes("id")          && <span style={{ fontSize: 11, color: "var(--tc-soft)", fontFamily: "monospace" }}>{r.id}</span>}
                       <span style={{ fontWeight: 500 }}>{r.t}</span>

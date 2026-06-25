@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { C } from "../constants";
 import { KpiCard, PanelTitle, GhostBtn, SubTabs, LegendRow, Donut, SegmentTabs } from "../primitives";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 /* ─── datos ───────────────────────────────────────────────────────────────── */
 
@@ -26,6 +27,7 @@ const DIAS          = ["l", "m", "x", "j", "v", "s", "d"];
 /* ─── componente principal ────────────────────────────────────────────────── */
 
 export function PanelReportes() {
+  const isMobile = useIsMobile();
   const [tab,     setTab]     = useState("resumen");
   const [periodo, setPeriodo] = useState("6 meses");
 
@@ -52,7 +54,7 @@ export function PanelReportes() {
             <KpiCard label="turnos realizados"  value="47"        sub="este mes" />
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 16 }}>
 
             {/* finanzas: area chart */}
             <div style={{ background: "var(--tc-card)", border: "1px solid var(--tc-border)", borderRadius: 14, padding: 20 }}>
@@ -131,7 +133,7 @@ export function PanelReportes() {
           </div>
 
           {/* líneas individuales */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 16 }}>
             <LineCard label="leads cerrados"     data={[1,2,1,3,2,3]}   color={C.copper} unit=""  />
             <LineCard label="tareas completadas" data={[28,35,31,44,52,48]} color={C.blue}   unit=""  />
             <LineCard label="turnos realizados"  data={[32,40,35,50,47,47]} color={C.purple} unit=""  />
@@ -151,7 +153,7 @@ export function PanelReportes() {
             performance multidimensional · comparación por módulo
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 16 }}>
 
             {/* radar */}
             <div style={{ background: "var(--tc-card)", border: "1px solid var(--tc-border)", borderRadius: 14, padding: 24 }}>
@@ -184,7 +186,7 @@ export function PanelReportes() {
             {/* insight cards */}
             <div style={{ background: "var(--tc-card)", border: "1px solid var(--tc-border)", borderRadius: 14, padding: 20, gridColumn: "1 / -1" }}>
               <div style={{ fontSize: 12, color: "var(--tc-soft)", fontWeight: 600, marginBottom: 14 }}>insights del período</div>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
+              <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)", gap: 12 }}>
                 {[
                   { icon: "↑", label: "módulo con mejor performance", value: "clientes", color: C.green },
                   { icon: "↓", label: "módulo con más oportunidad",   value: "stock",    color: C.amber },
