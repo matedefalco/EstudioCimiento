@@ -9,8 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@locator/runtime": "^0.5.1",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.1",
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.108.2",
+    "@types/three": "^0.184.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "framer-motion": "^11.0.0",
@@ -19,9 +23,12 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tailwind-merge": "^2.5.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "three": "^0.185.0"
   },
   "devDependencies": {
+    "@babel/plugin-transform-react-jsx-development": "^8.0.1",
+    "@babel/plugin-transform-react-jsx-source": "^7.29.7",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
