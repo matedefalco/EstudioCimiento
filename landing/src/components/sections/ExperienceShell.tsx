@@ -171,6 +171,7 @@ export function ExperienceShell() {
           onSubmit={handleSubmit}
           submitStatus={submitStatus}
           submitError={submitError}
+          isDark={appDark}
         />
       )}
 

@@ -23,9 +23,10 @@ interface Props {
   onSubmit: () => void;
   submitStatus: "idle" | "loading" | "success" | "error";
   submitError: string | null;
+  isDark?: boolean;
 }
 
-export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, toggleTool, toggleComp, onSubmit, submitStatus, submitError }: Props) {
+export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, toggleTool, toggleComp, onSubmit, submitStatus, submitError, isDark = true }: Props) {
   const { rubro, modalidad, tools, urgencia, selected, size, brandName, palette, interfaceStyle, fontPreset, contactName, contactEmail, contactCompany } = quoteState;
   const suggested = getSuggestedModules(rubro, urgencia);
   const canSubmit = contactName.trim() && contactEmail.trim() && selected.length > 0 && submitStatus !== "loading";
@@ -36,8 +37,8 @@ export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, 
 
   return (
     <div style={{ position: "relative", flex: 1, display: "flex", flexDirection: "column", minHeight: 0 }}>
-      <ParticleField active={true} intensity={selected.length} />
-      <div style={{ position: "absolute", inset: 0, backgroundImage: `linear-gradient(${C.line} 1px,transparent 1px),linear-gradient(90deg,${C.line} 1px,transparent 1px)`, backgroundSize: "64px 64px", opacity: 0.5, pointerEvents: "none" }} />
+      <ParticleField active={true} intensity={selected.length} isDark={isDark} />
+      {(() => { const gl = isDark ? C.line : "rgba(28,30,34,0.07)"; return <div style={{ position: "absolute", inset: 0, backgroundImage: `linear-gradient(${gl} 1px,transparent 1px),linear-gradient(90deg,${gl} 1px,transparent 1px)`, backgroundSize: "64px 64px", opacity: 0.5, pointerEvents: "none" }} />; })()}
 
       {/* header */}
       <div style={{ position: "absolute", top: 28, left: 32, display: "flex", alignItems: "center", gap: 10, zIndex: 5 }}>
@@ -176,7 +177,7 @@ export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, 
               </button>
             </div>
             <div className="qf-3d-preview" style={{ flex: "0 0 auto", textAlign: "center" }}>
-              <Cimiento3D layers={selected} />
+              <Cimiento3D layers={selected} isDark={isDark} />
               <div style={{ fontSize: 11, letterSpacing: "0.2em", color: C.grayCold, marginTop: 8 }}>
                 {selected.length === 0 ? "tu base" : `${selected.length} ${selected.length === 1 ? "componente" : "componentes"}`}
               </div>

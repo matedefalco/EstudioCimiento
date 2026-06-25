@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
 
-export function ParticleField({ active, intensity }: { active: boolean; intensity: number }) {
+export function ParticleField({ active, intensity, isDark = true }: { active: boolean; intensity: number; isDark?: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const stateRef = useRef<{ particles: { x: number; y: number; vx: number; vy: number; r: number }[]; raf: number }>({ particles: [], raf: 0 });
 
@@ -38,13 +38,15 @@ export function ParticleField({ active, intensity }: { active: boolean; intensit
         if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
         if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
         ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(216,145,73,${active ? 0.5 : 0.22})`; ctx.fill();
+        const dotColor = isDark ? `rgba(216,145,73,${active ? 0.5 : 0.22})` : `rgba(28,30,34,${active ? 0.35 : 0.14})`;
+        ctx.fillStyle = dotColor; ctx.fill();
         for (let j = i + 1; j < ps.length; j++) {
           const q = ps[j]; const dx = p.x - q.x, dy = p.y - q.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < reach) {
             ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y);
-            ctx.strokeStyle = `rgba(216,145,73,${(1 - dist / reach) * (active ? 0.14 : 0.05)})`;
+            const lineAlpha = (1 - dist / reach) * (active ? 0.14 : 0.05);
+            ctx.strokeStyle = isDark ? `rgba(216,145,73,${lineAlpha})` : `rgba(28,30,34,${lineAlpha})`;
             ctx.lineWidth = 0.6; ctx.stroke();
           }
         }
@@ -54,7 +56,7 @@ export function ParticleField({ active, intensity }: { active: boolean; intensit
     loop();
 
     return () => { window.removeEventListener("resize", resize); cancelAnimationFrame(stateRef.current.raf); };
-  }, [active, intensity]);
+  }, [active, intensity, isDark]);
 
   return <canvas ref={canvasRef} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }} />;
 }

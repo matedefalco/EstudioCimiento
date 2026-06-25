@@ -10,7 +10,7 @@ export function Intro({ onQuote, onLearn, isDark = true }: { onQuote: () => void
 
   return (
     <div style={{ position: "relative", flex: 1, display: "flex" }}>
-      <ParticleField active={false} intensity={0} />
+      <ParticleField active={false} intensity={0} isDark={isDark} />
       <div style={{ position: "absolute", inset: 0, backgroundImage: `linear-gradient(${gridLine} 1px,transparent 1px),linear-gradient(90deg,${gridLine} 1px,transparent 1px)`, backgroundSize: "64px 64px", opacity: 0.22, pointerEvents: "none" }} />
       <div className="fade-stage" style={{ position: "relative", zIndex: 2, flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 40 }}>
         <div className="animate-pulse-slow">
