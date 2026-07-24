@@ -64,7 +64,7 @@ export function QuoteFlow({ step, go, transitioning, quoteState, setQuoteField, 
         ))}
       </div>
 
-      <div className="qf-content-scroll" style={{ position: "relative", zIndex: 4, flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: 32, opacity: transitioning ? 0 : 1, transition: "opacity 480ms ease" }}>
+      <div className="qf-content-scroll" style={{ position: "relative", zIndex: 4, flex: 1, minHeight: 0, overflowY: "auto", display: "flex", alignItems: "safe center", justifyContent: "safe center", padding: 32, opacity: transitioning ? 0 : 1, transition: "opacity 480ms ease" }}>
 
         {/* STEP 0: rubro */}
         {step === 0 && (

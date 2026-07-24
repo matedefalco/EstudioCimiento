@@ -128,7 +128,7 @@ export function LearnFlow({ onDone, onReset, isDark = true }: Props) {
       </div>
 
       {/* contenido */}
-      <div className="fade-stage" key={camino} style={{ position: "relative", zIndex: 4, flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "80px 40px 32px", gap: 32 }}>
+      <div className="fade-stage" key={camino} style={{ position: "relative", zIndex: 4, flex: 1, minHeight: 0, overflowY: "auto", display: "flex", flexDirection: "column", alignItems: "safe center", justifyContent: "safe center", padding: "80px 40px 32px", gap: 32 }}>
 
         {/* tab selector */}
         <div style={{ display: "flex", justifyContent: "center", gap: 6, flexWrap: "wrap" }}>

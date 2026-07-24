@@ -12,7 +12,7 @@ export function Intro({ onQuote, onLearn, isDark = true }: { onQuote: () => void
     <div style={{ position: "relative", flex: 1, display: "flex" }}>
       <ParticleField active={false} intensity={0} isDark={isDark} />
       <div style={{ position: "absolute", inset: 0, backgroundImage: `linear-gradient(${gridLine} 1px,transparent 1px),linear-gradient(90deg,${gridLine} 1px,transparent 1px)`, backgroundSize: "64px 64px", opacity: 0.22, pointerEvents: "none" }} />
-      <div className="fade-stage" style={{ position: "relative", zIndex: 2, flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 40 }}>
+      <div className="fade-stage" style={{ position: "relative", zIndex: 2, flex: 1, minHeight: 0, overflowY: "auto", display: "flex", flexDirection: "column", alignItems: "safe center", justifyContent: "safe center", gap: 40, padding: "40px 24px" }}>
         <div className="animate-pulse-slow">
           <ECSymbol size={56} stroke={1.2} color={isDark ? C.copper : "#B5863C"} />
         </div>
